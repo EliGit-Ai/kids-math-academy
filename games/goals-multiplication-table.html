@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>גולים בלוח הכפל</title>
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Assistant', sans-serif;
+        }
+
+        body {
+            background:
+                radial-gradient(circle at 15% 20%, rgba(16, 185, 129, 0.28), transparent 45%),
+                radial-gradient(circle at 85% 80%, rgba(139, 92, 246, 0.28), transparent 45%),
+                radial-gradient(circle at 50% 100%, rgba(6, 182, 212, 0.18), transparent 50%),
+                linear-gradient(135deg, #0b1220 0%, #101c2e 100%);
+            color: #1b3a24;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 420px;
+            height: 100vh;
+            max-height: 850px;
+            background: linear-gradient(180deg, #f8fffc 0%, #e8f6f3 100%);
+            border-radius: 40px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.45), inset 0 1px 2px rgba(255, 255, 255, 0.9);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(16, 185, 129, 0.35);
+        }
+
+        .header {
+            padding: 22px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(30, 125, 50, 0.2);
+        }
+
+        .stats-badge {
+            background: linear-gradient(135deg, #ffffff 0%, #ecfeff 100%);
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid #a5f3d0;
+            color: #065f46;
+            box-shadow: 0 4px 15px rgba(6, 182, 212, 0.15);
+        }
+
+        .screen {
+            display: none;
+            flex: 1;
+            flex-direction: column;
+            padding: 30px 25px;
+            text-align: center;
+            justify-content: space-between;
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .lifestyle-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 28px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 12px 30px rgba(20, 83, 45, 0.1);
+            margin: 10px 0;
+        }
+
+        .brand-title {
+            font-size: 30px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #059669 0%, #06b6d4 50%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .stamp-tag {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            background: linear-gradient(135deg, #fbbf24 0%, #f97316 100%);
+            color: #fff;
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 11px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.35);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+            color: #fff;
+            border: none;
+            padding: 16px;
+            font-size: 17px;
+            font-weight: 700;
+            border-radius: 24px;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(6, 182, 212, 0.35);
+            transition: all 0.25s ease;
+            letter-spacing: 0.3px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -80%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+            transform: skewX(-20deg);
+            animation: btnShine 3.2s ease-in-out infinite;
+        }
+
+        @keyframes btnShine {
+            0%, 60% { left: -80%; }
+            100% { left: 140%; }
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+            box-shadow: 0 5px 15px rgba(6, 182, 212, 0.3);
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 16px 20px;
+            border-radius: 20px;
+            border: 1.5px solid #a5f3d0;
+            background: rgba(255, 255, 255, 0.9);
+            color: #1b3a24;
+            font-size: 16px;
+            text-align: center;
+            outline: none;
+            margin: 15px 0;
+            transition: all 0.3s;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .input-field:focus {
+            border-color: #06b6d4;
+            box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.15), inset 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .input-field::placeholder {
+            color: #8aa88f;
+        }
+
+        .map-path {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 15px 0;
+            overflow-y: auto;
+            max-height: 400px;
+            padding: 5px;
+        }
+
+        .node {
+            background: rgba(255, 255, 255, 0.88);
+            padding: 16px 20px;
+            border-radius: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid #a5f3d0;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(6, 182, 212, 0.08);
+            transition: all 0.2s;
+            color: #1b4332;
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        .node.active-node {
+            background: linear-gradient(135deg, #ffffff 0%, #ecfeff 100%);
+            border: 2px solid transparent;
+            background-clip: padding-box;
+            box-shadow: 0 0 0 2px #f59e0b, 0 8px 25px rgba(245, 158, 11, 0.3);
+            transform: scale(1.02);
+        }
+
+        .node.locked {
+            opacity: 0.45;
+            background: rgba(240, 240, 240, 0.5);
+            border-color: #b0b0b0;
+            color: #8a8a8a;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .visual-box {
+            background: linear-gradient(135deg, #ecfeff 0%, #f0fdf4 50%, #f5f3ff 100%);
+            border-radius: 28px;
+            padding: 25px;
+            margin: 10px 0;
+            border: 1.5px dashed #06b6d4;
+            box-shadow: 0 10px 30px rgba(6, 182, 212, 0.12);
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            margin-top: 15px;
+        }
+
+        .option-btn {
+            background: rgba(255, 255, 255, 0.9);
+            color: #065f46;
+            border: 1.5px solid #a5f3d0;
+            padding: 18px;
+            font-size: 20px;
+            font-weight: 700;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 6px 20px rgba(6, 182, 212, 0.08);
+        }
+
+        .option-btn:hover {
+            background: #fff;
+            border-color: #06b6d4;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(6, 182, 212, 0.22);
+        }
+
+        .day-pill {
+            padding: 8px 12px;
+            border-radius: 14px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .day-pill.done {
+            background: rgba(255, 255, 255, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            color: #eafffb;
+        }
+
+        .day-pill.today {
+            background: linear-gradient(135deg, #fbbf24 0%, #f97316 100%);
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(249, 115, 22, 0.45);
+            animation: pillPulse 1.6s ease-in-out infinite;
+        }
+
+        @keyframes pillPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 4px 14px rgba(249, 115, 22, 0.45); }
+            50% { transform: scale(1.12); box-shadow: 0 6px 22px rgba(249, 115, 22, 0.65); }
+        }
+
+        /* ===== מסך אימון יומי דינמי ===== */
+        .daily-hero {
+            position: relative;
+            overflow: hidden;
+            border-radius: 28px;
+            padding: 30px 22px 24px;
+            color: #fff;
+            background:
+                radial-gradient(circle at 80% 0%, rgba(255, 255, 255, 0.22), transparent 55%),
+                linear-gradient(135deg, #059669 0%, #06b6d4 38%, #6366f1 72%, #8b5cf6 100%);
+            box-shadow: 0 18px 44px rgba(99, 102, 241, 0.36);
+            margin: 10px 0;
+            animation: heroIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes heroIn {
+            from { opacity: 0; transform: translateY(18px) scale(0.96); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .daily-hero::before {
+            content: "";
+            position: absolute;
+            top: -60%;
+            left: -30%;
+            width: 70%;
+            height: 220%;
+            background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.16), transparent);
+            transform: rotate(20deg);
+            animation: heroShine 4s ease-in-out infinite;
+        }
+
+        @keyframes heroShine {
+            0%, 55% { left: -60%; }
+            100% { left: 130%; }
+        }
+
+        .hero-emoji {
+            font-size: 48px;
+            display: inline-block;
+            animation: heroFloat 2.6s ease-in-out infinite;
+            filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.25));
+        }
+
+        @keyframes heroFloat {
+            0%, 100% { transform: translateY(0) rotate(-4deg); }
+            50% { transform: translateY(-9px) rotate(4deg); }
+        }
+
+        .daily-hero h2 {
+            font-size: 21px;
+            font-weight: 800;
+            margin-top: 10px;
+            color: #ffffff;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .daily-hero .hero-sub {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 13px;
+            margin: 6px 0 18px;
+        }
+
+        .daily-hero .reward-chip {
+            background: rgba(255, 255, 255, 0.16);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            border-radius: 16px;
+            padding: 12px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .streak-flame {
+            display: inline-block;
+            animation: flameFlicker 1.4s ease-in-out infinite;
+        }
+
+        @keyframes flameFlicker {
+            0%, 100% { transform: scale(1) rotate(-3deg); }
+            50% { transform: scale(1.18) rotate(3deg); }
+        }
+
+        /* ===== בחירת רמת קושי ===== */
+        .difficulty-row {
+            display: flex;
+            gap: 8px;
+            margin: 10px 0;
+            padding: 6px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 20px;
+            border: 1px solid #a5f3d0;
+        }
+
+        .diff-btn {
+            flex: 1;
+            padding: 12px 6px;
+            border-radius: 16px;
+            border: 1.5px solid transparent;
+            background: transparent;
+            color: #4f6b58;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            min-height: 48px;
+        }
+
+        .diff-btn small {
+            display: block;
+            font-size: 10px;
+            font-weight: 600;
+            opacity: 0.75;
+            margin-top: 2px;
+        }
+
+        .diff-btn.selected {
+            color: #fff;
+            border-color: transparent;
+            box-shadow: 0 6px 18px rgba(6, 182, 212, 0.35);
+            transform: translateY(-1px);
+        }
+
+        .diff-btn.selected[data-diff="easy"] { background: linear-gradient(135deg, #10b981 0%, #34d399 100%); }
+        .diff-btn.selected[data-diff="medium"] { background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%); }
+        .diff-btn.selected[data-diff="hard"] { background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%); }
+
+        /* ===== מסך בית - הירו הפתיחה המודרני ===== */
+        .intro-hero {
+            position: relative;
+            overflow: hidden;
+            border-radius: 28px;
+            padding: 30px 22px 26px;
+            color: #fff;
+            background:
+                radial-gradient(circle at 80% 0%, rgba(255, 255, 255, 0.22), transparent 55%),
+                linear-gradient(135deg, #f59e0b 0%, #f97316 30%, #e11d48 65%, #7c3aed 100%);
+            box-shadow: 0 18px 44px rgba(225, 29, 72, 0.32);
+            margin: 6px 0 16px;
+            text-align: center;
+            animation: heroIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .intro-hero::before {
+            content: "";
+            position: absolute;
+            top: -60%;
+            left: -30%;
+            width: 70%;
+            height: 220%;
+            background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.18), transparent);
+            transform: rotate(20deg);
+            animation: heroShine 4s ease-in-out infinite;
+        }
+
+        .intro-hero .stamp-tag {
+            position: relative;
+            top: auto;
+            right: auto;
+            display: inline-block;
+            margin-bottom: 12px;
+            background: rgba(255, 255, 255, 0.22);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+        }
+
+        .intro-emoji {
+            font-size: 50px;
+            display: inline-block;
+            animation: heroFloat 2.8s ease-in-out infinite;
+            filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.28));
+        }
+
+        .intro-hero .brand-title {
+            background: linear-gradient(135deg, #ffffff 0%, #fef9c3 50%, #ffffff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: none;
+            font-size: 32px;
+            letter-spacing: -0.5px;
+        }
+
+        .intro-hero .intro-sub {
+            color: rgba(255, 255, 255, 0.92);
+            font-size: 14px;
+            margin-top: 6px;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+
+        .intro-hero .intro-quote {
+            background: rgba(255, 255, 255, 0.16);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(255, 255, 255, 0.32);
+            border-radius: 16px;
+            padding: 13px 14px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #fff;
+            margin-top: 16px;
+            line-height: 1.5;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* תגיות סטטיסטיקה בגרדיאנט מודרני */
+        .stats-badge.gradient {
+            border: none;
+            color: #fff;
+            backdrop-filter: none;
+        }
+        .stats-badge.gradient.flame {
+            background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+            box-shadow: 0 6px 18px rgba(139, 92, 246, 0.42);
+        }
+        .stats-badge.gradient.coins {
+            background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+            box-shadow: 0 6px 18px rgba(249, 115, 22, 0.42);
+        }
+        .stats-badge.gradient.streak-map {
+            background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+            box-shadow: 0 6px 18px rgba(6, 182, 212, 0.42);
+        }
+
+
+
+        /* ===== רספונסיביות מלאה למסכים קטנים ===== */
+        @media (max-width: 520px), (max-height: 720px) {
+            body {
+                align-items: stretch;
+                padding: 0;
+            }
+
+            .app-container {
+                max-width: 100%;
+                width: 100%;
+                height: 100dvh;
+                max-height: none;
+                border-radius: 0;
+                border: none;
+            }
+
+            .screen {
+                padding: 18px 16px calc(18px + env(safe-area-inset-bottom, 0px));
+            }
+
+            .header {
+                padding: 14px 16px;
+            }
+
+            .brand-title {
+                font-size: clamp(24px, 8vw, 32px);
+            }
+
+            /* כפתורים גדולים ונוחים למגע */
+            .btn {
+                padding: 20px 18px;
+                font-size: 19px;
+                border-radius: 22px;
+                min-height: 60px;
+            }
+
+            .input-field {
+                padding: 18px 20px;
+                font-size: 18px;
+            }
+
+            .node {
+                padding: 18px 20px;
+                font-size: 16px;
+                min-height: 60px;
+            }
+
+            .map-path {
+                max-height: none;
+                flex: 1;
+            }
+
+            .options-grid {
+                gap: 12px;
+            }
+
+            .option-btn {
+                padding: 22px 16px;
+                font-size: 24px;
+                min-height: 72px;
+            }
+
+            .visual-box h2 {
+                font-size: clamp(28px, 9vw, 38px) !important;
+            }
+
+            .stats-badge {
+                font-size: 12px;
+                padding: 6px 12px;
+            }
+
+            .diff-btn {
+                font-size: 15px;
+                min-height: 56px;
+            }
+        }
+
+        /* מסכים נמוכים במיוחד - דחיסת רווחים */
+        @media (max-height: 620px) {
+            .daily-hero { padding: 18px 16px 16px; }
+            .hero-emoji { font-size: 34px; }
+            .daily-hero h2 { font-size: 18px; margin-top: 6px; }
+            .visual-box { padding: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+
+    <!-- מסך 1: כניסה ראשונה -->
+    <div id="screen-onboarding" class="screen active">
+        <div class="intro-hero">
+            <div class="stamp-tag">עונת ליגה חדשה ⚽</div>
+            <span class="intro-emoji">⚽🏆</span>
+            <h1 class="brand-title">גולים בלוח הכפל</h1>
+            <p class="intro-sub">האימונים שהופכים אותך לאלוף המגרש</p>
+            <div class="intro-quote">"המערכת עוקבת בדיוק על אילו בעיטות אתה חזק, ובונה לך אימון אישי בדרך לגביע האליפות."</div>
+        </div>
+
+        <div>
+            <input type="text" id="username" class="input-field" placeholder="הקלד את השם שלך..." autocomplete="off">
+            <button class="btn" style="width: 100%;" onclick="startJourney()">הצטרפות לקבוצה ⚽</button>
+        </div>
+    </div>
+
+    <!-- מסך 2: חוויית פתיחה יומית -->
+    <div id="screen-daily" class="screen">
+        <div class="header" style="background: transparent; border: none; padding: 0;">
+            <div class="stats-badge gradient flame"><span class="streak-flame">🔥</span> רצף אימונים: <span id="streak-count" style="color:#fff; font-weight:800;">1 ימים</span></div>
+            <div class="stats-badge gradient coins">⚽ <span id="coins-count">0</span> נקודות</div>
+        </div>
+
+        <div class="daily-hero">
+            <span class="hero-emoji">🥅</span>
+            <h2>האימון היומי מוכן!</h2>
+            <p class="hero-sub">היכנס למגרש ותצבור נקודות לקראת האליפות</p>
+
+            <div id="day-tracker" style="display: flex; justify-content: center; gap: 8px; margin-bottom: 15px; position: relative; z-index: 1;">
+                <!-- תגיות הימים נטענות דינמית -->
+            </div>
+
+            <div class="reward-chip" style="position: relative; z-index: 1;">
+                🎁 קיבלת <b>30 נקודות</b> ומשחק מותאם אישית להיום!
+            </div>
+        </div>
+
+        <button class="btn" style="width: 100%;" onclick="goToMap()">לצאת למגרש ⚽</button>
+    </div>
+
+    <!-- מסך 3: מפת שלבי הליגה -->
+    <div id="screen-map" class="screen">
+        <div class="header">
+            <span style="font-weight: 800; color: #14532d; font-size: 15px;" id="display-name">הקבוצה שלך</span>
+            <div style="display: flex; gap: 8px;">
+                <div class="stats-badge gradient streak-map">🔥 <span id="streak-count-map">1</span></div>
+                <div class="stats-badge gradient coins">⚽ <span id="coins-count-map">30</span></div>
+            </div>
+        </div>
+
+        <h3 style="font-size: 14px; color: #4f6b58; margin: 5px 0; font-weight: 700; letter-spacing: 0.5px;">🏆 שלבי הליגה</h3>
+
+        <!-- בחירת רמת קושי: קובעת אילו לוחות כפל יופיעו בליגה -->
+        <div class="difficulty-row" id="difficulty-row">
+            <button class="diff-btn" data-diff="easy" onclick="setDifficulty('easy')">קל 🌱<small>לוחות 2–5</small></button>
+            <button class="diff-btn selected" data-diff="medium" onclick="setDifficulty('medium')">בינוני ⚽<small>לוחות 2–10</small></button>
+            <button class="diff-btn" data-diff="hard" onclick="setDifficulty('hard')">קשה 🔥<small>לוחות 6–10</small></button>
+        </div>
+
+        <div class="map-path" id="map-path">
+            <!-- שלבי הליגה נטענים דינמית לפי ההתקדמות בפועל -->
+        </div>
+
+        <button class="btn" style="width: 100%; padding: 14px; font-size: 16px;" onclick="startBattle()">כניסה למשחק ⚡</button>
+    </div>
+
+    <!-- מסך 4: אימון ומשחק -->
+    <div id="screen-game" class="screen">
+        <div class="header">
+            <span style="color: #14532d; font-size: 13px; font-weight: 700;" id="mode-indicator">⚽ אתגר מותאם אישית</span>
+            <span style="color: #2e8b57; font-size: 13px; font-weight: 700;" id="progress-indicator">0/10 נלמד · לוח 2</span>
+            <button id="sound-toggle" onclick="toggleSound()" style="background: none; border: none; font-size: 18px; cursor: pointer; padding: 0 4px;" aria-label="הפעלה/השתקה של צלילים">🔊</button>
+        </div>
+
+        <div>
+            <div style="font-size: 40px; margin: 5px 0;">🥅</div>
+            <div class="visual-box">
+                <p style="font-size: 13px; color: #4f6b58; margin-bottom: 8px; font-weight: 500;" id="visual-hint">רמז: פתור את הבעיטה הבאה</p>
+                <h2 style="font-size: 32px; color: #14532d; letter-spacing: 2px; font-weight: 800;" id="question-text">? × ?</h2>
+            </div>
+        </div>
+
+        <div class="options-grid" id="options-container">
+            <!-- כפתורי התשובות יטענו באופן דינמי -->
+        </div>
+    </div>
+
+    <!-- מסך 5: סיום וניצחון -->
+    <div id="screen-victory" class="screen">
+        <div class="lifestyle-card" style="margin-top: 10px;">
+            <span style="font-size: 55px;">🏆</span>
+            <h1 style="color: #14532d; font-size: 22px; font-weight: 800; margin-top: 10px;">ניצחת את השלב!</h1>
+            <p style="color: #4f6b58; font-size: 13px; margin-top: 6px; line-height: 1.4;">הקבוצה שלך עלתה רמה. עוד צעד אחד לכיוון גביע האליפות.</p>
+
+            <div style="background: rgba(255,255,255,0.9); border: 1.5px solid #cfe8d1; border-radius: 18px; padding: 14px; margin-top: 18px;">
+                <p style="font-size: 13px; color: #14532d; font-weight: 700;">ההישג שלך:</p>
+                <p style="font-size: 15px; color: #2e8b57; margin-top: 4px; font-weight: 800;" id="mastery-status">⚽ ניצחון!</p>
+            </div>
+        </div>
+
+        <button class="btn" style="width: 100%;" id="victory-btn" onclick="resetApp()">חזרה למגרש 🏆</button>
+    </div>
+
+</div>
+
+<script>
+    let currentCorrectAnswer = 0;
+    let currentKey = "";
+
+    // מנוע צליל: צליל קצר ונעים לכל תשובה נכונה, נוצר ישירות בקוד (בלי קובץ קול חיצוני)
+    let soundEnabled = true;
+    let audioCtx = null;
+
+    function getAudioContext() {
+        if (!audioCtx) {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        return audioCtx;
+    }
+
+    function playSuccessSound() {
+        if (!soundEnabled) return;
+        try {
+            const ctx = getAudioContext();
+            const now = ctx.currentTime;
+            const notes = [523.25, 659.25]; // צליל בליפ קצר: דו-מי (C5, E5)
+            notes.forEach((freq, i) => {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.value = freq;
+                const startTime = now + i * 0.09;
+                gain.gain.setValueAtTime(0, startTime);
+                gain.gain.linearRampToValueAtTime(0.15, startTime + 0.02);
+                gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.18);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start(startTime);
+                osc.stop(startTime + 0.2);
+            });
+        } catch (e) {
+            // דפדפן שלא תומך ב-Web Audio - פשוט בלי צליל, לא קריטי
+        }
+    }
+
+    function toggleSound() {
+        soundEnabled = !soundEnabled;
+        document.getElementById('sound-toggle').innerText = soundEnabled ? '🔊' : '🔇';
+    }
+
+    // מערכת שלבים: כל שלב הוא לוח כפל שלם אחד (X × 1 עד X × 10). עם השלמת השלב עוברים ללוח הבא.
+    // רמת הקושי קובעת אילו לוחות כפל נכללים בליגה: קל (2-5), בינוני (2-10), קשה (6-10).
+    const DIFFICULTY_LEVELS = {
+        easy:   { bases: [2, 3, 4, 5],            label: 'קל 🌱' },
+        medium: { bases: [2, 3, 4, 5, 6, 7, 8, 9, 10], label: 'בינוני ⚽' },
+        hard:   { bases: [6, 7, 8, 9, 10],         label: 'קשה 🔥' }
+    };
+    let currentDifficulty = 'medium';
+    let STAGE_BASES = DIFFICULTY_LEVELS[currentDifficulty].bases;
+    let currentStageIndex = 0;
+    const FACTS_PER_STAGE = 10;
+
+    // החלפת רמת קושי: מעדכנת את רשימת לוחות הכפל, מאפסת התקדמות בשלב ומציירת מחדש את המפה
+    function setDifficulty(diff) {
+        if (!DIFFICULTY_LEVELS[diff]) return;
+        currentDifficulty = diff;
+        STAGE_BASES = DIFFICULTY_LEVELS[diff].bases;
+        currentStageIndex = 0;
+        correctlyAnsweredOnce = new Set();
+
+        document.querySelectorAll('.diff-btn').forEach(btn => {
+            btn.classList.toggle('selected', btn.dataset.diff === diff);
+        });
+
+        renderMapPath();
+    }
+
+    function getCurrentStageBase() {
+        return STAGE_BASES[currentStageIndex];
+    }
+
+    function getStageFactKeys(base) {
+        let keys = [];
+        for (let n = 1; n <= 10; n++) {
+            keys.push(`${base}x${n}`);
+        }
+        return keys;
+    }
+
+    // מעקב אחרי אילו תרגילים בשלב הנוכחי כבר נענו נכון פעם אחת. מתאפס עם כל שלב חדש.
+    let correctlyAnsweredOnce = new Set();
+
+    // מצב השחקן - הכל בזיכרון בלבד, בלי אחסון חיצוני. מתאפס בכל רענון.
+    let userState = {
+        streakDays: 1,   // יום ראשון בברירת מחדל
+        coins: 0
+    };
+
+    // מנוע ההתאמה האישית: שמירת מצב השליטה בכל תרגיל (נקודות תורפה מנוהלות כאן)
+    let userMasteryMatrix = {};
+
+    function showScreen(screenId) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(screenId).classList.add('active');
+    }
+
+    function startJourney() {
+        const nameInput = document.getElementById('username').value.trim();
+        if(nameInput) {
+            document.getElementById('display-name').innerText = "הקבוצה של " + nameInput;
+        }
+        renderDailyScreen();
+        showScreen('screen-daily');
+    }
+
+    // בונה דינמית את תגיות הימים ואת מונה הרצף, לפי userState בפועל
+    function renderDailyScreen() {
+        document.getElementById('streak-count').innerText = userState.streakDays + " ימים";
+        document.getElementById('coins-count').innerText = userState.coins;
+
+        const tracker = document.getElementById('day-tracker');
+        tracker.innerHTML = '';
+
+        for (let day = 1; day <= userState.streakDays; day++) {
+            const pill = document.createElement('div');
+            const isToday = day === userState.streakDays;
+            pill.className = 'day-pill ' + (isToday ? 'today' : 'done');
+            pill.innerText = isToday ? `יום ${day} ⚽` : `יום ${day} ✓`;
+            tracker.appendChild(pill);
+        }
+
+        // הענקת נקודות הפתיחה היומית (פעם אחת בכל "יום")
+        userState.coins += 30;
+        document.getElementById('coins-count').innerText = userState.coins;
+    }
+
+    function goToMap() {
+        syncMapHeader();
+        showScreen('screen-map');
+    }
+
+    const STAGE_ICONS = ['⚽', '🥅', '🏆', '🥇', '🎽', '👟', '🏟️', '🔥', '⭐'];
+
+    // בונה את כל 9 שלבי הליגה במפה, לפי המצב האמיתי: נוצח / פעיל / נעול
+    function renderMapPath() {
+        const container = document.getElementById('map-path');
+        let html = '';
+
+        STAGE_BASES.forEach((base, i) => {
+            const icon = STAGE_ICONS[i % STAGE_ICONS.length];
+            if (i < currentStageIndex) {
+                html += `<div class="node" style="background: #e6f4ea; border-color: #2e8b57; cursor: default;">
+                    <span>${icon} לוח הכפל של ${base}</span>
+                    <span>✅ ניצחון</span>
+                </div>`;
+            } else if (i === currentStageIndex) {
+                html += `<div class="node active-node" onclick="startBattle()">
+                    <span>${icon} לוח הכפל של ${base}</span>
+                    <span>⚽ למשחק!</span>
+                </div>`;
+            } else {
+                html += `<div class="node locked">
+                    <span>${icon} לוח הכפל של ${base}</span>
+                    <span>🔒</span>
+                </div>`;
+            }
+        });
+
+        container.innerHTML = html;
+    }
+
+    // מסנכרן את התגים במסך המפה (רצף + נקודות + כל שלבי הליגה) עם המצב העדכני
+    function syncMapHeader() {
+        document.getElementById('streak-count-map').innerText = userState.streakDays;
+        document.getElementById('coins-count-map').innerText = userState.coins;
+        renderMapPath();
+    }
+
+    function startBattle() {
+        generateAdaptiveQuestion();
+        showScreen('screen-game');
+    }
+
+    // מעדכן את מד ההתקדמות (כמה תרגילים מתוך לוח הכפל הנוכחי כבר נענו נכון פעם אחת)
+    function renderProgress() {
+        const base = getCurrentStageBase();
+        document.getElementById('progress-indicator').innerText = `${correctlyAnsweredOnce.size}/${FACTS_PER_STAGE} נלמד · לוח ${base}`;
+    }
+
+    // מנוע בחירה חכם שמתאים את התרגיל לפי נקודות התורפה של השחקן, בתוך לוח הכפל של השלב הנוכחי
+    function generateAdaptiveQuestion() {
+        let num1, num2;
+        const base = getCurrentStageBase();
+        const stageFacts = getStageFactKeys(base);
+
+        renderProgress();
+
+        // בדיקה אם יש תרגילים בשלב הנוכחי שדורשים חיזוק (נקודות תורפה)
+        let weakSpots = stageFacts.filter(k => userMasteryMatrix[k] !== undefined && userMasteryMatrix[k] < 2);
+        // תרגילים בשלב הנוכחי שעדיין לא נענו נכון אף פעם - עדיפות ראשונה כדי להתקדם להשלמת הלוח
+        let remainingFacts = stageFacts.filter(k => !correctlyAnsweredOnce.has(k));
+
+        let selectedKey;
+        if (weakSpots.length > 0 && Math.random() < 0.6) {
+            // 60% סיכוי להציג תרגיל מתוך נקודות התורפה כדי לחזק אותן
+            selectedKey = weakSpots[Math.floor(Math.random() * weakSpots.length)];
+            document.getElementById('mode-indicator').innerText = "💡 בעיטה חוזרת - חיזוק נקודת תורפה";
+        } else if (remainingFacts.length > 0) {
+            // תרגיל בלוח הנוכחי שעדיין לא נלמד
+            selectedKey = remainingFacts[Math.floor(Math.random() * remainingFacts.length)];
+            document.getElementById('mode-indicator').innerText = `⚽ לוח הכפל של ${base}`;
+        } else {
+            // כל תרגילי הלוח כבר נענו נכון פעם אחת - סבב חזרה על הלוח כולו
+            selectedKey = stageFacts[Math.floor(Math.random() * stageFacts.length)];
+            document.getElementById('mode-indicator').innerText = "🔁 סבב חזרה";
+        }
+
+        let parts = selectedKey.split('x');
+        num1 = parseInt(parts[0]);
+        num2 = parseInt(parts[1]);
+
+        currentKey = `${num1}x${num2}`;
+        currentCorrectAnswer = num1 * num2;
+
+        // שלב הרמז: רמז מוצג רק בפעם הראשונה שהתרגיל מופיע.
+        // ברגע שהשחקן ענה עליו נכון לפחות פעם אחת - הרמז נעלם, וצריך לזכור בעל פה.
+        let showHint = !(userMasteryMatrix[currentKey] >= 1);
+
+        document.getElementById('question-text').innerText = `${num1} × ${num2} = ?`;
+
+        if (showHint) {
+            document.getElementById('visual-hint').innerText = `רמז: ${num1} קבוצות של ${num2} שחקנים על המגרש`;
+        } else {
+            document.getElementById('visual-hint').innerText = `⚡ עכשיו בלי רמז - תבעט מהזיכרון!`;
+        }
+
+        let wrongAnswers = [];
+        while(wrongAnswers.length < 3) {
+            let offset = (Math.floor(Math.random() * 5) + 1) * (Math.random() < 0.5 ? 1 : -1);
+            let fakeAns = currentCorrectAnswer + offset;
+            if(fakeAns > 0 && fakeAns !== currentCorrectAnswer && !wrongAnswers.includes(fakeAns)) {
+                wrongAnswers.push(fakeAns);
+            }
+        }
+
+        let allOptions = [...wrongAnswers, currentCorrectAnswer];
+        allOptions.sort(() => Math.random() - 0.5);
+
+        const optionsContainer = document.getElementById('options-container');
+        optionsContainer.innerHTML = '';
+
+        allOptions.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+
+            // הצמדת סימון הכדור לתשובה הנכונה - רק בשלב שבו עדיין מוצג רמז
+            if (opt === currentCorrectAnswer && showHint) {
+                btn.innerHTML = `${opt} ⚽`;
+            } else {
+                btn.innerText = opt;
+            }
+
+            btn.onclick = () => checkAnswer(opt);
+            optionsContainer.appendChild(btn);
+        });
+    }
+
+    let stageAdvanceTimer = null;
+
+    // מציג את מסך הניצחון בסיום שלב, ומכין את הכפתור למעבר ללוח הבא (אם יש)
+    function showStageComplete() {
+        const base = getCurrentStageBase();
+        const isLastStage = currentStageIndex >= STAGE_BASES.length - 1;
+        const victoryBtn = document.getElementById('victory-btn');
+
+        // מבטל טיימר קודם אם קיים, למקרה שהפונקציה נקראה יותר מפעם אחת
+        if (stageAdvanceTimer) {
+            clearTimeout(stageAdvanceTimer);
+            stageAdvanceTimer = null;
+        }
+
+        if (isLastStage) {
+            document.getElementById('mastery-status').innerText = `🏆 אתה אלוף הכפל! סיימת את כל הליגה עד לוח ${base}!`;
+            victoryBtn.innerText = "חזרה למגרש 🏆";
+            victoryBtn.onclick = resetApp;
+        } else {
+            const nextBase = STAGE_BASES[currentStageIndex + 1];
+            document.getElementById('mastery-status').innerText = `🏆 ניצחת את לוח הכפל של ${base}!`;
+            victoryBtn.innerText = `למשחק הבא: לוח ${nextBase} ⚽`;
+            // לחיצה ידנית מבטלת את הטיימר האוטומטי כדי שלא יקרה מעבר כפול
+            victoryBtn.onclick = () => {
+                if (stageAdvanceTimer) { clearTimeout(stageAdvanceTimer); stageAdvanceTimer = null; }
+                advanceStage();
+            };
+        }
+
+        setTimeout(() => {
+            showScreen('screen-victory');
+            if (!isLastStage) {
+                // רשת ביטחון: אם הלחיצה על הכפתור לא נקלטת מסיבה כלשהי, המעבר יקרה בכל זאת
+                stageAdvanceTimer = setTimeout(() => {
+                    stageAdvanceTimer = null;
+                    advanceStage();
+                }, 4000);
+            }
+        }, 800);
+    }
+
+    // מעבר ללוח הכפל הבא: מתקדם שלב, מאפס את מעקב ההתקדמות, וחוזר למפה
+    function advanceStage() {
+        currentStageIndex++;
+        correctlyAnsweredOnce = new Set();
+        resetApp();
+    }
+
+    function checkAnswer(selectedVal) {
+        if(selectedVal === currentCorrectAnswer) {
+            // עדכון מנוע ההתאמה האישית: התשובה נכונה, נחזק את הציון של התרגיל
+            if (!userMasteryMatrix[currentKey]) {
+                userMasteryMatrix[currentKey] = 1;
+            } else {
+                userMasteryMatrix[currentKey]++;
+            }
+
+            correctlyAnsweredOnce.add(currentKey);
+            userState.coins += 10;
+            renderProgress();
+            playSuccessSound();
+
+            // הפעלת קונפטי בצבעי הקבוצה
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#14532d', '#2e8b57', '#f2b705', '#ffffff', '#1b3a24']
+            });
+
+            if (correctlyAnsweredOnce.size >= FACTS_PER_STAGE) {
+                // כל תרגילי הלוח הנוכחי נענו נכון פעם אחת - השלב הושלם!
+                showStageComplete();
+            } else {
+                // תרגול רציף - ממשיכים ישר לתרגיל הבא בלי לעבור מסך
+                setTimeout(() => {
+                    generateAdaptiveQuestion();
+                }, 700);
+            }
+        } else {
+            // המנוע מזהה טעות ושומר את התרגיל כנקודת תורפה להמשך
+            userMasteryMatrix[currentKey] = 0;
+            alert('החמצה! השוער עצר את הבעיטה. נסה שוב ותכניס גול.');
+        }
+    }
+
+    // מדמה מעבר ל"יום" הבא בתוך אותה הפעלה (ללא אחסון חיצוני, מתאפס ברענון)
+    function advanceDay() {
+        userState.streakDays++;
+        renderDailyScreen();
+    }
+
+    function resetApp() {
+        syncMapHeader();
+        showScreen('screen-map');
+    }
+</script>
+
+</body>
+</html>

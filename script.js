@@ -89,8 +89,8 @@
     var ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    var IVORY = "241, 232, 219";
-    var DAWN = "226, 164, 92";
+    var IVORY = "238, 243, 248";
+    var DAWN = "34, 211, 238";
     var TOUCH_RADIUS = 115;
 
     var small = window.matchMedia("(max-width: 640px)").matches;
@@ -302,7 +302,7 @@
 
   /* ---------------- ניווט הנשימה ---------------- */
   (function breathNav() {
-    var sectionIds = ["about", "classes", "group", "who", "noa", "place", "faq"];
+    var sectionIds = ["about", "games", "how", "who", "method", "faq"];
     var mobileLinks = document.querySelectorAll(".breath-nav-mobile a");
     var desktopLinks = document.querySelectorAll(".breath-nav-desktop a");
     var chipsList = document.getElementById("nav-chips");
@@ -428,106 +428,4 @@
     });
   })();
 
-  /* ---------------- טופס הרשמה ---------------- */
-  (function registerForm() {
-    var form = document.getElementById("register-form");
-    if (!form) return;
-
-    var CONTACT_ENDPOINT = "https://elik.app.n8n.cloud/webhook/noa-pilates-contact";
-    var PREFIXES = ["050", "052", "053", "054", "055", "058"];
-    var startedAt = Date.now();
-
-    var GROUPS = {
-      "morning-wednesday": { dayLabel: "יום רביעי", timeLabel: "07:30", durationLabel: "שעה", startDateLabel: "21 באוקטובר" },
-      "evening-monday": { dayLabel: "יום שני", timeLabel: "19:00", durationLabel: "שעה", startDateLabel: null }
-    };
-
-    function normalizePhone(prefix, local) {
-      if (!/^\d{7}$/.test(local)) return null;
-      var digits = prefix.slice(1) + local;
-      if (!/^5\d{8}$/.test(digits)) return null;
-      return "+972" + digits;
-    }
-
-    function showError(id, show) {
-      var el = document.getElementById("err-" + id);
-      if (el) el.hidden = !show;
-    }
-
-    function validate(values) {
-      var ok = true;
-      if (!values.group) { showError("group", true); ok = false; } else showError("group", false);
-      if (!values.fullName || values.fullName.trim().length < 2) { showError("fullName", true); ok = false; } else showError("fullName", false);
-      var normPhone = normalizePhone(values.phonePrefix, values.phoneLocal);
-      if (!normPhone) { showError("phone", true); ok = false; } else showError("phone", false);
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email || "")) { showError("email", true); ok = false; } else showError("email", false);
-      if (!values.firstTime) { showError("firstTime", true); ok = false; } else showError("firstTime", false);
-      if (!values.medicalAck) { showError("medicalAck", true); ok = false; } else showError("medicalAck", false);
-      return { ok: ok, normPhone: normPhone };
-    }
-
-    form.addEventListener("submit", function (event) {
-      event.preventDefault();
-      var data = new FormData(form);
-      var values = {
-        group: data.get("group"),
-        fullName: (data.get("fullName") || "").toString(),
-        phonePrefix: data.get("phonePrefix") || PREFIXES[0],
-        phoneLocal: (data.get("phoneLocal") || "").toString(),
-        email: (data.get("email") || "").toString(),
-        firstTime: data.get("firstTime"),
-        medicalAck: data.get("medicalAck") === "on",
-        honeypot: (data.get("company") || "").toString()
-      };
-
-      var result = validate(values);
-      var serverError = document.getElementById("form-server-error");
-      serverError.hidden = true;
-      if (!result.ok) return;
-
-      // מלכודת בוטים: מילוי שדה חברה או שליחה תוך פחות משנייה מהטעינה — מתעלמים בשקט
-      if (values.honeypot || Date.now() - startedAt < 1000) return;
-
-      var submitBtn = document.getElementById("register-submit");
-      submitBtn.disabled = true;
-      submitBtn.textContent = "שולח...";
-
-      var groupInfo = GROUPS[values.group];
-      var payload = {
-        group: values.group,
-        fullName: values.fullName.trim(),
-        phone: result.normPhone,
-        email: values.email.trim(),
-        firstTime: values.firstTime,
-        medicalAck: "yes"
-      };
-
-      fetch(CONTACT_ENDPOINT, { method: "POST", body: new URLSearchParams(payload) })
-        .then(function (res) {
-          if (!res.ok) throw new Error("server");
-          form.hidden = true;
-          document.getElementById("success-title").textContent = "מחכים לך ב" + groupInfo.dayLabel;
-          var dl = document.getElementById("success-details");
-          dl.innerHTML = "";
-          var lines = [
-            groupInfo.dayLabel + ", " + groupInfo.timeLabel + " · " + groupInfo.durationLabel,
-            groupInfo.startDateLabel ? "מתחילים ב־" + groupInfo.startDateLabel : null,
-            "ביאליק, רמת גן · קומה שנייה · יש מעלית",
-            "מזרנים וכל הציוד הנדרש נמצאים בסטודיו",
-            "התשלום מתבצע בסטודיו בלבד"
-          ].filter(Boolean);
-          lines.forEach(function (line) {
-            var div = document.createElement("div");
-            div.textContent = line;
-            dl.appendChild(div);
-          });
-          document.getElementById("register-success").hidden = false;
-        })
-        .catch(function () {
-          serverError.hidden = false;
-          submitBtn.disabled = false;
-          submitBtn.textContent = "שריין לי מקום";
-        });
-    });
-  })();
 })();

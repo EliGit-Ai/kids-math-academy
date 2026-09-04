@@ -1,25 +1,25 @@
 /* ---------------------------------------------
-   נועה פילאטיס — שפה חזותית "לפנות בוקר"
-   חושך חם של סטודיו לפני שיעור הבוקר. שנהב לטקסט, זהב-שחר לפעולות.
+   פדגוגי — שפה חזותית "מגרש הלמידה"
+   כחול-לילה עמוק של מגרש בערב, טורקיז חשמלי וענבר לפעולות ולתגמולים.
    --------------------------------------------- */
 :root {
-  --night: #16110e;
-  --night-soft: #1f1813;
-  --night-lift: #2a2018;
-  --seam: #3b2d21;
-  --ivory: #f1e8db;
-  --ivory-dim: #bcab93;
-  --dusk: #8b7a64;
-  --dawn: #e2a45c;
-  --dawn-bright: #eebd7e;
-  --ember: #c46f52;
+  --night: #0b1220;
+  --night-soft: #0f1b30;
+  --night-lift: #16233d;
+  --seam: #22344e;
+  --ivory: #eef3f8;
+  --ivory-dim: #9db0c8;
+  --dusk: #6c81a0;
+  --dawn: #22d3ee;
+  --dawn-bright: #67e8f9;
+  --ember: #f59e0b;
 
   /* נכתב ע"י JS: 0 בסוף נשיפה, 1 בשיא שאיפה */
   --breath: 0;
   /* נכתב ע"י JS לפי גלילה: 0 למעלה, 1 בהרשמה */
   --sunrise: 0;
 
-  --font-display: 'Frank Ruhl Libre', Georgia, serif;
+  --font-display: 'Rubik', 'Segoe UI', sans-serif;
   --font-body: 'Assistant', -apple-system, 'Segoe UI', Tahoma, sans-serif;
 }
 
@@ -522,6 +522,27 @@ a { color: inherit; text-decoration: none; }
 .about-photo { aspect-ratio: 4 / 3; }
 .place-photo { aspect-ratio: 16 / 9; margin-bottom: 2.25rem; }
 
+.game-shot {
+  position: relative;
+  border-radius: 1.4rem;
+  overflow: hidden;
+  aspect-ratio: 3 / 4;
+  background: linear-gradient(160deg, var(--night-lift) 0%, var(--night-soft) 100%);
+  border: 1px solid var(--seam);
+  box-shadow: 0 24px 48px -24px rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.game-shot img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center top;
+}
+
 /* ---------------- שיעורים ---------------- */
 
 .class-list {
@@ -643,7 +664,7 @@ a { color: inherit; text-decoration: none; }
   color: var(--ivory-dim);
 }
 
-/* ---------------- נועה ---------------- */
+/* ---------------- הגישה הפדגוגית ---------------- */
 
 .noa-quote-wrap { max-width: 40rem; }
 
