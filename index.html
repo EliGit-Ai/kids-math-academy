@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#16110e">
+  <title>נועה פילאטיס · קבוצת בוקר חדשה ברמת גן</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500&family=Assistant:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <a href="#about" class="skip-link">דילוג לתוכן</a>
+
+  <div class="cursor-glow" aria-hidden="true" id="cursor-glow"></div>
+
+  <div class="announcement" role="note">
+    <p>עדכון: מועד תחילת הקבוצה החדשה נדחה ל21 באוקטובר (במקום 14 באוקטובר). נותרו 4 מקומות בלבד להרשמה.</p>
+  </div>
+
+  <header class="hero">
+    <div class="hero-canvas-wrap">
+      <canvas id="hero-canvas" aria-hidden="true"></canvas>
+    </div>
+
+    <div class="hero-content">
+      <p class="rise-in hero-kicker" style="animation-delay:.5s" aria-hidden="true">
+        <span class="hero-kicker-line hero-kicker-line--start"></span>
+        <span class="hero-kicker-word-wrap">
+          <span class="hero-kicker-word" id="kicker-inhale">שאיפה</span>
+          <span class="hero-kicker-word" id="kicker-exhale">נשיפה</span>
+        </span>
+        <span class="hero-kicker-line hero-kicker-line--end"></span>
+      </p>
+
+      <h1 class="rise-in hero-title" style="animation-delay:.7s">
+        לנשום. לזוז. <span class="text-dawn">לחזור לעצמך.</span>
+      </h1>
+
+      <p class="rise-in hero-lede" style="animation-delay:.95s">
+        נועה פילאטיס — פילאטיס קטן ואישי ברמת גן. קבוצות של עד 8 אנשים, כדי
+        שיהיה אפשר לראות כל אחד ואחת במהלך המפגש. ביאליק, רמת גן.
+      </p>
+
+      <div class="rise-in hero-actions" style="animation-delay:1.15s">
+        <a href="#register" class="btn btn--primary breathes-glow">שריין לי מקום</a>
+        <a href="#classes" class="btn btn--quiet">השיעורים בסטודיו</a>
+      </div>
+
+      <a href="#group" class="rise-in hero-flash" style="animation-delay:1.35s">
+        <span class="hero-flash-tag">נפתחת עכשיו</span>
+        <span class="hero-flash-detail">קבוצת בוקר חדשה · יום רביעי, 07:30 · מ־21 באוקטובר</span>
+        <span class="hero-flash-link">לפרטים</span>
+      </a>
+    </div>
+
+    <div class="rise-in hero-scroll-hint" style="animation-delay:1.7s" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" class="drift-down">
+        <path d="M6 9l6 6 6-6"/>
+      </svg>
+    </div>
+  </header>
+
+  <nav aria-label="ניווט בדף" class="breath-nav-mobile">
+    <ul id="nav-chips">
+      <li><a href="#about" data-section="about">הסטודיו</a></li>
+      <li><a href="#classes" data-section="classes">השיעורים</a></li>
+      <li><a href="#group" data-section="group">קבוצת הבוקר</a></li>
+      <li><a href="#who" data-section="who">למי זה מתאים</a></li>
+      <li><a href="#noa" data-section="noa">נועה</a></li>
+      <li><a href="#place" data-section="place">המקום</a></li>
+      <li><a href="#faq" data-section="faq">שאלות</a></li>
+    </ul>
+  </nav>
+
+  <nav aria-label="ניווט בדף" class="breath-nav-desktop">
+    <ul>
+      <li><a href="#about" data-section="about"><span class="dot" aria-hidden="true"></span><span class="label">הסטודיו</span></a></li>
+      <li><a href="#classes" data-section="classes"><span class="dot" aria-hidden="true"></span><span class="label">השיעורים</span></a></li>
+      <li><a href="#group" data-section="group"><span class="dot" aria-hidden="true"></span><span class="label">קבוצת הבוקר</span></a></li>
+      <li><a href="#who" data-section="who"><span class="dot" aria-hidden="true"></span><span class="label">למי זה מתאים</span></a></li>
+      <li><a href="#noa" data-section="noa"><span class="dot" aria-hidden="true"></span><span class="label">נועה</span></a></li>
+      <li><a href="#place" data-section="place"><span class="dot" aria-hidden="true"></span><span class="label">המקום</span></a></li>
+      <li><a href="#faq" data-section="faq"><span class="dot" aria-hidden="true"></span><span class="label">שאלות</span></a></li>
+    </ul>
+  </nav>
+
+  <main>
+
+    <section id="about" class="section">
+      <div class="divider-wrap"><div class="divider"><span class="divider-line"></span><svg class="divider-glyph breathes" width="52" height="26" viewBox="0 0 52 26" fill="none"><ellipse cx="20" cy="13" rx="10.5" ry="5.5" transform="rotate(-46 20 13)" stroke="currentColor" stroke-width="0.9"/><ellipse cx="32" cy="13" rx="10.5" ry="5.5" transform="rotate(46 32 13)" stroke="currentColor" stroke-width="0.9"/></svg><span class="divider-line"></span></div></div>
+      <div class="section-inner section-inner--wide">
+        <div class="reveal">
+          <p class="eyebrow">הסטודיו</p>
+          <h2 class="section-title">מי אנחנו</h2>
+        </div>
+        <div class="reveal reveal--delayed about-grid">
+          <div class="about-copy">
+            <p>הסטודיו ממוקם ברמת גן, ברחוב ביאליק, בקומה השנייה (יש מעלית). זה סטודיו קטן ואישי, לא רשת ולא חדר כושר.</p>
+            <p>החדר מכיל עד 8 אנשים, וזה גודל הקבוצה המרבי בכל שיעור. הבחירה הזו היא מה שמאפשר ליווי אישי גם כשמתאמנים בקבוצה.</p>
+            <p class="about-quote">קטן מספיק כדי לראות כל אחד ואחת. גדול מספיק כדי לנשום יחד.</p>
+          </div>
+          <figure class="photo-warm about-photo">
+            <img
+              src="https://res.cloudinary.com/drb1i7lf/image/upload/c_fill,g_auto,w_1200,h_900,q_auto,f_auto/v1787837660/Studio_space.jpg"
+              width="1200" height="900" loading="lazy"
+              alt="פנים הסטודיו: רצפת עץ, צמחים וחלונות מקושתים">
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section id="classes" class="section">
+      <div class="divider-wrap"><div class="divider"><span class="divider-line"></span><svg class="divider-glyph breathes" width="52" height="26" viewBox="0 0 52 26" fill="none"><ellipse cx="20" cy="13" rx="10.5" ry="5.5" transform="rotate(-46 20 13)" stroke="currentColor" stroke-width="0.9"/><ellipse cx="32" cy="13" rx="10.5" ry="5.5" transform="rotate(46 32 13)" stroke="currentColor" stroke-width="0.9"/></svg><span class="divider-line"></span></div></div>
+      <div class="section-inner">
+        <div class="reveal">
+          <p class="eyebrow">השיעורים</p>
+          <h2 class="section-title">האימונים שלנו</h2>
+        </div>
+        <div class="reveal reveal--delayed">
+          <ul class="class-list">
+            <li class="class-item">
+              <div class="class-row">
+                <span class="class-name">פילאטיס מזרן · קבוצת בוקר <span class="badge-new">חדש בסטודיו</span></span>
+                <span class="class-time">יום רביעי, 07:30</span>
+              </div>
+              <p class="class-note">רמת מתחילים · עד 8 משתתפים · <a href="#group">נפתחת ב־21 באוקטובר</a></p>
+            </li>
+            <li class="class-item">
+              <div class="class-row">
+                <span class="class-name">קבוצת ערב</span>
+                <span class="class-time">יום שני, 19:00</span>
+              </div>
+            </li>
+            <li class="class-item">
+              <div class="class-row">
+                <span class="class-name">אימונים אישיים</span>
+                <span class="class-time">בתיאום מראש</span>
+              </div>
+            </li>
+          </ul>
+          <p class="classes-phone-note">לפרטים על קבוצת הערב או אימון אישי אפשר להתקשר: <a href="tel:+972520000000">052-000-0000</a></p>
+        </div>
+      </div>
+    </section>
+
+    <section id="group" class="section">
+      <div class="divider-wrap"><div class="divider"><span class="divider-line"></span><svg class="divider-glyph breathes" width="52" height="26" viewBox="0 0 52 26" fill="none"><ellipse cx="20" cy="13" rx="10.5" ry="5.5" transform="rotate(-46 20 13)" stroke="currentColor" stroke-width="0.9"/><ellipse cx="32" cy="13" rx="10.5" ry="5.5" transform="rotate(46 32 13)" stroke="currentColor" stroke-width="0.9"/></svg><span class="divider-line"></span></div></div>
+      <div class="section-inner section-inner--wide section-inner--centered">
+        <div class="reveal">
+          <p class="eyebrow">נפתחת עכשיו</p>
+          <h2 class="section-title">קבוצת בוקר חדשה</h2>
+        </div>
+        <div class="reveal reveal--delayed">
+          <p class="group-lede">פילאטיס מזרן ברמת מתחילים · מתחילים ב־21 באוקטובר</p>
+
+          <div class="group-card breath-ring">
+            <dl class="group-stats">
+              <div><dd class="count-up" data-target="0" data-display="07:30">07:30</dd><dt>כל יום רביעי בבוקר</dt></div>
+              <div><dd class="count-up" data-target="8">0</dd><dt>מפגשים בחבילה</dt></div>
+              <div><dd class="count-up" data-target="640" data-suffix="₪">0</dd><dt>לכל החבילה</dt></div>
+              <div><dd class="count-up" data-target="8">0</dd><dt>משתתפים לכל היותר</dt></div>
+            </dl>
+            <p class="group-footnote">משך כל מפגש שעה · התשלום מתבצע בסטודיו בלבד</p>
+          </div>
+
+          <div class="group-cta">
+            <a href="#register" class="btn btn--primary breathes-glow">שריין לי מקום</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="who" class="section">
+      <div class="divider-wrap"><div class="divider"><span class="divider-line"></span><svg class="divider-glyph breathes" width="52" height="26" viewBox="0 0 52 26" fill="none"><ellipse cx="20" cy="13" rx="10.5" ry="5.5" transform="rotate(-46 20 13)" stroke="currentColor" stroke-width="0.9"/><ellipse cx="32" cy="13" rx="10.5" ry="5.5" transform="rotate(46 32 13)" stroke="currentColor" stroke-width="0.9"/></svg><span class="divider-line"></span></div></div>
+      <div class="section-inner">
+        <div class="reveal">
+          <p class="eyebrow">למי זה מתאים</p>
+          <h2 class="section-title">גם אם לא התאמנת שנים</h2>
+        </div>
+        <div class="reveal reveal--delayed">
+          <p class="who-lede">אין צורך בניסיון קודם, ומתאים גם למי שלא התאמן שנים. קבוצת הבוקר החדשה נפתחת ברמת מתחילים, וכולם מתחילים מאותה נקודה.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="noa" class="section">
+      <div class="divider-wrap"><div class="divider"><span class="divider-line"></span><svg class="divider-glyph breathes" width="52" height="26" viewBox="0 0 52 26" fill="none"><ellipse cx="20" cy="13" rx="10.5" ry="5.5" transform="rotate(-46 20 13)" stroke="currentColor" stroke-width="0.9"/><ellipse cx="32" cy="13" rx="10.5" ry="5.5" transform="rotate(46 32 13)" stroke="currentColor" stroke-width="0.9"/></svg><span class="divider-line"></span></div></div>
+      <div class="section-inner section-inner--wide">
+        <div class="reveal">
+          <p class="eyebrow">מי מלווה אתכם</p>
+          <h2 class="section-title">נועה</h2>
+        </div>
+        <div class="reveal reveal--delayed noa-quote-wrap">
+          <p class="noa-quote"><span class="quote-mark" aria-hidden="true">״</span>הסטודיו קטן ואישי בכוונה. החדר מכיל עד 8 אנשים — מספיק כדי שאספיק לראות כל אחד ואחת במהלך המפגש ולהתאים את התרגול.<span class="quote-mark" aria-hidden="true">״</span></p>
+          <p class="noa-signature">אני מלמדת פילאטיס מזרן ברמת גן.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="place" class="section">
+      <div class="divider-wrap"><div class="divider"><span class="divider-line"></span><svg class="divider-glyph breathes" width="52" height="26" viewBox="0 0 52 26" fill="none"><ellipse cx="20" cy="13" rx="10.5" ry="5.5" transform="rotate(-46 20 13)" stroke="currentColor" stroke-width="0.9"/><ellipse cx="32" cy="13" rx="10.5" ry="5.5" transform="rotate(46 32 13)" stroke="currentColor" stroke-width="0.9"/></svg><span class="divider-line"></span></div></div>
+      <div class="section-inner">
+        <div class="reveal">
+          <p class="eyebrow">המקום</p>
+          <h2 class="section-title">איך מגיעים ומה מביאים</h2>
+        </div>
+        <div class="reveal reveal--delayed">
+          <figure class="photo-warm place-photo">
+            <img
+              src="https://res.cloudinary.com/drb1i7lf/image/upload/c_fill,g_auto,w_1600,h_900,q_auto,f_auto/v1787837660/Studio_space.jpg"
+              width="1600" height="900" loading="lazy"
+              alt="פנים הסטודיו: רצפת עץ, צמחים וחלונות מקושתים">
+          </figure>
+
+          <dl class="facts-grid">
+            <div><dt>כתובת</dt><dd>ביאליק, רמת גן</dd></div>
+            <div><dt>קומה</dt><dd>קומה שנייה</dd></div>
+            <div><dt>מעלית</dt><dd>יש מעלית בבניין</dd></div>
+            <div><dt>גודל החדר</dt><dd>עד 8 משתתפים</dd></div>
+          </dl>
+
+          <h3 class="place-subtitle">מה להביא</h3>
+          <ul class="bring-list">
+            <li><span class="bring-mark" aria-hidden="true">—</span>בגדים נוחים</li>
+            <li><span class="bring-mark" aria-hidden="true">—</span>גרביים</li>
+            <li class="bring-list-dim"><span class="bring-mark bring-mark--dim" aria-hidden="true">—</span>מזרנים וכל הציוד הנדרש נמצאים בסטודיו</li>
+          </ul>
+
+          <p class="place-medical">מתאמנים שנמצאים אחרי ניתוח או פציעה מתבקשים להביא אישור רופא לפני תחילת האימונים.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="section">
+      <div class="divider-wrap"><div class="divider"><span class="divider-line"></span><svg class="divider-glyph breathes" width="52" height="26" viewBox="0 0 52 26" fill="none"><ellipse cx="20" cy="13" rx="10.5" ry="5.5" transform="rotate(-46 20 13)" stroke="currentColor" stroke-width="0.9"/><ellipse cx="32" cy="13" rx="10.5" ry="5.5" transform="rotate(46 32 13)" stroke="currentColor" stroke-width="0.9"/></svg><span class="divider-line"></span></div></div>
+      <div class="section-inner">
+        <div class="reveal">
+          <p class="eyebrow">שאלות נפוצות</p>
+          <h2 class="section-title">שאלות שחוזרות</h2>
+        </div>
+        <div class="reveal reveal--delayed faq-list">
+          <details class="faq-item">
+            <summary>אף פעם לא עשיתי פילאטיס. זה בשבילי?<span class="faq-plus" aria-hidden="true">+</span></summary>
+            <p>אין צורך בניסיון קודם, ומתאים גם למי שלא התאמן שנים. הקבוצה נפתחת ברמת מתחילים.</p>
+          </details>
+          <details class="faq-item">
+            <summary>מה להביא?<span class="faq-plus" aria-hidden="true">+</span></summary>
+            <p>בגדים נוחים וגרביים. מזרנים וכל הציוד הנדרש נמצאים בסטודיו.</p>
+          </details>
+          <details class="faq-item">
+            <summary>אני אחרי פציעה או ניתוח.<span class="faq-plus" aria-hidden="true">+</span></summary>
+            <p>מתאמנים שנמצאים אחרי ניתוח או פציעה מתבקשים להביא אישור רופא לפני תחילת האימונים. כדאי גם לספר לנועה לפני המפגש הראשון.</p>
+          </details>
+          <details class="faq-item">
+            <summary>איך משלמים?<span class="faq-plus" aria-hidden="true">+</span></summary>
+            <p>התשלום מתבצע בסטודיו בלבד. החבילה כוללת 8 מפגשים במחיר 640 ₪.</p>
+          </details>
+          <details class="faq-item">
+            <summary>יש מעלית?<span class="faq-plus" aria-hidden="true">+</span></summary>
+            <p>הסטודיו נמצא בקומה שנייה, ויש מעלית בבניין.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section id="register" class="section">
+      <div class="divider-wrap"><div class="divider"><span class="divider-line"></span><svg class="divider-glyph breathes" width="52" height="26" viewBox="0 0 52 26" fill="none"><ellipse cx="20" cy="13" rx="10.5" ry="5.5" transform="rotate(-46 20 13)" stroke="currentColor" stroke-width="0.9"/><ellipse cx="32" cy="13" rx="10.5" ry="5.5" transform="rotate(46 32 13)" stroke="currentColor" stroke-width="0.9"/></svg><span class="divider-line"></span></div></div>
+      <div class="section-inner">
+        <div class="reveal">
+          <p class="eyebrow">הרשמה</p>
+          <h2 class="section-title">שמירת מקום</h2>
+        </div>
+        <div class="reveal reveal--delayed">
+          <p class="register-lede">עד 8 משתתפים. אפשר גם להתקשר: 052-000-0000</p>
+
+          <div class="register-card">
+            <form id="register-form" novalidate>
+              <div class="honeypot" aria-hidden="true">
+                <label for="company">חברה</label>
+                <input type="text" id="company" name="company" tabindex="-1" autocomplete="off">
+              </div>
+
+              <fieldset class="field-group">
+                <legend>לאיזו קבוצה נרשמים?</legend>
+                <div class="radio-row" role="radiogroup">
+                  <label class="radio-pill radio-pill--highlight option-breath">
+                    <input type="radio" name="group" value="morning-wednesday" required>
+                    <span>יום רביעי</span>
+                    <span class="radio-pill-sub">07:30</span>
+                    <span class="radio-pill-flag">🔥 כבר נרשמו 4 — שריינו את המקום שלכם</span>
+                  </label>
+                  <label class="radio-pill">
+                    <input type="radio" name="group" value="evening-monday" required>
+                    <span>יום שני</span>
+                    <span class="radio-pill-sub">19:00</span>
+                  </label>
+                </div>
+                <p class="field-error" id="err-group" hidden>יש לבחור קבוצה</p>
+              </fieldset>
+
+              <div class="field">
+                <label for="fullName">שם מלא</label>
+                <input type="text" id="fullName" name="fullName" autocomplete="name" required>
+                <p class="field-error" id="err-fullName" hidden>יש להזין שם מלא</p>
+              </div>
+
+              <div class="field">
+                <label for="phoneLocal">טלפון נייד</label>
+                <div class="phone-row" dir="ltr">
+                  <select id="phonePrefix" name="phonePrefix" aria-label="קידומת">
+                    <option value="050">050</option>
+                    <option value="052">052</option>
+                    <option value="053">053</option>
+                    <option value="054">054</option>
+                    <option value="055">055</option>
+                    <option value="058">058</option>
+                  </select>
+                  <input type="tel" id="phoneLocal" name="phoneLocal" inputmode="numeric" placeholder="1234567" autocomplete="tel-national" required>
+                </div>
+                <p class="field-error" id="err-phone" hidden>יש להזין 7 ספרות</p>
+              </div>
+
+              <div class="field">
+                <label for="email">אימייל</label>
+                <input type="email" id="email" name="email" dir="ltr" inputmode="email" autocomplete="email" required>
+                <p class="field-error" id="err-email" hidden>כתובת אימייל לא תקינה</p>
+              </div>
+
+              <fieldset class="field-group">
+                <legend>האם זו הפעם הראשונה שלך בפילאטיס?</legend>
+                <div class="radio-row" role="radiogroup">
+                  <label class="radio-pill radio-pill--plain">
+                    <input type="radio" name="firstTime" value="yes" required>
+                    <span>כן, פעם ראשונה</span>
+                  </label>
+                  <label class="radio-pill radio-pill--plain">
+                    <input type="radio" name="firstTime" value="no" required>
+                    <span>כבר התאמנתי</span>
+                  </label>
+                </div>
+                <p class="field-error" id="err-firstTime" hidden>יש לבחור תשובה</p>
+              </fieldset>
+
+              <div class="field">
+                <label class="checkbox-row">
+                  <input type="checkbox" id="medicalAck" name="medicalAck" required>
+                  <span>קראתי, ואם אני אחרי ניתוח או פציעה אביא אישור רופא לפני ההשתתפות.</span>
+                </label>
+                <p class="field-error" id="err-medicalAck" hidden>יש לאשר כדי להמשיך בהרשמה</p>
+              </div>
+
+              <p class="form-server-error" id="form-server-error" role="alert" hidden>לא הצלחנו לשלוח את הטופס. אפשר לנסות שוב, או להתקשר: 052-000-0000</p>
+
+              <div class="submit-row">
+                <button type="submit" class="btn btn--primary breathes-glow" id="register-submit">שריין לי מקום</button>
+              </div>
+            </form>
+
+            <div class="register-success" id="register-success" hidden>
+              <p class="success-tag">ההרשמה נקלטה</p>
+              <h3 class="success-title" id="success-title">מחכים לך ב</h3>
+              <dl class="success-details" id="success-details"></dl>
+              <p class="success-medical">מתאמנים שנמצאים אחרי ניתוח או פציעה מתבקשים להביא אישור רופא לפני תחילת האימונים.</p>
+              <p class="success-phone">שאלה לפני המפגש? אפשר להתקשר: 052-000-0000</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="section-inner">
+      <p class="footer-name">נועה פילאטיס</p>
+      <p class="footer-address">ביאליק, רמת גן · קומה שנייה · יש מעלית</p>
+      <div class="footer-links">
+        <a href="tel:+972520000000">052-000-0000</a>
+        <a href="mailto:noa@example.co.il">noa@example.co.il</a>
+      </div>
+      <p class="footer-credit">נועה · נבנה בקצב של שמונה שניות לנשימה</p>
+    </div>
+  </footer>
+
+  <a
+    class="agent-launcher"
+    href="https://wa.me/972520000000"
+    target="_blank"
+    rel="noopener"
+    aria-label="פנייה בוואטסאפ"
+  >
+    <img src="assets/brand-glyph.png" alt="" class="agent-launcher-glyph">
+  </a>
+
+  <script src="script.js"></script>
+</body>
+</html>
