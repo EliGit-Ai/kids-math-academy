@@ -89,8 +89,14 @@
     var ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    var IVORY = "238, 243, 248";
-    var DAWN = "34, 211, 238";
+    var TRACK_DUST_COLORS = {
+      boys: { IVORY: "238, 243, 248", DAWN: "34, 211, 238" },
+      girls: { IVORY: "255, 235, 246", DAWN: "255, 46, 157" }
+    };
+    var track = document.body.dataset.track || "boys";
+    var dustColors = TRACK_DUST_COLORS[track] || TRACK_DUST_COLORS.boys;
+    var IVORY = dustColors.IVORY;
+    var DAWN = dustColors.DAWN;
     var TOUCH_RADIUS = 115;
 
     var small = window.matchMedia("(max-width: 640px)").matches;

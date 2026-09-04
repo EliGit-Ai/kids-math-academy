@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#fef4fa">
+  <title>מסלול בנות · פדגוגי</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800;900&family=Assistant:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-track="girls">
+
+  <a href="#games" class="skip-link">דילוג לתוכן</a>
+
+  <div class="cursor-glow" aria-hidden="true" id="cursor-glow"></div>
+
+  <nav class="track-topbar" aria-label="ניווט עליון">
+    <a href="index.html" class="track-topbar-brand">פדגוגי</a>
+    <div class="track-topbar-links">
+      <a href="boys.html">מסלול בנים</a>
+      <a href="girls.html" class="is-current">מסלול בנות</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-canvas-wrap">
+      <canvas id="hero-canvas" aria-hidden="true"></canvas>
+    </div>
+
+    <div class="hero-content">
+      <p class="rise-in hero-kicker" style="animation-delay:.5s" aria-hidden="true">
+        <span class="hero-kicker-line hero-kicker-line--start"></span>
+        <span class="hero-kicker-word-wrap">
+          <span class="hero-kicker-word" id="kicker-inhale">מצלמות</span>
+          <span class="hero-kicker-word" id="kicker-exhale">מעצבות</span>
+        </span>
+        <span class="hero-kicker-line hero-kicker-line--end"></span>
+      </p>
+
+      <h1 class="rise-in hero-title" style="animation-delay:.7s">
+        סטייל, גליטר. <span class="text-dawn">לוח הכפל שלך.</span>
+      </h1>
+
+      <p class="rise-in hero-lede" style="animation-delay:.95s">
+        משחקי חשבון בעיצוב צילום וגלאם — פריימים, גוונים ותרגול אדפטיבי
+        שמזהה בדיוק איפה כדאי להתאמן עוד.
+      </p>
+
+      <div class="rise-in hero-actions" style="animation-delay:1.15s">
+        <a href="games/photo-fun-math.html" class="btn btn--primary breathes-glow">לשחק עכשיו בחינם</a>
+        <a href="#games" class="btn btn--quiet">כל המשחקים</a>
+      </div>
+    </div>
+
+    <div class="rise-in hero-scroll-hint" style="animation-delay:1.7s" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" class="drift-down">
+        <path d="M6 9l6 6 6-6"/>
+      </svg>
+    </div>
+  </header>
+
+  <main>
+    <section id="games" class="section">
+      <div class="divider-wrap"><div class="divider"><span class="divider-line"></span><svg class="divider-glyph breathes" width="52" height="26" viewBox="0 0 52 26" fill="none"><ellipse cx="20" cy="13" rx="10.5" ry="5.5" transform="rotate(-46 20 13)" stroke="currentColor" stroke-width="0.9"/><ellipse cx="32" cy="13" rx="10.5" ry="5.5" transform="rotate(46 32 13)" stroke="currentColor" stroke-width="0.9"/></svg><span class="divider-line"></span></div></div>
+      <div class="section-inner">
+        <div class="reveal">
+          <p class="eyebrow">מסלול בנות</p>
+          <h2 class="section-title">המשחקים שלנו</h2>
+        </div>
+
+        <div class="reveal reveal--delayed game-grid">
+          <article class="game-card">
+            <figure class="game-card-media">
+              <img src="assets/game-screen-photofun.png" alt="מסך הפתיחה של המשחק צילום פאן" loading="lazy">
+            </figure>
+            <div class="game-card-body">
+              <span class="game-card-tag is-live">זמין עכשיו</span>
+              <h3 class="game-card-title">צילום פאן</h3>
+              <p class="game-card-desc">תרגול לוח הכפל בהשראת מצלמות רטרו — פריימים, פילטרים ומדבקות שנפתחות עם ההתקדמות. כולל שמירת התקדמות.</p>
+              <a href="games/photo-fun-math.html" class="btn btn--primary">לשחק עכשיו</a>
+            </div>
+          </article>
+
+          <article class="game-card">
+            <figure class="game-card-media">
+              <img src="assets/game-screen-glam.png" alt="מסך הפתיחה של המשחק GLAM MATH" loading="lazy">
+            </figure>
+            <div class="game-card-body">
+              <span class="game-card-tag is-live">זמין עכשיו</span>
+              <h3 class="game-card-title">GLAM MATH</h3>
+              <p class="game-card-desc">גוררים את התשובה הנכונה לשקע — כל שלב בלוח הכפל הוא גוון לק חדש שנוסף לאוסף.</p>
+              <a href="games/glam-math.html" class="btn btn--primary">לשחק עכשיו</a>
+            </div>
+          </article>
+        </div>
+
+        <p class="classes-phone-note">יש לכן רעיון למשחק? נשמח לשמוע: <a href="mailto:hello@pedagogi.example.co.il">hello@pedagogi.example.co.il</a></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="section-inner">
+      <p class="footer-name">פדגוגי · מסלול בנות</p>
+      <p class="footer-address">משחקי חשבון דיגיטליים לילדים · עם מנוע התאמה אישית</p>
+      <div class="footer-links">
+        <a href="index.html">חזרה לעמוד הבית</a>
+        <a href="boys.html">מסלול בנים</a>
+        <a href="mailto:hello@pedagogi.example.co.il">hello@pedagogi.example.co.il</a>
+      </div>
+      <p class="footer-credit">פדגוגי · נבנה כדי שכל ילדה תמצא את הסטייל שלה</p>
+    </div>
+  </footer>
+
+  <a
+    class="agent-launcher"
+    href="games/photo-fun-math.html"
+    aria-label="לשחק עכשיו בצילום פאן"
+  >
+    <img src="assets/brand-glyph.png" alt="" class="agent-launcher-glyph">
+  </a>
+
+  <script src="script.js"></script>
+</body>
+</html>

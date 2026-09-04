@@ -14,6 +14,9 @@
   --dawn-bright: #67e8f9;
   --ember: #f59e0b;
 
+  /* רקע ההדר תמיד כהה, בלי קשר למסלול - כדי שהחלקיקים יבלטו */
+  --hero-bg: #0b1220;
+
   /* נכתב ע"י JS: 0 בסוף נשיפה, 1 בשיא שאיפה */
   --breath: 0;
   /* נכתב ע"י JS לפי גלילה: 0 למעלה, 1 בהרשמה */
@@ -21,6 +24,23 @@
 
   --font-display: 'Rubik', 'Segoe UI', sans-serif;
   --font-body: 'Assistant', -apple-system, 'Segoe UI', Tahoma, sans-serif;
+}
+
+/* ---------------------------------------------
+   מסלול בנות - שפה חזותית "צילום פאן" / GLAM
+   רקע בהיר רב-גוני, ורוד וזהב, במקום הכחול-לילה הספורטיבי.
+   --------------------------------------------- */
+body[data-track="girls"] {
+  --night: #fef4fa;
+  --night-soft: #fdeef8;
+  --night-lift: #fce3f2;
+  --seam: #f6d3e8;
+  --ivory: #3a1f3d;
+  --ivory-dim: #8a5f80;
+  --dusk: #b98aa8;
+  --dawn: #ff2e9d;
+  --dawn-bright: #ff6fc0;
+  --ember: #d4af37;
 }
 
 * { box-sizing: border-box; }
@@ -141,6 +161,7 @@ a { color: inherit; text-decoration: none; }
   flex-direction: column;
   min-height: calc(100dvh - 6rem);
   overflow: hidden;
+  background: var(--hero-bg);
 }
 
 .hero-canvas-wrap {
@@ -602,6 +623,190 @@ a { color: inherit; text-decoration: none; }
 .classes-phone-note { margin-top: 1.5rem; color: var(--ivory-dim); }
 .classes-phone-note a { color: var(--dawn); text-decoration: underline; text-underline-offset: 4px; }
 
+/* ---------------- בחירת מסלול (בנים/בנות) ---------------- */
+
+.track-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 720px) {
+  .track-grid { grid-template-columns: 1fr 1fr; }
+}
+
+.track-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 1.5rem;
+  padding: 2rem 1.75rem;
+  border: 1px solid var(--seam);
+  background: color-mix(in srgb, var(--night-soft) 70%, transparent);
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.track-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px -20px rgba(0, 0, 0, 0.5);
+}
+
+.track-card-icon {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
+}
+
+.track-card--boys .track-card-icon { background: linear-gradient(135deg, #0ea5b8, #22d3ee); }
+.track-card--boys:hover { border-color: color-mix(in srgb, #22d3ee 55%, transparent); }
+.track-card--boys .track-card-cta { color: #22d3ee; }
+
+.track-card--girls .track-card-icon { background: linear-gradient(135deg, #ff2e9d, #d4af37); }
+.track-card--girls:hover { border-color: color-mix(in srgb, #ff2e9d 55%, transparent); }
+.track-card--girls .track-card-cta { color: #ff6fc0; }
+
+.track-card-title {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 800;
+  margin: 0 0 0.4rem;
+}
+
+.track-card-desc {
+  color: var(--ivory-dim);
+  font-size: 0.95rem;
+  margin: 0 0 1rem;
+}
+
+.track-card-games {
+  margin: 0 0 1.25rem;
+  padding: 0;
+  list-style: none;
+  font-size: 0.9rem;
+  color: var(--ivory-dim);
+}
+
+.track-card-games li { padding: 0.3rem 0; border-top: 1px solid var(--seam); }
+.track-card-games li:first-child { border-top: none; }
+.track-card-games .is-live { color: var(--ivory); font-weight: 600; }
+
+.track-card-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 700;
+}
+
+/* ---------------- עמודי מסלול (בנים/בנות) ---------------- */
+
+.track-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  max-width: 72rem;
+  margin: 0 auto;
+}
+
+.track-topbar-brand {
+  font-family: var(--font-display);
+  font-weight: 800;
+  color: var(--ivory);
+  text-decoration: none;
+  font-size: 1.05rem;
+}
+
+.track-topbar-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.track-topbar-links a {
+  color: var(--ivory-dim);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: color 0.2s;
+}
+
+.track-topbar-links a:hover,
+.track-topbar-links a.is-current { color: var(--dawn); }
+
+.game-grid {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: 1fr;
+  margin-top: 2rem;
+}
+
+@media (min-width: 760px) {
+  .game-grid { grid-template-columns: 1fr 1fr; }
+}
+
+.game-card {
+  border: 1px solid var(--seam);
+  border-radius: 1.5rem;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--night-soft) 70%, transparent);
+  display: flex;
+  flex-direction: column;
+}
+
+.game-card-media {
+  aspect-ratio: 3 / 4;
+  max-height: 24rem;
+  overflow: hidden;
+  background: linear-gradient(160deg, var(--night-lift) 0%, var(--night-soft) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.game-card-media img { width: 100%; height: 100%; object-fit: contain; object-position: center top; }
+
+.game-card-body {
+  padding: 1.5rem 1.5rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.game-card-tag {
+  display: inline-block;
+  align-self: flex-start;
+  border-radius: 999px;
+  padding: 0.2rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.game-card-tag.is-live { background: var(--dawn); color: var(--night); }
+.game-card-tag.is-soon { background: var(--seam); color: var(--ivory-dim); }
+
+.game-card-title {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin: 0 0 0.5rem;
+}
+
+.game-card-desc {
+  color: var(--ivory-dim);
+  font-size: 0.95rem;
+  margin: 0 0 1.25rem;
+  flex: 1;
+}
+
+.game-card.is-soon { opacity: 0.65; }
+
 /* ---------------- קבוצת הבוקר ---------------- */
 
 .group-lede {
@@ -990,7 +1195,7 @@ a { color: inherit; text-decoration: none; }
   justify-content: center;
   border-radius: 999px;
   border: 1px solid color-mix(in srgb, var(--dawn) 35%, transparent);
-  background: var(--night-lift);
+  background: var(--hero-bg);
   box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.75);
   transition: border-color 0.3s;
 }
