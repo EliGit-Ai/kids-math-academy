@@ -93,7 +93,7 @@
       boys: { IVORY: "238, 243, 248", DAWN: "34, 211, 238" },
       girls: { IVORY: "255, 235, 246", DAWN: "255, 46, 157" }
     };
-    var track = document.body.dataset.track || "boys";
+    var track = document.documentElement.dataset.track || "boys";
     var dustColors = TRACK_DUST_COLORS[track] || TRACK_DUST_COLORS.boys;
     var IVORY = dustColors.IVORY;
     var DAWN = dustColors.DAWN;

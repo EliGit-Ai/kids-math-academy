@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1220">
+  <title>תמיכה · פדגוגי</title>
+  <script>
+    document.documentElement.dataset.track = new URLSearchParams(location.search).get("track") === "girls" ? "girls" : "boys";
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800;900&family=Assistant:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="track-topbar" aria-label="ניווט עליון">
+    <a href="index.html" class="track-topbar-brand">פדגוגי</a>
+    <div class="track-topbar-links">
+      <a href="boys.html" id="back-link">← חזרה למסלול</a>
+    </div>
+  </nav>
+
+  <main class="support-page">
+
+    <section class="support-card" id="step-amount">
+      <p class="eyebrow">רגע לפני שמתחילים</p>
+      <h1 class="section-title">תומכים בנו במשחק?</h1>
+      <p class="support-lede">הצוות שלנו בונה ומתחזק את המשחקים האלה. טיפ קטן — בעלות של כוס קפה — עוזר לנו להמשיך וליצור עוד.</p>
+
+      <div class="support-amounts">
+        <button type="button" class="btn btn--quiet support-amount-btn" data-amount="14">☕ 14 ₪</button>
+        <button type="button" class="btn btn--primary support-amount-btn is-popular" data-amount="21">
+          <span class="support-amount-tag">הכי פופולרי</span>
+          ☕🥐 21 ₪
+        </button>
+        <button type="button" class="btn btn--quiet support-amount-btn" data-amount="28">🎁 28 ₪</button>
+        <button type="button" class="btn btn--quiet support-amount-btn" data-amount="other">סכום אחר</button>
+      </div>
+
+      <p class="support-note">המשחקים חינמיים — הטיפ הוא רק דרך להגיד תודה ולעזור לנו להמשיך ליצור.</p>
+    </section>
+
+    <section class="support-card" id="step-games" hidden>
+      <p class="eyebrow">תודה! 🎉</p>
+      <h1 class="section-title">עכשיו בחרו משחק</h1>
+      <div class="game-grid" id="games-picker"></div>
+    </section>
+
+  </main>
+
+  <script>
+    var GAMES_BY_TRACK = {
+      boys: [
+        {
+          title: "גולים בלוח הכפל",
+          desc: "תרגול אדפטיבי של לוח הכפל, בעיצוב ליגת כדורגל.",
+          img: "assets/game-screen-onboarding.png",
+          href: "games/goals-multiplication-table.html"
+        }
+      ],
+      girls: [
+        {
+          title: "צילום פאן",
+          desc: "תרגול לוח הכפל בהשראת מצלמות רטרו, עם שמירת התקדמות.",
+          img: "assets/game-screen-photofun.png",
+          href: "games/photo-fun-math.html"
+        },
+        {
+          title: "GLAM MATH",
+          desc: "גוררים את התשובה הנכונה לשקע — כל שלב הוא גוון לק חדש.",
+          img: "assets/game-screen-glam.png",
+          href: "games/glam-math.html"
+        }
+      ]
+    };
+
+    (function () {
+      var track = document.documentElement.dataset.track;
+      document.getElementById("back-link").setAttribute("href", track + ".html");
+      document.getElementById("back-link").textContent = "← חזרה למסלול ה" + (track === "girls" ? "בנות" : "בנים");
+
+      var picker = document.getElementById("games-picker");
+      GAMES_BY_TRACK[track].forEach(function (game) {
+        var card = document.createElement("article");
+        card.className = "game-card";
+        card.innerHTML =
+          '<figure class="game-card-media"><img src="' + game.img + '" alt="מסך הפתיחה של המשחק ' + game.title + '" loading="lazy"></figure>' +
+          '<div class="game-card-body">' +
+            '<h3 class="game-card-title">' + game.title + "</h3>" +
+            '<p class="game-card-desc">' + game.desc + "</p>" +
+            '<a href="' + game.href + '" class="btn btn--primary">לשחק עכשיו</a>' +
+          "</div>";
+        picker.appendChild(card);
+      });
+
+      // שלב התמיכה: כרגע ללא חיבור תשלום אמיתי — לחיצה על סכום פותחת את בחירת המשחק.
+      // TODO: לחבר לספק תשלום אמיתי כשיוחלט על אחד.
+      document.querySelectorAll(".support-amount-btn").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          document.getElementById("step-amount").hidden = true;
+          document.getElementById("step-games").hidden = false;
+          document.getElementById("step-games").scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+      });
+    })();
+  </script>
+
+  <script src="script.js"></script>
+</body>
+</html>
