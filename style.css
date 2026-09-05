@@ -14,8 +14,8 @@
   --dawn-bright: #e2600f;
   --ember: #c2703f;
 
-  /* רקע ההדר קבוע בכל מסלול - חום חם ולא-שחור, כהה מספיק כדי שהחלקיקים יבלטו */
-  --hero-bg: #6b4a2e;
+  /* רקע ההדר קבוע בכל מסלול - בהיר וחם, עם חלקיקים וטקסט כהים במקום בהירים */
+  --hero-bg: #f0dcb8;
 
   /* נכתב ע"י JS: 0 בסוף נשיפה, 1 בשיא שאיפה */
   --breath: 0;
@@ -156,13 +156,7 @@ a { color: inherit; text-decoration: none; }
 /* ---------------- כותרת ---------------- */
 
 .hero {
-  /* טקסט ההדר תמיד בהיר על רקע חם, בלי קשר למסלול - כדי שיישאר קריא על גבי --hero-bg הכהה */
-  --ivory: #f5ead8;
-  --ivory-dim: #cbb08c;
-  --dusk: #a9845f;
-  --dawn: #e2a45c;
-  --dawn-bright: #eebd7e;
-
+  /* רקע ההדר בהיר עכשיו, אז הטקסט פשוט משתמש בצבעי הטקסט הרגילים של המסלול (כהים ומותאמים לרקע בהיר) */
   position: relative;
   display: flex;
   flex-direction: column;
@@ -1262,7 +1256,8 @@ a { color: inherit; text-decoration: none; }
   justify-content: center;
   border-radius: 999px;
   border: 1px solid color-mix(in srgb, var(--dawn) 35%, transparent);
-  background: var(--hero-bg);
+  /* צבע קבוע וכהה, בלי קשר לרקע ההדר - כדי שהסמל הלבן תמיד יבלוט */
+  background: #3a2818;
   box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.75);
   transition: border-color 0.3s;
 }
