@@ -90,7 +90,7 @@
     if (!ctx) return;
 
     var TRACK_DUST_COLORS = {
-      boys: { IVORY: "51, 34, 15", DAWN: "194, 65, 12" },
+      boys: { IVORY: "20, 83, 45", DAWN: "16, 185, 129" },
       girls: { IVORY: "58, 31, 61", DAWN: "255, 46, 157" }
     };
     var track = document.documentElement.dataset.track || "boys";

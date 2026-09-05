@@ -1,18 +1,19 @@
 /* ---------------------------------------------
    פדגוגי — שפה חזותית "מגרש הלמידה"
-   רקע חם ובהיר (קרם/חול), עם שקיעה כתומה-ענברית לפעולות ולתגמולים.
+   רקע מנטה בהיר של מגרש דשא, עם ירוק-יער לטקסט וירוק-אזמרגד לפעולות
+   (תואם לצבעי המשחק "גולים בלוח הכפל").
    --------------------------------------------- */
 :root {
-  --night: #fbf0e0;
-  --night-soft: #f7e6cd;
-  --night-lift: #f1d9b5;
-  --seam: #e6c48f;
-  --ivory: #33220f;
-  --ivory-dim: #7a5c3c;
-  --dusk: #a9865c;
-  --dawn: #c2410c;
-  --dawn-bright: #e2600f;
-  --ember: #c2703f;
+  --night: #eefdf6;
+  --night-soft: #e3f8ec;
+  --night-lift: #d3f0e0;
+  --seam: #a5f3d0;
+  --ivory: #14532d;
+  --ivory-dim: #4f6b58;
+  --dusk: #8aa88f;
+  --dawn: #047857;
+  --dawn-bright: #10b981;
+  --ember: #2e8b57;
 
   /* רקע ההדר קבוע בכל מסלול - בהיר וחם, עם חלקיקים וטקסט כהים במקום בהירים */
   --hero-bg: #f0dcb8;
@@ -663,9 +664,9 @@ a { color: inherit; text-decoration: none; }
   margin-bottom: 1rem;
 }
 
-.track-card--boys .track-card-icon { background: linear-gradient(135deg, #c2703f, #c2410c); }
-.track-card--boys:hover { border-color: color-mix(in srgb, #c2410c 55%, transparent); }
-.track-card--boys .track-card-cta { color: #c2410c; }
+.track-card--boys .track-card-icon { background: linear-gradient(135deg, #059669, #10b981); }
+.track-card--boys:hover { border-color: color-mix(in srgb, #047857 55%, transparent); }
+.track-card--boys .track-card-cta { color: #047857; }
 
 .track-card--girls .track-card-icon { background: linear-gradient(135deg, #ff2e9d, #d4af37); }
 .track-card--girls:hover { border-color: color-mix(in srgb, #ff2e9d 55%, transparent); }
