@@ -1,22 +1,21 @@
 /* ---------------------------------------------
    פדגוגי — שפה חזותית "מגרש הלמידה"
-   רקע מנטה בהיר של מגרש דשא, עם ירוק-יער לטקסט וירוק-אזמרגד לפעולות
-   (תואם לצבעי המשחק "גולים בלוח הכפל").
+   כחול-לילה עמוק של מגרש בערב, טורקיז חשמלי וענבר לפעולות ולתגמולים.
    --------------------------------------------- */
 :root {
-  --night: #eefdf6;
-  --night-soft: #e3f8ec;
-  --night-lift: #d3f0e0;
-  --seam: #a5f3d0;
-  --ivory: #14532d;
-  --ivory-dim: #4f6b58;
-  --dusk: #8aa88f;
-  --dawn: #047857;
-  --dawn-bright: #10b981;
-  --ember: #2e8b57;
+  --night: #0b1220;
+  --night-soft: #0f1b30;
+  --night-lift: #16233d;
+  --seam: #22344e;
+  --ivory: #eef3f8;
+  --ivory-dim: #9db0c8;
+  --dusk: #6c81a0;
+  --dawn: #22d3ee;
+  --dawn-bright: #67e8f9;
+  --ember: #f59e0b;
 
-  /* רקע ההדר קבוע בכל מסלול - בהיר וחם, עם חלקיקים וטקסט כהים במקום בהירים */
-  --hero-bg: #f0dcb8;
+  /* רקע ההדר תמיד כהה, בלי קשר למסלול - כדי שהחלקיקים יבלטו */
+  --hero-bg: #0b1220;
 
   /* נכתב ע"י JS: 0 בסוף נשיפה, 1 בשיא שאיפה */
   --breath: 0;
@@ -157,7 +156,6 @@ a { color: inherit; text-decoration: none; }
 /* ---------------- כותרת ---------------- */
 
 .hero {
-  /* רקע ההדר בהיר עכשיו, אז הטקסט פשוט משתמש בצבעי הטקסט הרגילים של המסלול (כהים ומותאמים לרקע בהיר) */
   position: relative;
   display: flex;
   flex-direction: column;
@@ -664,9 +662,9 @@ a { color: inherit; text-decoration: none; }
   margin-bottom: 1rem;
 }
 
-.track-card--boys .track-card-icon { background: linear-gradient(135deg, #059669, #10b981); }
-.track-card--boys:hover { border-color: color-mix(in srgb, #047857 55%, transparent); }
-.track-card--boys .track-card-cta { color: #047857; }
+.track-card--boys .track-card-icon { background: linear-gradient(135deg, #0ea5b8, #22d3ee); }
+.track-card--boys:hover { border-color: color-mix(in srgb, #22d3ee 55%, transparent); }
+.track-card--boys .track-card-cta { color: #22d3ee; }
 
 .track-card--girls .track-card-icon { background: linear-gradient(135deg, #ff2e9d, #d4af37); }
 .track-card--girls:hover { border-color: color-mix(in srgb, #ff2e9d 55%, transparent); }
@@ -1257,8 +1255,7 @@ a { color: inherit; text-decoration: none; }
   justify-content: center;
   border-radius: 999px;
   border: 1px solid color-mix(in srgb, var(--dawn) 35%, transparent);
-  /* צבע קבוע וכהה, בלי קשר לרקע ההדר - כדי שהסמל הלבן תמיד יבלוט */
-  background: #3a2818;
+  background: var(--hero-bg);
   box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.75);
   transition: border-color 0.3s;
 }
