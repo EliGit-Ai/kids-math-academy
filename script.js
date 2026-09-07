@@ -82,8 +82,146 @@
     requestAnimationFrame(tick);
   })();
 
-  /* ---------------- שדה הלוגו — קנבס חלקיקים מהגליף האמיתי ---------------- */
+  /* ---------------- מפת הביטחון במספרים ---------------- */
+  (function confidenceMap() {
+    if (document.documentElement.dataset.heroAnimation !== "confidence-map") return;
+
+    var canvas = document.getElementById("hero-canvas");
+    if (!canvas) return;
+    var ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    var track = document.documentElement.dataset.track || "boys";
+    var palette = track === "girls"
+      ? { dawn: "255, 46, 157", bright: "255, 111, 192", ivory: "255, 235, 246" }
+      : { dawn: "34, 211, 238", bright: "103, 232, 249", ivory: "238, 243, 248" };
+    var nodes = [
+      { x: 0.12, y: 0.72, value: "2", label: "מתחילים" },
+      { x: 0.28, y: 0.56, value: "5", label: "מתנסים" },
+      { x: 0.45, y: 0.66, value: "10", label: "מגלים" },
+      { x: 0.61, y: 0.43, value: "24", label: "מתרגלים" },
+      { x: 0.78, y: 0.51, value: "42", label: "מבינים" },
+      { x: 0.88, y: 0.28, value: "✦", label: "ביטחון" }
+    ];
+    var width = 0, height = 0, dpr = 1, pointer = null, onScreen = true;
+
+    function resize() {
+      var rect = canvas.getBoundingClientRect();
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      width = rect.width;
+      height = rect.height;
+      canvas.width = Math.round(width * dpr);
+      canvas.height = Math.round(height * dpr);
+    }
+
+    function point(node) {
+      return { x: node.x * width, y: node.y * height };
+    }
+
+    function closestNode() {
+      if (!pointer) return -1;
+      var best = -1, bestDistance = Infinity;
+      nodes.forEach(function (node, index) {
+        var p = point(node);
+        var distance = Math.hypot(pointer.x - p.x, pointer.y - p.y);
+        if (distance < bestDistance) { bestDistance = distance; best = index; }
+      });
+      return bestDistance < Math.min(width, height) * 0.22 ? best : -1;
+    }
+
+    function drawPath(now, active) {
+      if (nodes.length < 2) return;
+      var progress = reducedMotion ? 1 : 0.58 + Math.sin(now * 0.00055) * 0.12;
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      for (var i = 0; i < nodes.length - 1; i++) {
+        var from = point(nodes[i]);
+        var to = point(nodes[i + 1]);
+        var emphasis = active === i || active === i + 1;
+        var gradient = ctx.createLinearGradient(from.x, from.y, to.x, to.y);
+        gradient.addColorStop(0, "rgba(" + palette.dawn + "," + (emphasis ? 0.8 : 0.26) + ")");
+        gradient.addColorStop(1, "rgba(" + palette.bright + "," + (emphasis ? 0.9 : 0.36) + ")");
+        ctx.strokeStyle = gradient;
+        ctx.lineWidth = emphasis ? 2.4 : 1.15;
+        ctx.beginPath();
+        ctx.moveTo(from.x, from.y);
+        ctx.quadraticCurveTo((from.x + to.x) / 2, Math.min(from.y, to.y) - height * 0.075, to.x, to.y);
+        ctx.stroke();
+
+        var traveller = Math.max(0, Math.min(1, progress - i * 0.08));
+        if (traveller > 0 && !reducedMotion) {
+          var tx = from.x + (to.x - from.x) * traveller;
+          var ty = from.y + (to.y - from.y) * traveller;
+          ctx.beginPath();
+          ctx.arc(tx, ty, 2.5, 0, Math.PI * 2);
+          ctx.fillStyle = "rgba(" + palette.ivory + ",0.92)";
+          ctx.fill();
+        }
+      }
+    }
+
+    function drawNode(node, index, now, active) {
+      var p = point(node);
+      var selected = index === active;
+      var pulse = reducedMotion ? 0 : (Math.sin(now * 0.0013 + index * 0.9) + 1) / 2;
+      var radius = Math.max(22, Math.min(width, height) * 0.075) + (selected ? 5 : 0);
+
+      var glow = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, radius * 2.8);
+      glow.addColorStop(0, "rgba(" + palette.dawn + "," + (selected ? 0.36 : 0.17 + pulse * 0.06) + ")");
+      glow.addColorStop(1, "rgba(" + palette.dawn + ",0)");
+      ctx.fillStyle = glow;
+      ctx.fillRect(p.x - radius * 3, p.y - radius * 3, radius * 6, radius * 6);
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, radius, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(11, 18, 32, 0.82)";
+      ctx.fill();
+      ctx.strokeStyle = "rgba(" + palette.dawn + "," + (selected ? 1 : 0.68) + ")";
+      ctx.lineWidth = selected ? 2.2 : 1.15;
+      ctx.stroke();
+
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillStyle = "rgb(" + palette.ivory + ")";
+      ctx.font = "700 " + Math.round(radius * 0.78) + "px Rubik, sans-serif";
+      ctx.fillText(node.value, p.x, p.y + 1);
+
+      ctx.textBaseline = "top";
+      ctx.fillStyle = "rgba(" + palette.ivory + "," + (selected ? 1 : 0.72) + ")";
+      ctx.font = "600 13px Assistant, sans-serif";
+      ctx.fillText(node.label, p.x, p.y + radius + 10);
+    }
+
+    function draw(now) {
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, width, height);
+      if (!width || !height) return;
+
+      var active = closestNode();
+      if (active < 0 && !reducedMotion) active = Math.floor((now % 12000) / 2000);
+      drawPath(now, active);
+      nodes.forEach(function (node, index) { drawNode(node, index, now, active); });
+    }
+
+    resize();
+    new ResizeObserver(function () { resize(); draw(performance.now()); }).observe(canvas);
+    window.addEventListener("pointermove", function (event) {
+      var rect = canvas.getBoundingClientRect();
+      pointer = { x: event.clientX - rect.left, y: event.clientY - rect.top };
+    }, { passive: true });
+    window.addEventListener("pointerleave", function () { pointer = null; });
+    new IntersectionObserver(function (entries) { onScreen = entries[0].isIntersecting; }).observe(canvas);
+
+    if (reducedMotion) { draw(0); return; }
+    (function loop(now) {
+      if (onScreen) draw(now);
+      requestAnimationFrame(loop);
+    })(performance.now());
+  })();
+
+  /* ---------------- שדה הלוגו — אפקט קודם (אפשר להחזיר דרך data-hero-animation) ---------------- */
   (function logoField() {
+    if (document.documentElement.dataset.heroAnimation === "confidence-map") return;
     var canvas = document.getElementById("hero-canvas");
     if (!canvas) return;
     var ctx = canvas.getContext("2d");
