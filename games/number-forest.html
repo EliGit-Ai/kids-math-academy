@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>יער המספרים</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Arial,"Noto Sans Hebrew",sans-serif}
+body{background:linear-gradient(#afe7ff 0 58%,#bce98d 58%);color:#254237;overflow-x:hidden}
+button{font:inherit;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.world{min-height:100vh;padding:10px;display:grid;place-items:center;position:relative}
+.sun{position:fixed;left:5%;top:6%;width:82px;height:82px;background:#ffe46d;border-radius:50%;box-shadow:0 0 0 16px #ffe46d38}
+.cloud{position:fixed;right:7%;top:9%;width:130px;height:38px;background:#fff;border-radius:50px;opacity:.82}
+.cloud:before,.cloud:after{content:"";position:absolute;background:#fff;border-radius:50%}
+.cloud:before{width:62px;height:62px;right:15px;top:-31px}.cloud:after{width:54px;height:54px;left:18px;top:-25px}
+.panel{position:relative;z-index:2;width:min(930px,100%);background:#fffdf2ef;border:5px solid #fff;border-radius:36px;box-shadow:0 20px 48px #355d4930;padding:clamp(14px,3vw,28px);text-align:center}
+.screen{display:none}.screen.on{display:block}.top{display:flex;justify-content:space-between;align-items:center}
+.round{width:54px;height:54px;border:0;border-radius:19px;background:#fff;box-shadow:0 7px 18px #365b4b20;font-size:27px;cursor:pointer}
+.fox{font-size:58px;animation:bob 2s ease-in-out infinite}@keyframes bob{50%{transform:translateY(-6px)}}
+h1{font-size:clamp(38px,8vw,70px);line-height:1;margin:8px 0}.subtitle{font-size:clamp(19px,3vw,25px);font-weight:800;color:#557467;margin:0 0 22px}
+.modes,.levels{display:flex;justify-content:center;gap:16px;flex-wrap:wrap}.mode{width:min(260px,45%);min-width:145px;border:0;border-bottom:7px solid #c8d9cd;border-radius:29px;padding:18px 12px;background:#fff;box-shadow:0 9px 20px #365b4b20;cursor:pointer}
+.mode:active,.level:active,.ans:active,.next:active{transform:translateY(4px);border-bottom-width:3px}
+.mode span{display:block;font-size:58px}.mode b{font-size:27px}.addMode{background:#eaf8ff}.subMode{background:#edfbea}
+.level{border:0;border-bottom:7px solid #cbdcc0;border-radius:27px;background:#f4ffe8;padding:19px 28px;font-size:29px;font-weight:900;color:#31533e;cursor:pointer}
+.problem{direction:ltr;font-size:clamp(52px,10vw,88px);font-weight:900;line-height:1;margin:3px 0}.hint{font-size:clamp(18px,3vw,23px);font-weight:900;color:#547364;margin:7px 0 12px}
+.scene{position:relative;min-height:285px;border-radius:30px;border:4px solid #fff;box-shadow:inset 0 0 0 2px #b8ddce;overflow:hidden}
+.addScene{background:linear-gradient(#d9f5ff 0 63%,#9fda6d 63%);display:grid;grid-template-columns:1fr 210px 1fr;gap:10px;align-items:center;padding:17px}
+.appleZone{min-height:220px;display:flex;align-items:center;align-content:center;justify-content:center;flex-wrap:wrap;gap:7px}
+.apple{font-size:52px;cursor:pointer;user-select:none;transition:.18s;filter:drop-shadow(0 4px 2px #0002)}.apple.used{opacity:.08;transform:scale(.45);pointer-events:none}
+.basket{position:relative;align-self:end;min-height:155px;border:5px dashed #b87b3c;border-radius:28px 28px 50px 50px;background:#f6c66c99;display:flex;justify-content:center;align-content:flex-end;align-items:flex-end;flex-wrap:wrap;padding:50px 10px 12px;gap:1px}
+.basket:before{content:"";position:absolute;left:12%;right:12%;bottom:10px;height:82px;background:repeating-linear-gradient(45deg,#c9873f 0 8px,#e6ad60 8px 16px);border:5px solid #9f642d;border-radius:12px 12px 38px 38px;box-shadow:inset 0 8px 0 #f3c67d;z-index:0}
+.basket:after{content:"";position:absolute;left:25%;right:25%;bottom:72px;height:54px;border:7px solid #a96d32;border-bottom:0;border-radius:55px 55px 0 0;z-index:0}
+.count{position:absolute;top:6px;left:50%;transform:translateX(-50%);z-index:4;background:#fff;border-radius:999px;padding:4px 12px;font-size:22px;font-weight:900}.inside{font-size:31px;z-index:3;transform:translateY(-3px)}
+.fly{position:fixed;z-index:30;pointer-events:none;font-size:52px;transition:left .48s cubic-bezier(.2,.8,.3,1),top .48s cubic-bezier(.2,.8,.3,1),transform .48s ease}
+.subScene{background:linear-gradient(#bfeaff 0 69%,#55b9db 69%);padding:15px 16px 54px;display:flex;justify-content:center;align-items:center;align-content:center;flex-wrap:wrap;gap:14px}
+.lily{position:relative;width:112px;height:78px;border-radius:50%;background:#69bf58;box-shadow:inset -10px -8px 0 #4ba443,0 6px 0 #358d7b;display:grid;place-items:center;cursor:pointer;transition:.22s}
+.lily:after{content:"";position:absolute;right:-2px;top:28px;border-left:34px solid #bfeaff;border-top:16px solid transparent;border-bottom:16px solid transparent}
+.frog{position:relative;z-index:2;font-size:55px;filter:drop-shadow(0 4px 2px #0002);transition:.2s}.lily.gone .frog{opacity:0;transform:translateY(120px) rotate(25deg)}.lily.gone{pointer-events:none}
+.water{position:absolute;left:0;right:0;bottom:0;height:31%;background:#55b9db}.ripple{position:absolute;border:4px solid #d9f8ff;border-radius:50%;width:30px;height:12px;z-index:5;animation:ripple .65s ease-out forwards}@keyframes ripple{to{transform:scale(3);opacity:0}}
+.progress{position:absolute;top:10px;left:50%;transform:translateX(-50%);background:#fff;border-radius:999px;padding:6px 14px;font-size:20px;font-weight:900;z-index:8}
+.answers{display:none;justify-content:center;gap:10px;margin-top:13px}.answers.on{display:flex}.ans{width:29%;max-width:165px;min-height:72px;border:0;border-bottom:7px solid #b9cddd;border-radius:23px;background:#fff;font-size:38px;font-weight:900;color:#29485b;box-shadow:0 7px 17px #355d4920;cursor:pointer}
+.feedback{min-height:43px;font-size:25px;font-weight:900;padding-top:8px}.next{display:none;border:0;border-bottom:6px solid #329c78;background:#5dd5aa;color:#173f32;border-radius:22px;padding:12px 27px;font-size:22px;font-weight:900;cursor:pointer}.next.on{display:inline-block}
+.stars{position:fixed;inset:0;pointer-events:none;z-index:40}.star{position:absolute;font-size:32px;animation:star 1s ease-out forwards}@keyframes star{to{transform:translateY(-150px) rotate(160deg);opacity:0}}
+@media(max-width:680px){.panel{padding:10px 7px;border-radius:26px}.addScene{grid-template-columns:1fr 125px 1fr;gap:3px;padding:8px;min-height:240px}.appleZone{min-height:180px}.apple{font-size:40px}.basket{min-height:125px;padding:43px 4px 8px}.basket:before{height:65px}.inside{font-size:25px}.scene{min-height:240px}.subScene{gap:8px;padding:35px 8px 48px}.lily{width:78px;height:58px}.frog{font-size:43px}.lily:after{border-left-width:24px;border-top-width:12px;border-bottom-width:12px;top:21px}.round{width:46px;height:46px}.fox{font-size:46px}.mode span{font-size:48px}.mode b{font-size:23px}}
+
+/* V11 — עולם חזותי שונה לכל קטגוריה */
+.addScene{transition:background .45s ease,box-shadow .45s ease}
+.addScene:before,.addScene:after{position:absolute;pointer-events:none;z-index:0}
+.addScene .appleZone,.addScene .basket{position:relative;z-index:2}
+
+/* מטע תפוחים */
+.theme-apples{background:linear-gradient(#bfeaff 0 58%,#8fd160 58%)}
+.theme-apples:before{content:"☁️";font-size:58px;top:18px;left:10%}
+.theme-apples:after{content:"🌳";font-size:120px;bottom:15px;right:2%;opacity:.55}
+
+/* שמי לילה וכוכבים */
+.theme-stars{background:linear-gradient(#243b73 0%,#5267a8 72%,#7367a8 100%);box-shadow:inset 0 0 45px #111b4c}
+.theme-stars:before{content:"🌙";font-size:58px;top:14px;left:7%}
+.theme-stars:after{content:"☁️";font-size:54px;top:30px;right:8%;opacity:.28}
+.theme-stars .basket{background:#6b63a899;border-color:#e9dd88}.theme-stars .count{color:#243b73}
+
+/* גינת פרחים */
+.theme-flowers{background:linear-gradient(#d9f6ff 0 55%,#a6dc79 55%)}
+.theme-flowers:before{content:"🦋";font-size:48px;top:24px;left:12%;animation:bob 2s ease-in-out infinite}
+.theme-flowers:after{content:"🌿🌱🌿🌱🌿";font-size:45px;bottom:0;left:4%;right:4%;letter-spacing:12px}
+
+/* שוק פירות */
+.theme-fruit{background:linear-gradient(#ffe9bd 0 66%,#e8b86c 66%);box-shadow:inset 0 0 40px #d78d4930}
+.theme-fruit:before{content:"☀️";font-size:54px;top:17px;left:8%}
+.theme-fruit:after{content:"🏪";font-size:105px;bottom:5px;right:2%;opacity:.48}
+
+/* חצר החיות */
+.theme-animals{background:linear-gradient(#c9efff 0 55%,#8bd36b 55%)}
+.theme-animals:before{content:"☁️";font-size:62px;top:15px;right:10%}
+.theme-animals:after{content:"🏡  🌳";font-size:92px;bottom:4px;left:2%;opacity:.55}
+
+/* קרקס הבלונים */
+.theme-balloons{background:linear-gradient(#c8eaff 0 65%,#f7d982 65%)}
+.theme-balloons:before{content:"☁️  ☀️";font-size:52px;top:18px;left:7%}
+.theme-balloons:after{content:"🎪";font-size:115px;bottom:0;right:3%;opacity:.58}
+
+/* מרכז האיסוף מקבל אופי לפי העולם */
+.theme-stars .basket:before{background:repeating-linear-gradient(45deg,#5e63a8 0 8px,#8d87d8 8px 16px);border-color:#e8dd8b}
+.theme-flowers .basket:before{background:repeating-linear-gradient(45deg,#8fbd67 0 8px,#b8dd87 8px 16px);border-color:#628d49}
+.theme-fruit .basket:before{background:repeating-linear-gradient(45deg,#bd7435 0 8px,#e3a252 8px 16px)}
+.theme-animals .basket:before{background:repeating-linear-gradient(45deg,#78a85c 0 8px,#a8cf78 8px 16px);border-color:#537c43}
+.theme-balloons .basket:before{background:repeating-linear-gradient(45deg,#e7657e 0 8px,#f5a064 8px 16px);border-color:#bd5268}
+
+
+/* V13: לכל קטגוריה עולם + יעד + קונספט שונים */
+.addScene.v13world{display:grid;grid-template-columns:1fr 210px 1fr;gap:10px;align-items:center;padding:17px}
+.v13world .collectTarget{position:relative;align-self:end;min-height:155px;display:flex;justify-content:center;align-content:flex-end;align-items:flex-end;flex-wrap:wrap;padding:55px 10px 12px;gap:1px;z-index:2}
+.v13world .collectTarget .count{top:3px}
+.v13world .collectTarget .inside{font-size:30px;z-index:4}
+
+/* תפוחים — מטע וסל */
+.world-apples{background:linear-gradient(#bdeaff 0 57%,#84cb5e 57%)}
+.world-apples:before{content:"🌳";font-size:125px;bottom:0;right:0;opacity:.5}
+.target-apples{border:5px dashed #b87b3c;border-radius:28px 28px 50px 50px;background:#f6c66c99}
+.target-apples:before{content:"🧺";position:absolute;font-size:105px;bottom:0;z-index:0}
+
+/* כוכבים — חלל, מכניסים לחללית */
+.world-stars{background:radial-gradient(circle at 18% 20%,#5868a8 0 2%,transparent 2.2%),linear-gradient(#101a46,#273b78 70%,#172650)}
+.world-stars:before{content:"🌙";font-size:65px;top:18px;left:8%}
+.world-stars:after{content:"🪐";font-size:72px;bottom:18px;right:5%;opacity:.8}
+.target-stars{background:transparent;border:0}
+.target-stars:before{content:"🚀";position:absolute;font-size:125px;bottom:0;z-index:0}
+.world-stars .appleZone{background:#ffffff10;border-radius:25px}.world-stars .count{color:#233a72}
+
+/* פרחים — גינה, מכניסים לעציץ */
+.world-flowers{background:linear-gradient(#d8f4ff 0 48%,#b5e990 48% 70%,#72bd57 70%)}
+.world-flowers:before{content:"🦋";font-size:48px;top:20px;left:12%}
+.world-flowers:after{content:"🌳";font-size:105px;bottom:0;right:1%;opacity:.45}
+.target-flowers{background:transparent;border:0}
+.target-flowers:before{content:"🪴";position:absolute;font-size:125px;bottom:-4px;z-index:0}
+
+/* פירות — דוכן שוק, מכניסים לארגז */
+.world-fruit{background:linear-gradient(#ffe7b5 0 58%,#d79c57 58%);box-shadow:inset 0 35px 0 #f4b95f}
+.world-fruit:before{content:"🏪";font-size:115px;top:12px;right:2%;opacity:.45}
+.world-fruit:after{content:"☀️";font-size:58px;top:22px;left:8%}
+.target-fruit{background:transparent;border:0}
+.target-fruit:before{content:"📦";position:absolute;font-size:120px;bottom:0;z-index:0}
+
+/* חיות — חווה, מביאים לאסם */
+.world-animals{background:linear-gradient(#c9efff 0 53%,#8bd36b 53%)}
+.world-animals:before{content:"🌳";font-size:105px;bottom:0;left:1%;opacity:.55}
+.world-animals:after{content:"☁️";font-size:60px;top:20px;right:8%;opacity:.75}
+.target-animals{background:transparent;border:0}
+.target-animals:before{content:"🏠";position:absolute;font-size:125px;bottom:0;z-index:0}
+
+/* בלונים — יריד/קרקס, קושרים לאוהל */
+.world-balloons{background:linear-gradient(#9fdcff 0 66%,#f1cf73 66%)}
+.world-balloons:before{content:"🎡";font-size:105px;bottom:0;left:0;opacity:.52}
+.world-balloons:after{content:"☀️";font-size:58px;top:18px;right:7%}
+.target-balloons{background:transparent;border:0}
+.target-balloons:before{content:"🎪";position:absolute;font-size:125px;bottom:0;z-index:0}
+
+@media(max-width:680px){
+ .addScene.v13world{grid-template-columns:1fr 125px 1fr;gap:3px;padding:8px}
+ .v13world .collectTarget{min-height:125px;padding:45px 3px 8px}
+ .target-apples:before,.target-stars:before,.target-flowers:before,.target-fruit:before,.target-animals:before,.target-balloons:before{font-size:82px}
+ .v13world .collectTarget .inside{font-size:24px}
+}
+
+
+/* V16 — מסך משחק קבוע ללא גלילה */
+body.in-game{height:100dvh;overflow:hidden}
+body.in-game .world{height:100dvh;min-height:0;padding:5px;overflow:hidden}
+body.in-game .panel{height:calc(100dvh - 10px);max-height:calc(100dvh - 10px);display:flex;flex-direction:column;overflow:hidden;padding:8px}
+body.in-game #gameScreen.on{display:flex;flex-direction:column;min-height:0;height:100%}
+body.in-game #gameScreen .top{flex:0 0 auto}
+body.in-game .problem{font-size:clamp(42px,7vh,72px);margin:1px 0}
+body.in-game .hint{font-size:clamp(16px,2.5vh,21px);margin:3px 0 6px}
+body.in-game .scene{flex:1 1 auto;min-height:0;height:auto;margin:0}
+body.in-game .answers{flex:0 0 auto;margin-top:6px}
+body.in-game .feedback{flex:0 0 auto;min-height:32px;padding-top:3px;font-size:21px}
+
+/* במספרים גדולים מקטינים אובייקטים ומסדרים אותם כרשת צפופה */
+body.large-level .addScene.v13world{grid-template-columns:minmax(0,1fr) 120px minmax(0,1fr);gap:4px;padding:7px}
+body.large-level .appleZone{min-height:0;height:100%;align-content:center;gap:2px;padding:2px;overflow:hidden}
+body.large-level .apple{font-size:clamp(24px,4.2vh,36px);line-height:1}
+body.large-level .v13world .collectTarget{min-height:100px;padding:38px 2px 5px}
+body.large-level .target-apples:before,
+body.large-level .target-stars:before,
+body.large-level .target-flowers:before,
+body.large-level .target-fruit:before,
+body.large-level .target-animals:before,
+body.large-level .target-balloons:before{font-size:68px}
+body.large-level .v13world .collectTarget .inside{font-size:18px}
+body.large-level .count{font-size:17px;padding:2px 8px}
+
+/* חיסור במספרים גדולים */
+body.large-level .subScene{gap:4px;padding:28px 5px 32px;align-content:center}
+body.large-level .lily{width:55px;height:42px}
+body.large-level .frog{font-size:31px}
+body.large-level .lily:after{border-left-width:17px;border-top-width:8px;border-bottom-width:8px;top:15px}
+
+@media(max-width:680px){
+ body.in-game .round{width:40px;height:40px;font-size:22px;border-radius:14px}
+ body.in-game .fox{font-size:37px}
+ body.large-level .addScene.v13world{grid-template-columns:minmax(0,1fr) 90px minmax(0,1fr)}
+ body.large-level .target-apples:before,
+ body.large-level .target-stars:before,
+ body.large-level .target-flowers:before,
+ body.large-level .target-fruit:before,
+ body.large-level .target-animals:before,
+ body.large-level .target-balloons:before{font-size:58px}
+ body.large-level .apple{font-size:clamp(21px,3.8vh,31px)}
+ body.in-game .ans{min-height:54px;font-size:31px}
+}
+
+
+/* V17 — המחשה של עשרות ויחידות ברמת יותר מ־20 */
+.tensScene{
+  background:linear-gradient(#d9f4ff 0 62%,#f4df9b 62%);
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px;
+}
+.numberGroup{
+  min-width:0;border-radius:22px;background:#ffffffb8;border:3px solid #fff;
+  padding:8px;display:flex;flex-direction:column;justify-content:center;overflow:hidden;
+}
+.groupTitle{font-size:18px;font-weight:900;color:#496b61;margin-bottom:5px}
+.tenRows{display:flex;flex-direction:column;gap:5px;align-items:center}
+.tenPack{
+  display:grid;grid-template-columns:repeat(5,18px);grid-template-rows:repeat(2,18px);
+  gap:3px;padding:6px;border-radius:13px;background:#fff2b9;border:2px solid #e0b64e;
+  box-shadow:0 3px 0 #c89535;
+}
+.tenDot{width:18px;height:18px;border-radius:50%;background:#ff8c67;box-shadow:inset -2px -2px 0 #d85f49}
+.ones{display:flex;justify-content:center;flex-wrap:wrap;gap:5px;margin-top:8px}
+.oneDot{width:25px;height:25px;border-radius:50%;background:#68bde8;border:2px solid #fff;box-shadow:0 2px 0 #418eae}
+.structure{
+  grid-column:1/-1;background:#fff;border-radius:18px;padding:7px 10px;
+  font-size:clamp(19px,3vh,26px);font-weight:900;color:#31554a;
+}
+.structure b{display:inline-block;background:#fff0b8;border-radius:12px;padding:3px 8px;margin:0 2px}
+.tensScene .bigPlus{font-size:30px;font-weight:900;align-self:center}
+@media(max-width:680px){
+ .tensScene{padding:6px;gap:5px}
+ .numberGroup{padding:5px;border-radius:16px}
+ .groupTitle{font-size:15px;margin-bottom:3px}
+ .tenPack{grid-template-columns:repeat(5,13px);grid-template-rows:repeat(2,13px);gap:2px;padding:4px}
+ .tenDot{width:13px;height:13px}
+ .oneDot{width:19px;height:19px}
+ .ones{gap:3px;margin-top:5px}
+ .structure{font-size:17px;padding:5px}
+}
+
+</style></head>
+<body><div class="sun"></div><div class="cloud"></div><div id="stars" class="stars"></div>
+<div class="world"><main class="panel">
+<section id="homeScreen" class="screen on">
+ <div class="top"><button class="round" id="full">⛶</button><div class="fox">🦊</div><button class="round soundBtn" aria-label="צלילים">🔊</button></div>
+ <h1>יער המספרים</h1><p class="subtitle">במה נשחק היום?</p>
+ <div class="modes"><button class="mode addMode" data-mode="add"><span>🍎🧺</span><b>חיבור</b></button><button class="mode subMode" data-mode="sub"><span>🐸💦</span><b>חיסור</b></button></div>
+</section>
+<section id="levelScreen" class="screen">
+ <div class="fox">🦊</div><h1 style="font-size:clamp(34px,7vw,58px)">בחרו רמה</h1>
+ <div class="levels"><button class="level" data-level="to10" data-max="10">עד 10</button><button class="level" data-level="over10" data-max="20">יותר מ־10</button><button class="level" data-level="over20" data-max="30">יותר מ־20</button></div>
+ <p><button class="round home">⌂</button></p>
+</section>
+<section id="gameScreen" class="screen">
+ <div class="top"><button class="round home">⌂</button><div class="fox">🦊</div><div style="display:flex;gap:7px"><button class="round soundBtn" aria-label="צלילים">🔊</button><button class="round" id="full2">⛶</button></div></div>
+ <div class="problem" id="problem"></div><div class="hint" id="hint"></div><div id="scene" class="scene"></div>
+ <div id="answers" class="answers"></div><div id="feedback" class="feedback"></div>
+</section>
+</main></div>
+<script>
+let mode='add',max=10,level='to10',correct=0,needed=0,acted=0,locked=false;
+let audioCtx=null, master=null, musicGain=null, sfxGain=null, soundOn=true, musicTimer=null, musicStep=0;
+function initAudio(){
+ if(audioCtx) { if(audioCtx.state==='suspended') audioCtx.resume(); return; }
+ audioCtx=new (window.AudioContext||window.webkitAudioContext)();
+ master=audioCtx.createGain(); musicGain=audioCtx.createGain(); sfxGain=audioCtx.createGain();
+ master.gain.value=.55; musicGain.gain.value=.13; sfxGain.gain.value=.35;
+ musicGain.connect(master); sfxGain.connect(master); master.connect(audioCtx.destination);
+ startMusic();
+}
+function tone(freq,dur=.16,when=0,type='sine',vol=.22,dest=sfxGain){
+ if(!audioCtx||!soundOn)return;
+ let o=audioCtx.createOscillator(),g=audioCtx.createGain(),t=audioCtx.currentTime+when;
+ o.type=type;o.frequency.setValueAtTime(freq,t);g.gain.setValueAtTime(0.001,t);
+ g.gain.exponentialRampToValueAtTime(vol,t+.015);g.gain.exponentialRampToValueAtTime(.001,t+dur);
+ o.connect(g);g.connect(dest);o.start(t);o.stop(t+dur+.03);
+}
+function successSound(){initAudio();[523.25,659.25,783.99,1046.5].forEach((f,i)=>tone(f,.18,i*.11,'sine',.26))}
+function failSound(){initAudio();tone(260,.18,0,'triangle',.22);tone(196,.25,.14,'triangle',.18)}
+function tapSound(){initAudio();tone(620,.07,0,'sine',.08)}
+function splashSound(){initAudio();tone(360,.08,0,'sine',.12);tone(180,.18,.05,'triangle',.10)}
+function startMusic(){
+ if(musicTimer||!audioCtx)return;
+ const additionMelody=[523.25,659.25,783.99,659.25,587.33,698.46,880,783.99];
+ const subtractionMelody=[392,349.23,329.63,293.66,349.23,293.66,261.63,293.66];
+ const tick=()=>{
+   if(soundOn&&audioCtx){
+     const melody=mode==='sub'?subtractionMelody:additionMelody;
+     let f=melody[musicStep++%melody.length];
+     tone(f,mode==='sub'?.34:.24,0,mode==='sub'?'triangle':'sine',mode==='sub'?.075:.095,musicGain);
+   }
+ };
+ tick();musicTimer=setInterval(tick,mode==='sub'?520:410);
+}
+function restartMusicForMode(){
+ if(!audioCtx)return;
+ if(musicTimer){clearInterval(musicTimer);musicTimer=null}
+ musicStep=0;
+ startMusic();
+}
+function additionSuccess(){
+ initAudio();
+ [523.25,659.25,783.99,1046.5].forEach((f,i)=>tone(f,.17,i*.10,'sine',.26));
+}
+function subtractionSuccess(){
+ initAudio();
+ [392,523.25,659.25,523.25].forEach((f,i)=>tone(f,.20,i*.11,'triangle',.22));
+}
+function additionFail(){
+ initAudio(); tone(330,.13,0,'sine',.18);tone(294,.18,.12,'sine',.14);
+}
+function subtractionFail(){
+ initAudio(); tone(247,.16,0,'triangle',.18);tone(196,.23,.14,'triangle',.14);
+}
+function toggleSound(){
+ initAudio();soundOn=!soundOn;
+ if(master) master.gain.setTargetAtTime(soundOn?.55:0,audioCtx.currentTime,.03);
+ document.querySelectorAll('.soundBtn').forEach(b=>b.textContent=soundOn?'🔊':'🔇');
+}
+document.addEventListener('pointerdown',()=>initAudio(),{once:true});
+
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s),rnd=n=>Math.floor(Math.random()*n);
+function show(id){
+ $$('.screen').forEach(x=>x.classList.remove('on'));$('#'+id).classList.add('on');
+ document.body.classList.toggle('in-game',id==='gameScreen');
+ if(id!=='gameScreen')document.body.classList.remove('large-level');
+}
+$$('.soundBtn').forEach(b=>b.onclick=toggleSound);
+$$('[data-mode]').forEach(b=>b.onclick=()=>{mode=b.dataset.mode;initAudio();restartMusicForMode();show('levelScreen')});
+$$('[data-max]').forEach(b=>b.onclick=()=>{
+ max=+b.dataset.max;level=b.dataset.level||'to10';
+ show('gameScreen');
+ document.body.classList.toggle('large-level',level!=='to10');
+ newQuestion();
+});
+$$('.home').forEach(b=>b.onclick=()=>show('homeScreen'));
+function full(){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen?.()}$('#full').onclick=full;$('#full2').onclick=full;
+
+function makeApple(symbol){
+ let e=document.createElement('span');e.className='apple';e.textContent=symbol;e.onclick=()=>moveApple(e);return e;
+}
+
+const addCategories=[
+ {theme:'apples',name:'תפוחים',a:'🍎',b:'🍏',instruction:'אספו את כל התפוחים לסל',question:'כמה תפוחים אספנו?'},
+ {theme:'stars',name:'כוכבים',a:'⭐',b:'🌟',instruction:'שלחו את כל הכוכבים לחללית',question:'כמה כוכבים עלו לחללית?'},
+ {theme:'flowers',name:'פרחים',a:'🌷',b:'🌼',instruction:'שתלו את כל הפרחים בעציץ',question:'כמה פרחים שתלנו?'},
+ {theme:'fruit',name:'שוק',a:'🍓',b:'🍊',instruction:'ארזו את כל הפירות בארגז',question:'כמה פירות ארזנו?'},
+ {theme:'animals',name:'חווה',a:'🐥',b:'🐰',instruction:'החזירו את כל החיות הביתה',question:'כמה חיות הגיעו הביתה?'},
+ {theme:'balloons',name:'קרקס',a:'🎈',b:'🎈',instruction:'אספו את כל הבלונים ליד הקרקס',question:'כמה בלונים אספנו?'}
+];
+let currentAddCategory=null;
+
+
+function numberBlocks(n,title){
+ let tens=Math.floor(n/10),ones=n%10,wrap=document.createElement('div');
+ wrap.className='numberGroup';
+ let h=document.createElement('div');h.className='groupTitle';h.textContent=title;wrap.appendChild(h);
+ let rows=document.createElement('div');rows.className='tenRows';
+ for(let t=0;t<tens;t++){
+   let pack=document.createElement('div');pack.className='tenPack';
+   for(let i=0;i<10;i++){let d=document.createElement('span');d.className='tenDot';pack.appendChild(d)}
+   rows.appendChild(pack);
+ }
+ wrap.appendChild(rows);
+ let oneBox=document.createElement('div');oneBox.className='ones';
+ for(let i=0;i<ones;i++){let d=document.createElement('span');d.className='oneDot';oneBox.appendChild(d)}
+ wrap.appendChild(oneBox);return wrap;
+}
+function setupBigAdd(){
+ let target=rnd(10)+21, a=rnd(target-1)+1, b=target-a;
+ /* Keep both addends useful but readable. */
+ if(a<5){a=10+rnd(target-14);b=target-a}
+ correct=target;needed=0;acted=0;
+ $('#problem').textContent=`${a} + ${b} = ?`;
+ $('#hint').textContent='בואו נראה את העשרות והיחידות';
+ let sc=$('#scene');sc.className='scene tensScene';sc.innerHTML='';
+ sc.appendChild(numberBlocks(a,'המספר הראשון'));
+ sc.appendChild(numberBlocks(b,'המספר השני'));
+ let s=document.createElement('div');s.className='structure';
+ let tens=Math.floor(target/10),ones=target%10;
+ s.innerHTML=`ביחד: <b>${tens} עשרות</b> ו־<b>${ones} יחידות</b>`;
+ sc.appendChild(s);
+ setTimeout(showAnswers,650);
+}
+
+function setupAdd(){
+ let a,b,target;
+ if(level==='to10') target=rnd(9)+2;          // 2..10
+ else if(level==='over10') target=rnd(10)+11; // 11..20
+ else target=rnd(10)+21;                      // 21..30
+ a=rnd(target-1)+1;
+ b=target-a;
+ correct=a+b;needed=correct;acted=0;
+ let choices=addCategories.filter(c=>!currentAddCategory||c.theme!==currentAddCategory.theme);
+ currentAddCategory=choices[rnd(choices.length)];
+ $('#problem').textContent=`${a} + ${b} = ?`;
+ $('#hint').textContent=currentAddCategory.instruction;
+ let sc=$('#scene');
+ sc.className='scene addScene v13world world-'+currentAddCategory.theme;
+ sc.innerHTML='<div class="appleZone" id="green"></div><div class="collectTarget target-'+currentAddCategory.theme+'" id="basket"><span class="count" id="counter">0</span></div><div class="appleZone" id="red"></div>';
+ for(let i=0;i<a;i++)$('#red').appendChild(makeApple(currentAddCategory.a));
+ for(let i=0;i<b;i++)$('#green').appendChild(makeApple(currentAddCategory.b));
+}function moveApple(e){
+ if(e.classList.contains('used')||locked)return;tapSound();e.classList.add('used');
+ let er=e.getBoundingClientRect(),br=$('#basket').getBoundingClientRect(),f=document.createElement('span');f.className='fly';f.textContent=e.textContent;f.style.left=er.left+'px';f.style.top=er.top+'px';document.body.appendChild(f);
+ requestAnimationFrame(()=>requestAnimationFrame(()=>{f.style.left=(br.left+br.width/2-25)+'px';f.style.top=(br.top+br.height-70)+'px';f.style.transform='scale(.7) rotate(18deg)'}));
+ setTimeout(()=>{f.remove();acted++;let x=document.createElement('span');x.className='inside';x.textContent=e.textContent;$('#basket').appendChild(x);$('#counter').textContent=acted;if(acted===needed){$('#hint').textContent=currentAddCategory.question;setTimeout(showAnswers,300)}},500);
+}
+function setupSub(){
+ let a,b;
+ if(level==='to10') a=rnd(9)+2;
+ else if(level==='over10') a=rnd(10)+11;
+ else a=rnd(10)+21;
+ b=rnd(a-1)+1;correct=a-b;needed=b;acted=0;
+ $('#problem').textContent=`${a} − ${b} = ?`;$('#hint').textContent=`לחצו על ${b} ${b===1?'צפרדע':'צפרדעים'} כדי שיקפצו למים`;
+ let sc=$('#scene');sc.className='scene subScene';sc.innerHTML=`<div class="water"></div><div class="progress" id="progress">קפצו: 0 מתוך ${b}</div>`;
+ for(let i=0;i<a;i++){let l=document.createElement('button');l.className='lily';l.innerHTML='<span class="frog">🐸</span>';l.onclick=()=>jumpFrog(l);sc.appendChild(l)}
+}
+function jumpFrog(l){
+ if(l.classList.contains('gone')||acted>=needed||locked)return;splashSound();l.classList.add('gone');acted++;$('#progress').textContent=`קפצו: ${acted} מתוך ${needed}`;
+ let r=l.getBoundingClientRect(),rp=document.createElement('span');rp.className='ripple';rp.style.left=(r.left+r.width/2-15)+'px';rp.style.top=(r.bottom+35)+'px';document.body.appendChild(rp);setTimeout(()=>rp.remove(),700);
+ if(acted===needed){locked=true;setTimeout(()=>{locked=false;$('#hint').textContent='כמה צפרדעים נשארו?';showAnswers()},550)}
+}
+function showAnswers(){
+ let vals=new Set([correct]);while(vals.size<3)vals.add(Math.max(0,correct+rnd(5)-2));
+ let box=$('#answers');box.innerHTML='';[...vals].sort(()=>Math.random()-.5).forEach(v=>{let b=document.createElement('button');b.className='ans';b.textContent=v;b.onclick=()=>check(v,b);box.appendChild(b)});box.classList.add('on');
+}
+function check(v,b){
+ if(locked)return;
+ if(v===correct){
+   locked=true;
+   mode==='add'?additionSuccess():subtractionSuccess();
+   $('#feedback').textContent='כל הכבוד! 🎉';
+   $('#feedback').style.color='#248966';
+   $$('.ans').forEach(x=>x.disabled=true);
+   b.style.background='#dff9e8';
+   celebrate();
+   // Always advance automatically, independent of audio playback.
+   window.setTimeout(()=>{
+     locked=false;
+     newQuestion();
+   },1400);
+ } else {
+   mode==='add'?additionFail():subtractionFail();
+   $('#feedback').textContent=mode==='add'?'בואו נספור שוב 🙂':'ספרו כמה נשארו 🙂';
+   $('#feedback').style.color='#d16464';
+   b.disabled=true;
+   b.style.opacity=.35;
+ }
+}
+function celebrate(){for(let i=0;i<14;i++){let s=document.createElement('span');s.className='star';s.textContent=['⭐','✨','🌟'][rnd(3)];s.style.left=(18+rnd(65))+'%';s.style.top=(45+rnd(25))+'%';$('#stars').appendChild(s);setTimeout(()=>s.remove(),1000)}}
+function newQuestion(){
+ locked=false;$('#answers').classList.remove('on');$('#feedback').textContent='';
+ if(mode==='add' && level==='over20') setupBigAdd();
+ else mode==='add'?setupAdd():setupSub();
+}
+</script></body></html>
