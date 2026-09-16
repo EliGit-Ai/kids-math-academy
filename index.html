@@ -1,281 +1,60 @@
-<!DOCTYPE html>
-<html lang="he" dir="rtl" data-hero-animation="confidence-map">
+<!doctype html>
+<html lang="he" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0b1220">
-  <title>פדגוגי · לימוד חשבון לילדים בכיף ובהתאמה אישית</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800;900&family=Assistant:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#071126">
+<title>פדגוגי | מתמטיקה שאשכרה רוצים לשחק</title>
+<meta name="description" content="משחקי מתמטיקה חינמיים לילדים. משחקים מיד בדפדפן, בלי הרשמה ובלי התקנה.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-  <a href="#about" class="skip-link">דילוג לתוכן</a>
-
-  <div class="cursor-glow" aria-hidden="true" id="cursor-glow"></div>
-
-  <div class="announcement" role="note">
-    <p>🎮 חדש: שלושה משחקים זמינים עכשיו — מסלול לבנים ומסלול לבנות, כל אחד בעיצוב משלו. בחינם.</p>
+<div class="ambient" aria-hidden="true"><i></i><i></i><i></i></div>
+<header class="topbar">
+  <a class="brand" href="#top" aria-label="פדגוגי - דף הבית"><span class="brand-mark">∞</span><span>פדגוגי</span></a>
+  <nav><a href="#games">משחקים</a><a href="#parents">להורים</a><a href="#updates">עדכונים</a><a href="support.html" class="support-mini">♡ תמיכה בפרויקט</a></nav>
+</header>
+<main id="top">
+<section class="hero">
+  <div class="hero-orbit orbit-a" aria-hidden="true">7 × 8</div><div class="hero-orbit orbit-b" aria-hidden="true">12 − 5</div><div class="hero-orbit orbit-c" aria-hidden="true">4 + 6</div>
+  <div class="hero-copy reveal visible">
+    <span class="pill">✦ לומדים דרך משחק</span>
+    <h1>מתמטיקה<br><em>שאשכרה רוצים לשחק.</em></h1>
+    <p>עולמות משחק צבעוניים שהופכים תרגול חשבון לחוויה. חינם לגמרי, בלי הרשמה ובלי התקנה.</p>
+    <div class="hero-actions"><a class="btn primary" href="#games">🎮 בואו לשחק</a><a class="btn ghost" href="#parents">איך זה עובד?</a></div>
+    <div class="trust"><span><b>5</b> משחקים</span><span><b>100%</b> חינם</span><span><b>0</b> הרשמה</span></div>
   </div>
-
-  <header class="hero">
-    <div class="hero-canvas-wrap">
-      <canvas id="hero-canvas" aria-hidden="true"></canvas>
-    </div>
-
-    <div class="hero-content">
-      <p class="rise-in hero-kicker" style="animation-delay:.5s" aria-hidden="true">
-        <span class="hero-kicker-line hero-kicker-line--start"></span>
-        <span class="hero-kicker-word-wrap">
-          <span class="hero-kicker-word" id="kicker-inhale">לומדים</span>
-          <span class="hero-kicker-word" id="kicker-exhale">מתרגלים</span>
-        </span>
-        <span class="hero-kicker-line hero-kicker-line--end"></span>
-      </p>
-
-      <h1 class="rise-in hero-title" style="animation-delay:.7s">
-        לגלות. לתרגל. <span class="text-dawn">להצטיין.</span>
-      </h1>
-
-      <p class="rise-in hero-lede" style="animation-delay:.95s">
-        פדגוגי — משחקי חשבון חכמים לילדים, עם מנוע התאמה אישית שמזהה בדיוק
-        איפה כל ילד צריך עוד תרגול. בלי דפי עבודה, עם המון ניצחונות קטנים בדרך.
-      </p>
-
-      <div class="rise-in hero-actions" style="animation-delay:1.15s">
-        <a href="support.html" class="btn btn--primary breathes-glow">לתמיכה סמלית בפרויקט</a>
-        <a href="#how" class="btn btn--quiet">איך זה עובד</a>
-      </div>
-
-      <p class="rise-in hero-support-note" style="animation-delay:1.3s">
-        פדגוגי נשארת חינמית לילדים ולהורים. תמיכה סמלית מאפשרת לנו ליצור עוד משחקים
-        ולחזק ביטחון במספרים.
-      </p>
-
-      <a href="#games" class="rise-in hero-flash" style="animation-delay:1.35s">
-        <span class="hero-flash-tag">3 משחקים כבר כאן</span>
-        <span class="hero-flash-detail">מסלול לבנים ומסלול לבנות, כל אחד עם עיצוב וגיבורים משלו</span>
-        <span class="hero-flash-link">לבחירת מסלול</span>
-      </a>
-    </div>
-
-    <div class="rise-in hero-scroll-hint" style="animation-delay:1.7s" aria-hidden="true">
-      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" class="drift-down">
-        <path d="M6 9l6 6 6-6"/>
-      </svg>
-    </div>
-  </header>
-
-  <nav aria-label="ניווט בדף" class="breath-nav-mobile">
-    <ul id="nav-chips">
-      <li><a href="#about" data-section="about">מי אנחנו</a></li>
-      <li><a href="#games" data-section="games">המשחקים</a></li>
-      <li><a href="#how" data-section="how">איך זה עובד</a></li>
-      <li><a href="#who" data-section="who">למי זה מתאים</a></li>
-      <li><a href="#method" data-section="method">הגישה שלנו</a></li>
-      <li><a href="#faq" data-section="faq">שאלות</a></li>
-    </ul>
-  </nav>
-
-  <nav aria-label="ניווט בדף" class="breath-nav-desktop">
-    <ul>
-      <li><a href="#about" data-section="about"><span class="dot" aria-hidden="true"></span><span class="label">מי אנחנו</span></a></li>
-      <li><a href="#games" data-section="games"><span class="dot" aria-hidden="true"></span><span class="label">המשחקים</span></a></li>
-      <li><a href="#how" data-section="how"><span class="dot" aria-hidden="true"></span><span class="label">איך זה עובד</span></a></li>
-      <li><a href="#who" data-section="who"><span class="dot" aria-hidden="true"></span><span class="label">למי זה מתאים</span></a></li>
-      <li><a href="#method" data-section="method"><span class="dot" aria-hidden="true"></span><span class="label">הגישה שלנו</span></a></li>
-      <li><a href="#faq" data-section="faq"><span class="dot" aria-hidden="true"></span><span class="label">שאלות</span></a></li>
-    </ul>
-  </nav>
-
-  <main>
-
-    <section id="about" class="section">
-      <div class="divider-wrap"><div class="divider"><span class="divider-line"></span><svg class="divider-glyph breathes" width="52" height="26" viewBox="0 0 52 26" fill="none"><ellipse cx="20" cy="13" rx="10.5" ry="5.5" transform="rotate(-46 20 13)" stroke="currentColor" stroke-width="0.9"/><ellipse cx="32" cy="13" rx="10.5" ry="5.5" transform="rotate(46 32 13)" stroke="currentColor" stroke-width="0.9"/></svg><span class="divider-line"></span></div></div>
-      <div class="section-inner section-inner--wide">
-        <div class="reveal">
-          <p class="eyebrow">פדגוגי</p>
-          <h2 class="section-title">מה זה פדגוגי</h2>
-        </div>
-        <div class="reveal reveal--delayed about-grid">
-          <div class="about-copy">
-            <p>פדגוגי בונה משחקי חשבון דיגיטליים לילדים, שמתאימים את עצמם לכל ילד וילדה בזמן אמת. במקום דפי עבודה חוזרים, הילד משחק — והמנוע שלנו לומד איפה הוא חזק ואיפה כדאי לחזק עוד.</p>
-            <p>המשחקים שלנו מחולקים לשני מסלולים בעיצוב שונה — מסלול בנים ומסלול בנות — כדי שכל ילד וילדה ימצאו עולם שמדבר אליהם, כשמאחורי הקלעים אותו מנוע התאמה אישית.</p>
-            <p class="about-quote">לא עוד שינון. משחק אמיתי שמכיר את הילד שלכם.</p>
-          </div>
-          <figure class="game-shot">
-            <img
-              src="assets/game-screen-onboarding.png"
-              width="960" height="1706" loading="lazy"
-              alt="מסך הפתיחה של המשחק גולים בלוח הכפל">
-          </figure>
-        </div>
-      </div>
-    </section>
-
-    <section id="games" class="section">
-      <div class="divider-wrap"><div class="divider"><span class="divider-line"></span><svg class="divider-glyph breathes" width="52" height="26" viewBox="0 0 52 26" fill="none"><ellipse cx="20" cy="13" rx="10.5" ry="5.5" transform="rotate(-46 20 13)" stroke="currentColor" stroke-width="0.9"/><ellipse cx="32" cy="13" rx="10.5" ry="5.5" transform="rotate(46 32 13)" stroke="currentColor" stroke-width="0.9"/></svg><span class="divider-line"></span></div></div>
-      <div class="section-inner">
-        <div class="reveal">
-          <p class="eyebrow">המשחקים</p>
-          <h2 class="section-title">בחרו מסלול והתחילו לשחק</h2>
-        </div>
-        <div class="reveal reveal--delayed">
-          <div class="track-grid">
-            <a href="boys.html" class="track-card track-card--boys">
-              <span class="track-card-icon" aria-hidden="true">⚽</span>
-              <h3 class="track-card-title">מסלול בנים</h3>
-              <p class="track-card-desc">ליגת כדורגל, שלבים ואלופות — תרגול לוח הכפל בעיצוב ספורטיבי.</p>
-              <ul class="track-card-games">
-                <li class="is-live">גולים בלוח הכפל · זמין עכשיו</li>
-                <li>עוד משחקים בדרך</li>
-              </ul>
-              <span class="track-card-cta">למסלול הבנים ←</span>
-            </a>
-            <a href="girls.html" class="track-card track-card--girls">
-              <span class="track-card-icon" aria-hidden="true">✨</span>
-              <h3 class="track-card-title">מסלול בנות</h3>
-              <p class="track-card-desc">צילום, סטייל ולק ציפורניים — תרגול חשבון בעיצוב גליטר וצבעוני.</p>
-              <ul class="track-card-games">
-                <li class="is-live">צילום פאן · זמין עכשיו</li>
-                <li class="is-live">GLAM MATH · זמין עכשיו</li>
-              </ul>
-              <span class="track-card-cta">למסלול הבנות ←</span>
-            </a>
-          </div>
-          <p class="classes-phone-note">יש לכם רעיון למשחק חשבון? נשמח לשמוע: <a href="mailto:hello@pedagogi.example.co.il">hello@pedagogi.example.co.il</a></p>
-        </div>
-      </div>
-    </section>
-
-    <section id="how" class="section">
-      <div class="divider-wrap"><div class="divider"><span class="divider-line"></span><svg class="divider-glyph breathes" width="52" height="26" viewBox="0 0 52 26" fill="none"><ellipse cx="20" cy="13" rx="10.5" ry="5.5" transform="rotate(-46 20 13)" stroke="currentColor" stroke-width="0.9"/><ellipse cx="32" cy="13" rx="10.5" ry="5.5" transform="rotate(46 32 13)" stroke="currentColor" stroke-width="0.9"/></svg><span class="divider-line"></span></div></div>
-      <div class="section-inner section-inner--wide section-inner--centered">
-        <div class="reveal">
-          <p class="eyebrow">איך זה עובד</p>
-          <h2 class="section-title">מנוע ההתאמה האישית</h2>
-        </div>
-        <div class="reveal reveal--delayed">
-          <p class="group-lede">כל תרגיל שהילד עונה עליו נרשם. תרגילים שמתקשים בהם חוזרים בתדירות גבוהה יותר — עד שהם הופכים לפשוטים.</p>
-
-          <div class="group-card breath-ring">
-            <dl class="group-stats">
-              <div><dd class="count-up" data-target="9">0</dd><dt>שלבים בליגה (לוח 2 עד לוח 10)</dt></div>
-              <div><dd class="count-up" data-target="10">0</dd><dt>תרגילים לכל שלב</dt></div>
-              <div><dd class="count-up" data-target="60" data-suffix="%">0</dd><dt>מהזמן מוקדש לנקודות התורפה</dt></div>
-              <div><dd class="count-up" data-target="0" data-display="0 ₪">0</dd><dt>עלות לניסיון</dt></div>
-            </dl>
-            <p class="group-footnote">שלוש רמות קושי — קל, בינוני וקשה — כדי שכל ילד יתחיל בדיוק מהמקום הנכון</p>
-          </div>
-
-          <div class="group-cta">
-            <a href="#games" class="btn btn--primary breathes-glow">לבחירת מסלול</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="who" class="section">
-      <div class="divider-wrap"><div class="divider"><span class="divider-line"></span><svg class="divider-glyph breathes" width="52" height="26" viewBox="0 0 52 26" fill="none"><ellipse cx="20" cy="13" rx="10.5" ry="5.5" transform="rotate(-46 20 13)" stroke="currentColor" stroke-width="0.9"/><ellipse cx="32" cy="13" rx="10.5" ry="5.5" transform="rotate(46 32 13)" stroke="currentColor" stroke-width="0.9"/></svg><span class="divider-line"></span></div></div>
-      <div class="section-inner">
-        <div class="reveal">
-          <p class="eyebrow">למי זה מתאים</p>
-          <h2 class="section-title">גם אם לוח הכפל מפחיד</h2>
-        </div>
-        <div class="reveal reveal--delayed">
-          <p class="who-lede">מתאים לילדות ולילדים בגילאי בית ספר יסודי שרוצים לתרגל חשבון בלי לחץ ובלי שיפוט. אפשר להתחיל ברמה הקלה ולעלות בהדרגה — כל ילד מתקדם בקצב שלו.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="method" class="section">
-      <div class="divider-wrap"><div class="divider"><span class="divider-line"></span><svg class="divider-glyph breathes" width="52" height="26" viewBox="0 0 52 26" fill="none"><ellipse cx="20" cy="13" rx="10.5" ry="5.5" transform="rotate(-46 20 13)" stroke="currentColor" stroke-width="0.9"/><ellipse cx="32" cy="13" rx="10.5" ry="5.5" transform="rotate(46 32 13)" stroke="currentColor" stroke-width="0.9"/></svg><span class="divider-line"></span></div></div>
-      <div class="section-inner section-inner--wide">
-        <div class="reveal">
-          <p class="eyebrow">הגישה הפדגוגית</p>
-          <h2 class="section-title">מה שאנחנו מאמינים בו</h2>
-        </div>
-        <div class="reveal reveal--delayed noa-quote-wrap">
-          <p class="noa-quote"><span class="quote-mark" aria-hidden="true">״</span>טעות היא לא כישלון — היא מידע. המנוע שלנו לא מעניש על טעות, הוא פשוט זוכר אותה ומביא אותה שוב, בעדינות, עד שהיא הופכת לידיעה.<span class="quote-mark" aria-hidden="true">״</span></p>
-          <p class="noa-signature">משוב מיידי, ניצחונות קטנים ותרגול בלי לחץ — ככה נבנה ביטחון עצמי במספרים.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="faq" class="section">
-      <div class="divider-wrap"><div class="divider"><span class="divider-line"></span><svg class="divider-glyph breathes" width="52" height="26" viewBox="0 0 52 26" fill="none"><ellipse cx="20" cy="13" rx="10.5" ry="5.5" transform="rotate(-46 20 13)" stroke="currentColor" stroke-width="0.9"/><ellipse cx="32" cy="13" rx="10.5" ry="5.5" transform="rotate(46 32 13)" stroke="currentColor" stroke-width="0.9"/></svg><span class="divider-line"></span></div></div>
-      <div class="section-inner">
-        <div class="reveal">
-          <p class="eyebrow">שאלות נפוצות</p>
-          <h2 class="section-title">שאלות שחוזרות</h2>
-        </div>
-        <div class="reveal reveal--delayed faq-list">
-          <details class="faq-item">
-            <summary>צריך להתקין משהו?<span class="faq-plus" aria-hidden="true">+</span></summary>
-            <p>לא. המשחקים רצים ישירות בדפדפן, גם בנייד וגם במחשב, בלי הורדה או הרשמה.</p>
-          </details>
-          <details class="faq-item">
-            <summary>זה בחינם?<span class="faq-plus" aria-hidden="true">+</span></summary>
-            <p>כן. כל המשחקים שלנו, בשני המסלולים, זמינים לשחק בחינם וללא הגבלה.</p>
-          </details>
-          <details class="faq-item">
-            <summary>לאילו גילאים זה מתאים?<span class="faq-plus" aria-hidden="true">+</span></summary>
-            <p>בעיקר לילדי בית ספר יסודי. שלוש רמות קושי מאפשרות להתאים את המשחק גם למתחילים וגם למתקדמים.</p>
-          </details>
-          <details class="faq-item">
-            <summary>איך המנוע יודע איפה הילד צריך תרגול?<span class="faq-plus" aria-hidden="true">+</span></summary>
-            <p>כל תשובה נכונה או שגויה נרשמת בזיכרון המשחק. תרגילים שהילד טעה בהם חוזרים בתדירות גבוהה יותר, עד שהם נלמדים היטב.</p>
-          </details>
-          <details class="faq-item">
-            <summary>יש שמירת התקדמות בין מכשירים?<span class="faq-plus" aria-hidden="true">+</span></summary>
-            <p>כרגע ההתקדמות נשמרת בתוך ההפעלה הנוכחית בלבד. שמירה מתמשכת בין מכשירים בתכנון לגרסאות הבאות.</p>
-          </details>
-        </div>
-      </div>
-    </section>
-
-    <section id="start" class="section">
-      <div class="divider-wrap"><div class="divider"><span class="divider-line"></span><svg class="divider-glyph breathes" width="52" height="26" viewBox="0 0 52 26" fill="none"><ellipse cx="20" cy="13" rx="10.5" ry="5.5" transform="rotate(-46 20 13)" stroke="currentColor" stroke-width="0.9"/><ellipse cx="32" cy="13" rx="10.5" ry="5.5" transform="rotate(46 32 13)" stroke="currentColor" stroke-width="0.9"/></svg><span class="divider-line"></span></div></div>
-      <div class="section-inner section-inner--wide section-inner--centered">
-        <div class="reveal">
-          <p class="eyebrow">מוכנים להתחיל?</p>
-          <h2 class="section-title">בואו לבחור מסלול ולשחק</h2>
-        </div>
-        <div class="reveal reveal--delayed">
-          <p class="register-lede">בלי הרשמה, בלי התקנה — פשוט בוחרים מסלול ומתחילים לתרגל.</p>
-          <div class="group-cta">
-            <a href="#games" class="btn btn--primary breathes-glow">לבחירת מסלול</a>
-            <a href="mailto:hello@pedagogi.example.co.il" class="btn btn--quiet">לשלוח לנו רעיון למשחק</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <footer class="site-footer">
-    <div class="section-inner">
-      <p class="footer-name">פדגוגי</p>
-      <p class="footer-address">משחקי חשבון דיגיטליים לילדים · עם מנוע התאמה אישית</p>
-      <div class="footer-links">
-        <a href="boys.html">מסלול בנים</a>
-        <a href="girls.html">מסלול בנות</a>
-        <a href="mailto:hello@pedagogi.example.co.il">hello@pedagogi.example.co.il</a>
-      </div>
-      <p class="footer-credit">פדגוגי · נבנה כדי שכל ילד ימצא את הקצב שלו</p>
-    </div>
-  </footer>
-
-  <a
-    class="agent-launcher"
-    href="#games"
-    aria-label="לבחירת מסלול ומשחק"
-  >
-    <img src="assets/brand-glyph.png" alt="" class="agent-launcher-glyph">
-  </a>
-
-  <script src="script.js"></script>
+  <div class="hero-stage reveal visible" aria-hidden="true">
+    <div class="planet"><span class="planet-face">÷</span><i class="ring"></i></div>
+    <span class="spark s1">✦</span><span class="spark s2">✧</span><span class="spark s3">●</span>
+  </div>
+  <div class="scroll-note">גלו את העולמות <span>↓</span></div>
+</section>
+<section class="library" id="games">
+  <div class="section-head reveal"><span class="eyebrow">ספריית המשחקים</span><h2>איזה עולם בא לכם<br>לשחק היום?</h2><p>כל משחק נראה אחרת. המטרה נשארת אותה מטרה — לתרגל, להשתפר וליהנות בדרך.</p></div>
+  <div class="filters reveal" role="group" aria-label="סינון משחקים"><button class="active" data-filter="all">הכול</button><button data-filter="young">כיתות א׳–ב׳</button><button data-filter="multiply">לוח הכפל</button></div>
+  <div class="game-grid">
+    <a class="game-card football reveal" data-cat="multiply" href="games/goals-multiplication-table.html"><div class="card-art"><span class="big-emoji">⚽</span><span class="float-score">×7</span></div><div class="card-body"><span class="age">לוח הכפל</span><h3>גולים בלוח הכפל</h3><p>עולים למגרש, פותרים תרגילים וכובשים את הליגה.</p><span class="play">שחקו עכשיו <b>←</b></span></div></a>
+    <a class="game-card photo reveal" data-cat="multiply" href="games/photo-fun-math.html"><div class="card-art"><span class="big-emoji">📸</span><span class="float-score">✨</span></div><div class="card-body"><span class="age">לוח הכפל</span><h3>צילום פאן</h3><p>תרגול מתמטיקה בתוך עולם צילום צבעוני ומלא הפתעות.</p><span class="play">שחקו עכשיו <b>←</b></span></div></a>
+    <a class="game-card glam reveal" data-cat="multiply" href="games/glam-math.html"><div class="card-art"><span class="big-emoji">💅</span><span class="float-score">✦</span></div><div class="card-body"><span class="age">לוח הכפל</span><h3>GLAM MATH</h3><p>סטייל, צבע ואתגרים — מתמטיקה עם אופי משלה.</p><span class="play">שחקו עכשיו <b>←</b></span></div></a>
+    <article class="game-card junior reveal" data-cat="young"><div class="card-art"><span class="big-emoji">🚀</span><span class="float-score">8+4</span></div><div class="card-body"><span class="age">כיתות א׳–ב׳</span><h3>עולם החיבור והחיסור</h3><p>הרפתקאות קצרות וצבעוניות לתרגול חיבור וחיסור.</p><span class="play muted">מתווסף לספרייה בקרוב</span></div></article>
+    <article class="game-card mystery reveal" data-cat="multiply"><div class="card-art"><span class="big-emoji">🎮</span><span class="float-score">?</span></div><div class="card-body"><span class="age">עולם נוסף</span><h3>המשחק החמישי</h3><p>העולם כבר נבנה — החיבור לעמוד המשחק יתווסף כאן.</p><a class="play" href="#updates">ספרו לי כשיעלה <b>←</b></a></div></article>
+  </div>
+</section>
+<section class="parents" id="parents">
+  <div class="parent-copy reveal"><span class="eyebrow">גם משחק. גם תרגול.</span><h2>הם משחקים.<br><em>המתמטיקה עובדת ברקע.</em></h2><p>במקום עוד דף עבודה, הילד נכנס לעולם שמזמין אותו להמשיך. תרגילים חוזרים, הצלחות מצטברות והביטחון גדל.</p><a class="text-link" href="#games">לבחירת משחק ←</a></div>
+  <div class="flow reveal"><div><span>🎯</span><b>מזהים</b><small>איפה צריך חיזוק</small></div><i>←</i><div><span>🔄</span><b>מתרגלים</b><small>עוד קצת, בלי לחץ</small></div><i>←</i><div><span>⭐</span><b>מצליחים</b><small>ומתקדמים בביטחון</small></div></div>
+</section>
+<section class="updates reveal" id="updates">
+  <div class="gift">🎁</div><span class="eyebrow">המשחק הבא כבר בדרך</span><h2>רוצים להיות הראשונים לשחק?</h2><p>משחקים חדשים, שלבים ותוספות — בחינם. השאירו מייל ונעדכן רק כשיש משהו שבאמת שווה לפתוח.</p>
+  <form id="updateForm"><div class="form-row"><label><span>המייל שלכם</span><input type="email" name="email" placeholder="name@example.com" required></label><label><span>לאיזו כיתה?</span><select name="grade" required><option value="">בחרו כיתה</option><option>א׳–ב׳</option><option>ג׳–ד׳</option><option>ה׳–ו׳</option><option>אחר</option></select></label><button class="btn primary" type="submit">עדכנו אותי 🚀</button></div><small class="privacy">בלי ספאם. בלי תשלום. אפשר להסיר בכל רגע.</small><p class="form-message" id="formMessage" aria-live="polite"></p></form>
+</section>
+<section class="support reveal"><div><span class="eyebrow">הפרויקט נשאר חינמי</span><h2>נהניתם? עזרו לנו לבנות<br>את העולם הבא ❤️</h2><p>התמיכה אינה תנאי לשום דבר. היא פשוט עוזרת לנו ליצור עוד משחקים שילדים ירצו לחזור אליהם.</p></div><a class="btn warm" href="support.html">☕ בא לי לתמוך</a></section>
+</main>
+<footer><a class="brand" href="#top"><span class="brand-mark">∞</span><span>פדגוגי</span></a><p>כי לפעמים הדרך הכי טובה ללמוד היא פשוט להתחיל לשחק.</p><div><a href="#games">משחקים</a><a href="#parents">להורים</a><a href="#updates">עדכונים</a><a href="support.html">תמיכה</a></div><small>© <span id="year"></span> פדגוגי</small></footer>
+<script src="script.js"></script>
 </body>
 </html>
