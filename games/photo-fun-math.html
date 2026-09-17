@@ -2,31 +2,11 @@
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>צילום פאן - משחק לוח הכפל לנערות</title>
-    <meta name="description" content="משחק לימוד לוח הכפל בסגנון צילום רטרו לנערות: אוספות זיכרונות לאלבום, מתקדמות בין ערים ולומדות את כל לוח הכפל בכיף.">
-    <!-- CSP: קובץ יחיד - סגנונות inline, סקריפטים inline + jsdelivr בלבד, גופנים מגוגל בלבד -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' https://cdn.jsdelivr.net; worker-src blob:; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>צילום פאן - לוח הכפל</title>
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"
-            integrity="sha384-HAH79XdRvHr6axVGh4xQWVCp14kcd32bNk4Xu0sHDHtFQ42n6BAM8ykvB47dGz6D"
-            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
-        :root {
-            --pink: #ff2e9d;
-            --pink-soft: #ff8fc7;
-            --pink-text: #c9308f;
-            --violet: #8b5cf6;
-            --violet-deep: #6d28d9;
-            --cyan: #38bdf8;
-            --mint: #2dd4a7;
-            --gold: #ffcf3f;
-            --ink: #2a1b45;
-            --muted: #8f7fa3;
-            --paper: #fffaf9;
-            --paper-2: #fdf3fb;
-        }
-
         * {
             box-sizing: border-box;
             margin: 0;
@@ -35,15 +15,9 @@
         }
 
         body {
-            background:
-                radial-gradient(circle at 12% 18%, rgba(255, 46, 157, 0.4), transparent 42%),
-                radial-gradient(circle at 88% 12%, rgba(56, 189, 248, 0.38), transparent 46%),
-                radial-gradient(circle at 85% 88%, rgba(45, 212, 167, 0.35), transparent 46%),
-                radial-gradient(circle at 15% 88%, rgba(139, 92, 246, 0.4), transparent 46%),
-                linear-gradient(140deg, #fff1f9 0%, #f3ecff 35%, #e9f7ff 68%, #eafff5 100%);
-            color: var(--ink);
+            background: linear-gradient(135deg, #ffd6ea 0%, #dcc6fb 30%, #c3e9fc 65%, #c8f7d9 100%);
+            color: #4a3b5c;
             min-height: 100vh;
-            min-height: 100dvh;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -54,45 +28,167 @@
             width: 100%;
             max-width: 420px;
             height: 100vh;
-            height: 100dvh;
             max-height: 850px;
-            background: linear-gradient(175deg, #fffdfb 0%, #fdf3fb 55%, #f7f1ff 100%);
+            background: linear-gradient(180deg, #fffaf7 0%, #fdf4fa 100%);
             border-radius: 40px;
-            box-shadow: 0 25px 60px rgba(120, 40, 160, 0.35), 0 0 45px rgba(139, 92, 246, 0.18), inset 0 1px 2px rgba(255, 255, 255, 0.9);
+            box-shadow: 0 25px 50px rgba(150, 100, 180, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.9);
             display: flex;
             flex-direction: column;
             position: relative;
             overflow: hidden;
             border: 2px solid #fff;
+            transition: padding-bottom 0.3s ease;
         }
 
-        @media (max-width: 480px), (max-height: 860px) {
-            .app-container {
-                border-radius: 0;
-                max-height: none;
-                border: none;
-            }
-        }
-
-        .app-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 5px;
-            background: linear-gradient(90deg, var(--pink), var(--violet), var(--cyan), var(--mint));
-            z-index: 1000;
+        /* מרווח זמני בתחתית כדי שהודעת המערכת של כניסה למסך מלא לא תכסה כפתורים */
+        .app-container.fs-toast-guard {
+            padding-bottom: 110px;
         }
 
         .flash-overlay {
             position: absolute;
             inset: 0;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.92) 0%, rgba(255, 46, 157, 0.25) 55%, rgba(139, 92, 246, 0.15) 100%);
+            background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(255,214,234,0.4) 100%);
             opacity: 0;
             pointer-events: none;
             z-index: 999;
-            border-radius: inherit;
+            border-radius: 40px;
+        }
+
+        .top-nav-bar {
+            padding: 14px 25px 0;
+            flex-shrink: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-btn {
+            background: #fff;
+            border: 2px solid #ffe3f0;
+            color: #ec6bb0;
+            width: 34px;
+            height: 34px;
+            min-width: 34px;
+            border-radius: 50%;
+            font-size: 16px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(201, 83, 154, 0.15);
+        }
+
+        .back-btn.hidden {
+            visibility: hidden;
+        }
+
+        .exit-confirm-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(92, 61, 110, 0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+            border-radius: 40px;
+        }
+
+        .exit-confirm-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .exit-confirm-card {
+            background: #fff;
+            border-radius: 26px;
+            padding: 26px 22px;
+            width: calc(100% - 60px);
+            max-width: 320px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(201, 83, 154, 0.3);
+            border: 2px solid #ffe3f0;
+            transform: scale(0.92);
+            transition: transform 0.25s ease;
+        }
+
+        .exit-confirm-overlay.show .exit-confirm-card {
+            transform: scale(1);
+        }
+
+        .exit-confirm-card p {
+            font-size: 15px;
+            font-weight: 700;
+            color: #4a3b5c;
+            margin: 6px 0 18px;
+            line-height: 1.5;
+        }
+
+        .exit-confirm-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .exit-confirm-actions button {
+            flex: 1;
+            border: none;
+            border-radius: 18px;
+            padding: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .exit-confirm-stay {
+            background: #fdf0fa;
+            color: #a983b3;
+        }
+
+        .exit-confirm-leave {
+            background: linear-gradient(135deg, #ec6bb0 0%, #b98af0 100%);
+            color: #fff;
+        }
+
+        .oops-toast {
+            position: absolute;
+            top: 16px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-20px);
+            width: calc(100% - 40px);
+            max-width: 360px;
+            background: linear-gradient(135deg, #fff 0%, #fdf0fa 100%);
+            border: 2px solid #ec6bb0;
+            border-radius: 22px;
+            padding: 14px 18px;
+            box-shadow: 0 14px 30px rgba(201, 83, 154, 0.25);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 998;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .oops-toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .oops-toast-icon {
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .oops-toast-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: #5c3d6e;
+            line-height: 1.4;
         }
 
         .flash-overlay.flash-active {
@@ -113,10 +209,10 @@
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(216, 180, 235, 0.3);
-            gap: 8px;
         }
 
         .stats-badge {
+            background: #fff;
             padding: 6px 14px;
             border-radius: 30px;
             font-size: 13px;
@@ -124,11 +220,9 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            border: 2px solid transparent;
-            background: linear-gradient(#fff, #fff) padding-box, linear-gradient(135deg, var(--pink), var(--violet)) border-box;
-            color: var(--pink-text);
+            border: 2px solid #ffd6ea;
+            color: #c9539a;
             box-shadow: 0 4px 12px rgba(201, 83, 154, 0.12);
-            cursor: default;
         }
 
         .screen {
@@ -140,7 +234,6 @@
             justify-content: space-between;
             animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
-            overflow-y: auto;
         }
 
         .screen.active {
@@ -161,77 +254,44 @@
             margin: 10px 0;
         }
 
-        .daily-card {
-            position: relative;
-            overflow: visible;
+        .city-icon-small {
+            width: 30px;
+            height: 30px;
+            flex-shrink: 0;
+            display: inline-flex;
+            vertical-align: middle;
+            margin-left: 8px;
         }
 
-        .daily-card::before {
-            content: '';
-            position: absolute;
-            inset: -26px -18px auto -18px;
-            height: 130px;
-            background: radial-gradient(circle, rgba(255, 46, 157, 0.35), rgba(139, 92, 246, 0.25) 55%, transparent 75%);
-            filter: blur(28px);
-            z-index: -1;
-            border-radius: 50%;
+        .city-icon-small svg {
+            width: 100%;
+            height: 100%;
         }
 
-        .aperture-ring {
-            position: relative;
-            width: 84px;
-            height: 84px;
-            margin: 0 auto 8px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .city-illustration {
+            width: 76px;
+            height: 76px;
+            margin: 2px auto 4px;
+            filter: drop-shadow(0 6px 10px rgba(150, 100, 180, 0.25));
         }
 
-        .aperture-ring::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 50%;
-            background: conic-gradient(from 0deg, var(--pink), var(--violet), var(--cyan), var(--mint), var(--gold), var(--pink));
-            animation: spin 6s linear infinite;
+        .city-illustration svg {
+            width: 100%;
+            height: 100%;
         }
 
-        .aperture-ring::after {
-            content: '';
-            position: absolute;
-            inset: 5px;
-            border-radius: 50%;
-            background: var(--paper);
-            box-shadow: inset 0 2px 6px rgba(150, 100, 180, 0.15);
-        }
-
-        .aperture-emoji {
-            position: relative;
-            z-index: 1;
-            font-size: 38px;
-            line-height: 1;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .floaty {
-            animation: floatBob 3s ease-in-out infinite;
-        }
-
-        @keyframes floatBob {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-6px); }
+        .city-caption {
+            font-size: 12px;
+            font-weight: 700;
+            color: #a983b3;
+            margin-bottom: 2px;
         }
 
         .brand-title {
             font-size: 30px;
             font-weight: 800;
-            background: linear-gradient(135deg, var(--pink) 0%, var(--violet) 50%, var(--cyan) 100%);
+            background: linear-gradient(135deg, #ec6bb0 0%, #9b7bf0 100%);
             -webkit-background-clip: text;
-            background-clip: text;
             -webkit-text-fill-color: transparent;
             letter-spacing: -0.5px;
         }
@@ -240,7 +300,7 @@
             position: absolute;
             top: 20px;
             right: 25px;
-            background: linear-gradient(135deg, var(--gold) 0%, var(--pink-soft) 100%);
+            background: linear-gradient(135deg, #ffe066 0%, #ffb3d9 100%);
             color: #6b4a2f;
             padding: 5px 14px;
             border-radius: 20px;
@@ -253,7 +313,7 @@
         }
 
         .btn {
-            background: linear-gradient(120deg, var(--pink) 0%, var(--violet) 55%, var(--cyan) 100%);
+            background: linear-gradient(135deg, #ec6bb0 0%, #b98af0 100%);
             color: #fff;
             border: none;
             padding: 16px;
@@ -261,7 +321,7 @@
             font-weight: 700;
             border-radius: 24px;
             cursor: pointer;
-            box-shadow: 0 10px 25px rgba(255, 46, 157, 0.3), 0 6px 20px rgba(139, 92, 246, 0.22);
+            box-shadow: 0 10px 25px rgba(201, 83, 154, 0.3);
             transition: all 0.25s ease;
             letter-spacing: 0.3px;
         }
@@ -271,29 +331,13 @@
             box-shadow: 0 5px 15px rgba(201, 83, 154, 0.25);
         }
 
-        .btn-secondary {
-            background: #fff;
-            color: var(--pink-text);
-            border: 2px solid #ffd6ea;
-            box-shadow: 0 6px 16px rgba(201, 83, 154, 0.12);
-        }
-
-        .btn-pulse {
-            animation: btnPulse 2.2s ease-in-out infinite;
-        }
-
-        @keyframes btnPulse {
-            0%, 100% { box-shadow: 0 10px 25px rgba(255, 46, 157, 0.3), 0 6px 20px rgba(139, 92, 246, 0.22); }
-            50% { box-shadow: 0 14px 32px rgba(255, 46, 157, 0.45), 0 8px 26px rgba(56, 189, 248, 0.3); }
-        }
-
         .input-field {
             width: 100%;
             padding: 16px 20px;
             border-radius: 20px;
             border: 2px solid #ffe3f0;
             background: #fff;
-            color: var(--ink);
+            color: #4a3b5c;
             font-size: 16px;
             text-align: center;
             outline: none;
@@ -302,7 +346,7 @@
         }
 
         .input-field:focus {
-            border-color: var(--pink);
+            border-color: #ec6bb0;
             box-shadow: 0 0 0 4px rgba(236, 107, 176, 0.15);
         }
 
@@ -316,7 +360,7 @@
             gap: 12px;
             margin: 15px 0;
             overflow-y: auto;
-            max-height: 340px;
+            max-height: 400px;
             padding: 5px;
         }
 
@@ -334,14 +378,13 @@
             color: #5c3d6e;
             font-weight: 700;
             font-size: 15px;
-            gap: 8px;
         }
 
         .node.active-node {
-            border: 2.5px solid transparent;
-            background: linear-gradient(135deg, #fff 0%, #fdf0fa 100%) padding-box, linear-gradient(135deg, var(--pink), var(--violet)) border-box;
+            background: linear-gradient(135deg, #fff 0%, #fdf0fa 100%);
+            border: 2.5px solid #ec6bb0;
             transform: scale(1.02);
-            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.25), 0 4px 15px rgba(255, 46, 157, 0.2);
+            box-shadow: 0 8px 25px rgba(236, 107, 176, 0.2);
         }
 
         .node.locked {
@@ -353,207 +396,67 @@
             box-shadow: none;
         }
 
-        .node.reviewable {
-            cursor: pointer;
-        }
-
-        .node.reviewable:hover {
-            border-color: var(--pink-soft);
-        }
-
-        .node .node-hint {
-            font-size: 11px;
-            color: var(--muted);
-            font-weight: 500;
-        }
-
         .visual-box {
-            background:
-                radial-gradient(circle at 20% 0%, rgba(255, 46, 157, 0.35), transparent 55%),
-                radial-gradient(circle at 85% 100%, rgba(56, 189, 248, 0.32), transparent 55%),
-                linear-gradient(160deg, #241246 0%, #16092e 60%, #1d0f3a 100%);
-            border-radius: 26px;
-            padding: 26px 20px 40px;
-            margin: 14px 6px;
-            border: 1px solid rgba(255, 255, 255, 0.14);
-            box-shadow: 0 18px 40px rgba(38, 12, 70, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+            background: #fff;
+            border-radius: 16px;
+            padding: 25px 20px 34px;
+            margin: 10px 6px;
+            border: 1px solid #f2e6ef;
+            box-shadow: 0 12px 28px rgba(150, 100, 180, 0.18);
             position: relative;
-            transform: none;
-            overflow: hidden;
+            transform: rotate(-1deg);
         }
 
-        /* רשת גיאומטרית עדינה ברקע - מודרני ורגוע */
-        .visual-box::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background-image:
-                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-            background-size: 26px 26px;
-            mask-image: radial-gradient(circle at 50% 40%, #000 35%, transparent 78%);
-            -webkit-mask-image: radial-gradient(circle at 50% 40%, #000 35%, transparent 78%);
-            pointer-events: none;
-        }
-
-        .visual-box > * { position: relative; z-index: 1; }
-
-        .glyph-row {
-            display: flex;
-            justify-content: center;
+        .answer-slot {
+            display: inline-flex;
             align-items: center;
-            gap: 10px;
-            font-size: 15px;
-            letter-spacing: 4px;
-            color: rgba(255, 255, 255, 0.55);
-            margin-bottom: 10px;
-        }
-        .glyph-row .g-hot { color: var(--pink-soft); }
-        .glyph-row .g-cool { color: var(--cyan); }
-        .glyph-row .g-mint { color: var(--mint); }
-
-        .equation {
-            font-size: 40px;
+            justify-content: center;
+            min-width: 48px;
+            height: 48px;
+            padding: 0 6px;
+            border: 2.5px dashed #ec6bb0;
+            border-radius: 14px;
+            background: #fff8fc;
+            color: #ec6bb0;
             font-weight: 800;
-            letter-spacing: 3px;
-            line-height: 1.15;
-            background: linear-gradient(100deg, #ff8fc7 0%, #ffcf3f 35%, #38bdf8 70%, #2dd4a7 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            -webkit-text-fill-color: transparent;
-            text-shadow: none;
-            direction: ltr;
-            unicode-bidi: isolate;
+            font-size: 28px;
+            transition: box-shadow 0.2s, border-color 0.2s, background 0.2s;
+            animation: slotPulse 1.8s ease-in-out infinite;
         }
 
-        .visual-box.frame-rainbow { border: 2px solid transparent; box-shadow: 0 18px 40px rgba(38, 12, 70, 0.4), 0 0 0 2px rgba(255, 46, 157, 0.35); }
-        .visual-box.frame-gold { border: 2px solid rgba(255, 207, 63, 0.75); box-shadow: 0 18px 40px rgba(255, 207, 63, 0.28); }
-        .visual-box.frame-mint { border: 2px solid rgba(45, 212, 167, 0.7); box-shadow: 0 18px 40px rgba(45, 212, 167, 0.25); }
-
-        .visual-box.question-swap {
-            animation: questionSwap 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        .answer-slot.drop-target-active {
+            border-style: solid;
+            border-color: #ec6bb0;
+            background: #ffe3f0;
+            box-shadow: 0 0 0 6px rgba(236, 107, 176, 0.25);
+            animation: none;
         }
 
-        @keyframes questionSwap {
-            from { opacity: 0; transform: translateY(10px) scale(0.97); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
+        @keyframes slotPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(236, 107, 176, 0.35); }
+            50% { box-shadow: 0 0 0 7px rgba(236, 107, 176, 0); }
         }
 
         .polaroid-sticker {
             position: absolute;
-            font-size: 18px;
-            z-index: 2;
-            opacity: 0.9;
-            filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35));
+            font-size: 20px;
         }
-        .ps-tl { top: 10px; left: 12px; }
-        .ps-tr { top: 10px; right: 12px; }
-        .ps-bl { bottom: 30px; left: 12px; }
-        .ps-br { bottom: 30px; right: 12px; }
+        .ps-tl { top: -10px; left: -8px; }
+        .ps-tr { top: -12px; right: -10px; }
+        .ps-bl { bottom: 6px; left: -10px; }
+        .ps-br { bottom: 4px; right: -8px; }
 
         .memory-caption {
             position: absolute;
-            bottom: 12px;
+            bottom: 10px;
             width: 100%;
             left: 0;
             font-size: 11px;
+            font-style: italic;
             font-weight: 600;
-            color: rgba(255, 255, 255, 0.6);
-            letter-spacing: 1.4px;
+            color: #d68ab5;
+            letter-spacing: 0.3px;
         }
-
-        .hint-line {
-            font-size: 12.5px;
-            color: rgba(255, 255, 255, 0.72);
-            margin-bottom: 12px;
-            font-weight: 500;
-        }
-
-        /* ===== מסך ניצחון מודרני ===== */
-        .victory-card {
-            position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.14);
-            border-radius: 30px;
-            padding: 30px 22px;
-            text-align: center;
-            background:
-                radial-gradient(circle at 15% 0%, rgba(139, 92, 246, 0.45), transparent 55%),
-                radial-gradient(circle at 90% 90%, rgba(45, 212, 167, 0.35), transparent 55%),
-                linear-gradient(165deg, #26134a 0%, #170a2f 65%, #1f0f3e 100%);
-            box-shadow: 0 22px 50px rgba(38, 12, 70, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.16);
-        }
-
-        .victory-mark {
-            width: 74px;
-            height: 74px;
-            margin: 0 auto 14px;
-            border-radius: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 30px;
-            color: #fff;
-            background: linear-gradient(135deg, var(--pink), var(--violet) 55%, var(--cyan));
-            box-shadow: 0 14px 30px rgba(255, 46, 157, 0.35);
-            animation: markPulse 3.2s ease-in-out infinite;
-        }
-
-        @keyframes markPulse {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-5px) rotate(-3deg); }
-        }
-
-        .victory-title {
-            color: #fff;
-            font-size: 23px;
-            font-weight: 800;
-            letter-spacing: 0.4px;
-        }
-
-        .victory-sub {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 13px;
-            margin-top: 8px;
-            line-height: 1.6;
-        }
-
-        .victory-panel {
-            margin-top: 20px;
-            padding: 16px;
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.07);
-            border: 1px solid rgba(255, 255, 255, 0.14);
-            backdrop-filter: blur(6px);
-        }
-
-        .victory-panel-label {
-            font-size: 11px;
-            letter-spacing: 2.5px;
-            font-weight: 700;
-            color: rgba(255, 255, 255, 0.55);
-        }
-
-        .victory-status {
-            margin-top: 6px;
-            font-size: 16px;
-            font-weight: 800;
-            background: linear-gradient(100deg, #ff8fc7, #ffcf3f 45%, #38bdf8);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .victory-summary {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.68);
-            margin-top: 10px;
-            line-height: 1.6;
-            white-space: pre-line;
-        }
-
 
         .options-grid {
             display: grid;
@@ -570,246 +473,43 @@
             font-size: 20px;
             font-weight: 700;
             border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.2s;
+            cursor: grab;
+            transition: transform 0.25s ease, background 0.2s, border-color 0.2s, box-shadow 0.2s;
             position: relative;
+            touch-action: none;
+            user-select: none;
         }
 
-        .option-btn:hover:not(:disabled) {
+        .option-btn.dragging {
+            transition: none;
+            cursor: grabbing;
+            z-index: 50;
+            box-shadow: 0 14px 30px rgba(236, 107, 176, 0.35);
+        }
+
+        .option-btn:hover {
             background: #fff8fc;
-            border-color: var(--pink);
-            transform: translateY(-2px);
+            border-color: #ec6bb0;
             box-shadow: 0 8px 20px rgba(236, 107, 176, 0.15);
         }
 
-        .option-btn:disabled {
-            cursor: default;
-            opacity: 0.85;
-        }
-
-        .option-btn.wrong-pick {
-            border-color: #ff7b9c;
-            background: #fff0f4;
-            animation: shakeX 0.4s ease;
-        }
-
-        .option-btn.correct-pick {
-            border-color: var(--mint);
-            background: #effdf8;
-        }
-
-        @keyframes shakeX {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-6px); }
-            50% { transform: translateX(5px); }
-            75% { transform: translateX(-3px); }
-        }
-
-        .wrong-feedback {
-            margin-top: 12px;
-            min-height: 24px;
-            font-size: 14px;
-            font-weight: 700;
-            color: #e0507e;
-            opacity: 0;
-            transition: opacity 0.25s;
-        }
-
-        .wrong-feedback.show {
-            opacity: 1;
-            animation: fadeIn 0.25s ease;
-        }
-
-        .film-strip {
-            display: flex;
-            justify-content: flex-start;
-            gap: 10px;
-            margin: 4px 0 16px;
-            padding: 14px 8px 12px;
-            overflow-x: auto;
-            scrollbar-width: none;
-            background:
-                repeating-linear-gradient(90deg, #ecd9ee 0 6px, transparent 6px 14px) top / 100% 2px no-repeat,
-                repeating-linear-gradient(90deg, #ecd9ee 0 6px, transparent 6px 14px) bottom / 100% 2px no-repeat;
-        }
-
-        .film-strip::-webkit-scrollbar {
-            display: none;
-        }
-
         .day-pill {
-            flex: 0 0 auto;
-            min-width: 54px;
-            padding: 10px 8px;
-            border-radius: 12px;
+            padding: 8px 12px;
+            border-radius: 14px;
             font-size: 11px;
             font-weight: 700;
-            animation: popIn 0.35s ease backwards;
-        }
-
-        .day-pill:nth-child(odd) { transform: rotate(-3deg); }
-        .day-pill:nth-child(even) { transform: rotate(2deg); }
-
-        @keyframes popIn {
-            from { opacity: 0; transform: translateY(6px) scale(0.7); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         .day-pill.done {
-            background: linear-gradient(160deg, #fff, var(--paper-2));
-            border: 1.5px solid #f2d9ea;
-            color: var(--pink-text);
+            background: #ffeef7;
+            border: 1px solid #ffe3f0;
+            color: #c9539a;
         }
 
         .day-pill.today {
-            background: linear-gradient(135deg, var(--pink) 0%, var(--violet) 60%, var(--cyan) 100%);
+            background: linear-gradient(135deg, #ec6bb0 0%, #b98af0 100%);
             color: #fff;
-            transform: scale(1.14) rotate(0deg) !important;
-            box-shadow: 0 6px 18px rgba(139, 92, 246, 0.4), 0 0 0 3px #fff, 0 0 0 5px rgba(255, 46, 157, 0.35);
-            animation: popIn 0.35s ease backwards, pulseGlow 1.8s ease-in-out infinite 0.4s;
-        }
-
-        @keyframes pulseGlow {
-            0%, 100% { box-shadow: 0 6px 18px rgba(139, 92, 246, 0.4), 0 0 0 3px #fff, 0 0 0 5px rgba(255, 46, 157, 0.35); }
-            50% { box-shadow: 0 8px 22px rgba(139, 92, 246, 0.55), 0 0 0 3px #fff, 0 0 0 7px rgba(56, 189, 248, 0.4); }
-        }
-
-        .daily-bonus {
-            border: 2px solid transparent;
-            border-radius: 16px;
-            padding: 12px 14px;
-            background: linear-gradient(135deg, #fff8fc, #f5f0ff) padding-box, linear-gradient(90deg, var(--pink), var(--cyan)) border-box;
-        }
-
-        /* חנות סטיקרים */
-        .shop-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-top: 12px;
-        }
-
-        .shop-item {
-            background: #fff;
-            border: 2px solid #ffe3f0;
-            border-radius: 16px;
-            padding: 12px 6px;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-weight: 700;
-            color: #5c3d6e;
-        }
-
-        .shop-item:hover:not(:disabled) {
-            border-color: var(--pink);
-            transform: translateY(-2px);
-        }
-
-        .shop-item:disabled {
-            opacity: 0.55;
-            cursor: not-allowed;
-        }
-
-        .shop-item.owned {
-            border-color: var(--mint);
-            background: #f2fdf9;
-        }
-
-        .shop-item.selected {
-            border-color: transparent;
-            background: linear-gradient(#f2fdf9, #f2fdf9) padding-box, linear-gradient(135deg, var(--mint), var(--cyan)) border-box;
-        }
-
-        .shop-item .shop-emoji { font-size: 26px; display: block; }
-        .shop-item .shop-price { font-size: 12px; color: var(--pink-text); }
-
-        /* טיימר מצב מהירות */
-        .speed-bar-wrap {
-            height: 8px;
-            background: #f6eaf3;
-            border-radius: 8px;
-            overflow: hidden;
-            margin: 8px 6px 0;
-            display: none;
-        }
-
-        .speed-bar-wrap.active { display: block; }
-
-        .speed-bar {
-            height: 100%;
-            width: 100%;
-            border-radius: 8px;
-            background: linear-gradient(90deg, var(--mint), var(--cyan), var(--violet));
-            transition: width 0.2s linear;
-        }
-
-        .speed-toggle {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--muted);
-            background: #fff;
-            border: 2px solid #f2e0ee;
-            border-radius: 20px;
-            padding: 6px 12px;
-            cursor: pointer;
-        }
-
-        .speed-toggle.on {
-            color: var(--pink-text);
-            border-color: var(--pink-soft);
-            background: #fff4fa;
-        }
-
-        /* נגישות */
-        button:focus-visible, input:focus-visible {
-            outline: 3px solid var(--violet);
-            outline-offset: 2px;
-        }
-
-        .kbd-hint {
-            font-size: 11px;
-            color: #cbb8d6;
-            margin-top: 8px;
-            font-weight: 500;
-        }
-
-        .toast {
-            position: absolute;
-            bottom: 24px;
-            right: 50%;
-            transform: translateX(50%) translateY(20px);
-            background: #2a1b45;
-            color: #fff;
-            font-size: 13px;
-            font-weight: 600;
-            padding: 10px 18px;
-            border-radius: 20px;
-            opacity: 0;
-            pointer-events: none;
-            transition: all 0.3s ease;
-            z-index: 1001;
-            max-width: 90%;
-            text-align: center;
-        }
-
-        .toast.show {
-            opacity: 1;
-            transform: translateX(50%) translateY(0);
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            .aperture-ring::before,
-            .day-pill.today,
-            .btn-pulse,
-            .floaty,
-            .day-pill,
-            .visual-box.question-swap,
-            .option-btn.wrong-pick {
-                animation: none !important;
-            }
+            box-shadow: 0 4px 12px rgba(236,107,176,0.3);
         }
     </style>
 </head>
@@ -817,11 +517,42 @@
 
 <div class="app-container">
     <div class="flash-overlay" id="flash-overlay"></div>
+    <div class="oops-toast" id="oops-toast">
+        <span class="oops-toast-icon">💕</span>
+        <span class="oops-toast-text" id="oops-toast-text"></span>
+    </div>
+
+    <div class="top-nav-bar">
+        <button class="back-btn hidden" id="global-back-btn" onclick="goBack()" aria-label="חזרה למסך הקודם">→</button>
+        <button class="back-btn hidden" id="global-exit-btn" onclick="showExitConfirm()" aria-label="יציאה מהמשחק">✕</button>
+    </div>
+
+    <div class="exit-confirm-overlay" id="exit-confirm-overlay">
+        <div class="exit-confirm-card">
+            <span style="font-size: 34px;">📸</span>
+            <p>לצאת מהמשחק ולחזור למסך הפתיחה?</p>
+            <div class="exit-confirm-actions">
+                <button class="exit-confirm-stay" onclick="hideExitConfirm()">להישאר</button>
+                <button class="exit-confirm-leave" onclick="confirmExit()">כן, לצאת</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="exit-confirm-overlay" id="skip-confirm-overlay">
+        <div class="exit-confirm-card">
+            <span style="font-size: 34px;">✨</span>
+            <p id="skip-confirm-text"></p>
+            <div class="exit-confirm-actions">
+                <button class="exit-confirm-stay" onclick="hideSkipConfirm()">ביטול</button>
+                <button class="exit-confirm-leave" onclick="confirmSkipToStage()">כן, לפתוח</button>
+            </div>
+        </div>
+    </div>
 
     <!-- מסך 1: כניסה ראשונה -->
     <div id="screen-onboarding" class="screen active">
         <div>
-            <div class="stamp-tag">Y2K ✨</div>
+            <div class="stamp-tag">רטרו ✨</div>
             <div style="height: 15px;"></div>
             <h1 class="brand-title">צילום פאן ✨</h1>
             <p style="color: #9b86a8; font-size: 14px; margin-top: 6px; font-weight: 400;">מצלמות רטרו, זיכרונות מתוקים, ולוח כפל שלא שוכחים</p>
@@ -834,37 +565,45 @@
             </div>
         </div>
 
+        <div class="lifestyle-card" style="padding: 20px; text-align: center;">
+            <p style="color: #5c3d6e; font-size: 17px; font-weight: 700; line-height: 1.5;">🎓 מיזם פדגוגי אינטראקטיבי לשינון לוח הכפל בכיף</p>
+            <p style="color: #ec6bb0; font-size: 17px; font-weight: 800; margin-top: 8px;">💛 תמכו בפרויקט</p>
+            <div style="display: flex; gap: 8px; justify-content: center; margin-top: 12px; flex-wrap: wrap;">
+                <a href="https://kids-math-academy.com/support.html?amount=7" target="_blank" rel="noopener" style="background: #fff8fc; border: 2px solid #ffe3f0; color: #ec6bb0; font-weight: 700; font-size: 14px; padding: 8px 14px; border-radius: 14px; text-decoration: none;">7 ₪</a>
+                <a href="https://kids-math-academy.com/support.html?amount=14" target="_blank" rel="noopener" style="background: #fff8fc; border: 2px solid #ffe3f0; color: #ec6bb0; font-weight: 700; font-size: 14px; padding: 8px 14px; border-radius: 14px; text-decoration: none;">14 ₪</a>
+                <a href="https://kids-math-academy.com/support.html?amount=21" target="_blank" rel="noopener" style="background: #fff8fc; border: 2px solid #ffe3f0; color: #ec6bb0; font-weight: 700; font-size: 14px; padding: 8px 14px; border-radius: 14px; text-decoration: none;">21 ₪</a>
+                <a href="https://kids-math-academy.com/support.html" target="_blank" rel="noopener" style="background: #fff8fc; border: 2px solid #ffe3f0; color: #ec6bb0; font-weight: 700; font-size: 14px; padding: 8px 14px; border-radius: 14px; text-decoration: none;">אחר</a>
+            </div>
+        </div>
+
         <div>
-            <input type="text" id="username" class="input-field" placeholder="השם שלך על המצלמה שלך..." autocomplete="off" maxlength="20">
+            <input type="text" id="username" class="input-field" placeholder="השם שלך על המצלמה שלך..." autocomplete="off">
             <button class="btn" style="width: 100%;" onclick="startJourney()">בואי נתחיל לצלם 📸</button>
-            <button class="btn btn-secondary" id="continue-btn" style="width: 100%; margin-top: 10px; display: none;" onclick="continueJourney()">המשך מהמקום שעצרת 💾</button>
         </div>
     </div>
 
     <!-- מסך 2: חוויית פתיחה יומית -->
     <div id="screen-daily" class="screen">
         <div class="header" style="background: transparent; border: none; padding: 0;">
-            <div class="stats-badge">🔥 רצף זיכרונות: <span id="streak-count" style="font-weight:800;">1 ימים</span></div>
+            <div class="stats-badge">🔥 רצף זיכרונות: <span id="streak-count" style="color:#ec6bb0; font-weight:800;">1 ימים</span></div>
             <div class="stats-badge">📸 <span id="coins-count">0</span></div>
         </div>
 
-        <div class="lifestyle-card daily-card">
-            <span class="polaroid-sticker ps-tl floaty">✨</span>
-            <span class="polaroid-sticker ps-tr floaty" style="animation-delay: 1.1s;">💫</span>
-            <div class="aperture-ring"><span class="aperture-emoji">🎀📸</span></div>
+        <div class="lifestyle-card">
+            <span style="font-size: 45px;">🎀📸</span>
             <h2 style="color: #5c3d6e; font-size: 20px; font-weight: 800; margin-top: 8px;">האלבום היומי מוכן</h2>
-            <p style="color: #9b86a8; font-size: 13px; margin: 6px 0 16px;">תפסי רגע ואספי זיכרון חדש לאלבום</p>
+            <p style="color: #9b86a8; font-size: 13px; margin: 6px 0 18px;">תפסי רגע ואספי זיכרון חדש לאלבום</p>
 
-            <div id="day-tracker" class="film-strip">
+            <div id="day-tracker" style="display: flex; justify-content: center; gap: 8px; margin-bottom: 15px;">
                 <!-- תגיות הימים נטענות דינמית -->
             </div>
 
-            <div class="daily-bonus">
+            <div style="background: #fff8fc; padding: 12px; border-radius: 16px; border: 1px solid #ffe3f0;">
                 <p style="font-size: 13px; color: #5c3d6e; font-weight: 500;">קיבלת <b>30 צילומים</b> ומסלול צילום אישי להיום!</p>
             </div>
         </div>
 
-        <button class="btn btn-pulse" style="width: 100%;" onclick="goToMap()">לצאת לצלם ✨</button>
+        <button class="btn" style="width: 100%;" onclick="goToMap()">לצאת לצלם ✨</button>
     </div>
 
     <!-- מסך 3: אלבום ההישגים -->
@@ -883,25 +622,8 @@
             <!-- עמודי האלבום נטענים דינמית לפי ההתקדמות בפועל -->
         </div>
 
-        <div style="display: flex; gap: 10px;">
-            <button class="btn" style="flex: 1; padding: 14px; font-size: 16px;" onclick="startBattle(false)">כניסה לצילום ✨</button>
-            <button class="btn btn-secondary" style="padding: 14px; font-size: 14px;" onclick="openShop()" aria-label="חנות סטיקרים">🛍️ חנות</button>
-        </div>
-    </div>
-
-    <!-- מסך 3.5: חנות סטיקרים -->
-    <div id="screen-shop" class="screen">
-        <div class="header">
-            <span style="font-weight: 800; color: #5c3d6e; font-size: 15px;">🛍️ חנות הסטיקרים</span>
-            <div class="stats-badge">📸 <span id="coins-count-shop">0</span></div>
-        </div>
-
-        <div class="lifestyle-card">
-            <p style="font-size: 13px; color: #9b86a8; font-weight: 500;">קני מסגרת לפולרויד שלך מתוך הצילומים שצברת. המסגרת תופיע על כל תרגיל!</p>
-            <div class="shop-grid" id="shop-grid"></div>
-        </div>
-
-        <button class="btn btn-secondary" style="width: 100%;" onclick="goToMap()">חזרה לאלבום 📖</button>
+        <button class="btn" style="width: 100%; padding: 14px; font-size: 16px;" onclick="startBattle()">כניסה לצילום ✨</button>
+        <button class="btn" style="width: 100%; padding: 14px; font-size: 16px; margin-top: 10px; background: linear-gradient(135deg, #9b7bf0 0%, #ffb84d 100%); box-shadow: 0 10px 25px rgba(155, 123, 240, 0.3);" onclick="startPuzzleRoom()">🧩 כניסה לחדר החידות</button>
     </div>
 
     <!-- מסך 4: מצלמה ותרגול -->
@@ -913,64 +635,59 @@
         </div>
 
         <div>
-            <div style="display: flex; justify-content: center; gap: 8px; align-items: center;">
-                <span style="font-size: 34px;">📸</span>
-                <button class="speed-toggle" id="speed-toggle" onclick="toggleSpeedMode()" aria-pressed="false">⏱️ מצב מהירות</button>
-            </div>
-            <div class="speed-bar-wrap" id="speed-bar-wrap"><div class="speed-bar" id="speed-bar"></div></div>
-            <div class="visual-box" id="visual-box">
-                <span class="polaroid-sticker ps-tl" id="sticker-tl">✨</span>
-                <span class="polaroid-sticker ps-tr" id="sticker-tr">💕</span>
-                <span class="polaroid-sticker ps-bl" id="sticker-bl">⭐</span>
-                <span class="polaroid-sticker ps-br" id="sticker-br">🎀</span>
-                <div class="glyph-row" aria-hidden="true"><span class="g-hot">❖</span><span class="g-cool">✦</span><span>⬡</span><span class="g-mint">◈</span><span class="g-cool">⟡</span></div>
-                <p class="hint-line" id="visual-hint">רמז: תפסי את הפריים הבא</p>
-                <h2 class="equation" id="question-text" aria-live="polite">? × ?</h2>
+            <p class="city-caption" id="city-caption">📍 מילאנו</p>
+            <div class="city-illustration" id="city-illustration"></div>
+            <div class="visual-box">
+                <span class="polaroid-sticker ps-tl">✨</span>
+                <span class="polaroid-sticker ps-tr">💕</span>
+                <span class="polaroid-sticker ps-bl">⭐</span>
+                <span class="polaroid-sticker ps-br">🎀</span>
+                <p style="font-size: 13px; color: #9b86a8; margin-bottom: 8px; font-weight: 500;" id="visual-hint">רמז: תפסי את הפריים הבא</p>
+                <div id="equation-row" style="display: flex; align-items: center; justify-content: center; gap: 10px; margin: 4px 0;">
+                    <span style="font-size: 32px; color: #5c3d6e; letter-spacing: 2px; font-weight: 800;" id="question-expr">? × ?</span>
+                    <span style="font-size: 28px; color: #5c3d6e; font-weight: 800;">=</span>
+                    <span class="answer-slot" id="answer-slot">?</span>
+                </div>
                 <span class="memory-caption" id="frame-counter">זיכרון #1 📸</span>
-
             </div>
         </div>
 
-        <div>
-            <div class="options-grid" id="options-container">
-                <!-- כפתורי התשובות יטענו באופן דינמי -->
-            </div>
-            <div class="wrong-feedback" id="wrong-feedback" role="status" aria-live="polite"></div>
-            <div class="kbd-hint">טיפ: אפשר לענות גם עם המקשים 1-4 במקלדת</div>
+        <p style="font-size: 12px; color: #9b86a8; margin: 4px 0 2px;">גררי את התשובה הנכונה לתוך התמונה למעלה 👆</p>
+        <div class="options-grid" id="options-container">
+            <!-- כפתורי התשובות יטענו באופן דינמי -->
         </div>
     </div>
 
     <!-- מסך 5: סיום וניצחון -->
     <div id="screen-victory" class="screen">
-        <div class="victory-card" style="margin-top: 10px;">
-            <div class="glyph-row" aria-hidden="true"><span class="g-cool">⟡</span><span>⬡</span><span class="g-hot">❖</span><span>⬡</span><span class="g-mint">⟡</span></div>
-            <div class="victory-mark" aria-hidden="true">◈</div>
-            <h1 class="victory-title">הזיכרון הזה נכנס לאלבום</h1>
-            <p class="victory-sub">עוד פריים אחד הושלם — את מתקדמת בקצב שלך, בשקט ובביטחון.</p>
+        <div class="lifestyle-card" style="margin-top: 10px;">
+            <span style="font-size: 55px;">🌈</span>
+            <h1 style="color: #5c3d6e; font-size: 22px; font-weight: 800; margin-top: 10px;">הזיכרון הזה נכנס לאלבום!</h1>
+            <p style="color: #9b86a8; font-size: 13px; margin-top: 6px; line-height: 1.4;">עוד עמוד באלבום המתוק שלך התמלא - צעד אחד קרוב יותר לאלבום השלם.</p>
 
-            <div class="victory-panel">
-                <p class="victory-panel-label">ההישג שלך</p>
-                <p class="victory-status" id="mastery-status">צילום מושלם</p>
-                <p class="victory-summary" id="stage-summary"></p>
+            <div style="background: #fff8fc; border: 2px solid #ffe3f0; border-radius: 18px; padding: 14px; margin-top: 18px;">
+                <p style="font-size: 13px; color: #5c3d6e; font-weight: 700;">ההישג שלך:</p>
+                <p style="font-size: 15px; color: #ec6bb0; margin-top: 4px; font-weight: 800;" id="mastery-status">💕 צילום מושלם!</p>
             </div>
         </div>
-
 
         <button class="btn" style="width: 100%;" id="victory-btn" onclick="resetApp()">חזרה לאלבום 📸</button>
     </div>
 
-    <div class="toast" id="toast" role="status" aria-live="polite"></div>
-
 </div>
 
 <script>
-    'use strict';
-
     let currentCorrectAnswer = 0;
     let currentKey = "";
     let frameCount = 0;
 
-    // ===== מנוע צליל: צליל קצר ונעים, נוצר ישירות בקוד =====
+    // מצב חדר החידות: תרגילי "נעלם" (למשל ? × 5 = 20) על בסיס הלוחות שכבר נפתחו, ללא קשר לשלב הנוכחי
+    let puzzleMode = false;
+    let puzzleCount = 0;
+    let puzzleSolvedCount = 0;
+    let currentPuzzleAnswer = null;
+
+    // מנוע צליל: צליל קצר ונעים לכל תשובה נכונה, נוצר ישירות בקוד (בלי קובץ קול חיצוני)
     let soundEnabled = true;
     let audioCtx = null;
 
@@ -978,55 +695,49 @@
         if (!audioCtx) {
             audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         }
-        // דפדפנים חוסמים צליל עד פעולת משתמש - מחדשים את ההקשר בלחיצה
-        if (audioCtx.state === 'suspended') {
-            audioCtx.resume();
-        }
         return audioCtx;
+    }
+
+    // צליל תריס מצלמת סטילס אמיתי, מוטמע בתוך הקובץ כ-base64 (בלי קובץ חיצוני)
+    const SHUTTER_SOUND_BASE64 = "SUQzBAAAAAABAFRYWFgAAAASAAADbWFqb3JfYnJhbmQAZGFzaABUWFhYAAAAEQAAA21pbm9yX3ZlcnNpb24AMABUWFhYAAAAHAAAA2NvbXBhdGlibGVfYnJhbmRzAGlzbzZtcDQxAFRTU0UAAAAPAAADTGF2ZjU3LjgzLjEwMAAAAAAAAAAAAAAA//tQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAASW5mbwAAAA8AAAAiAAA4UgALCxISEhkZGSEhISgoKDAwMDc3Nz8/P0ZGRk1NTVVVVVxcXGRkZGtra3Nzc3p6eoGBiYmJkJCQmJiYn5+fpqamrq6utbW1vb29xMTEzMzM09PT2tra4uLi6enp8fHx+Pj4//8AAAAATGF2YzU3LjEwAAAAAAAAAAAAAAAAJALAAAAAAAAAOFIi7VQVAAAAAAAAAAAAAAAAAAAAAP/7kGQAD/AAAGkAAAAIAAANIAAAAQAAAaQAAAAgAAA0gAAABExBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/7kmRAj/AAAGkAAAAIAAANIAAAAQAAAaQAAAAgAAA0gAAABFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV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";
+    let shutterBuffer = null;
+    let shutterLoadPromise = null;
+
+    function loadShutterSound() {
+        if (shutterBuffer) return Promise.resolve(shutterBuffer);
+        if (shutterLoadPromise) return shutterLoadPromise;
+        const ctx = getAudioContext();
+        const binary = atob(SHUTTER_SOUND_BASE64);
+        const bytes = new Uint8Array(binary.length);
+        for (let i = 0; i < binary.length; i++) {
+            bytes[i] = binary.charCodeAt(i);
+        }
+        shutterLoadPromise = ctx.decodeAudioData(bytes.buffer).then(buf => {
+            shutterBuffer = buf;
+            return buf;
+        });
+        return shutterLoadPromise;
     }
 
     function playSuccessSound() {
         if (!soundEnabled) return;
         try {
             const ctx = getAudioContext();
-            const now = ctx.currentTime;
-            const notes = [523.25, 659.25];
-            notes.forEach((freq, i) => {
-                const osc = ctx.createOscillator();
+            loadShutterSound().then(buffer => {
+                if (!soundEnabled) return; // ייתכן שהושתק בזמן הטעינה
+                const source = ctx.createBufferSource();
+                source.buffer = buffer;
                 const gain = ctx.createGain();
-                osc.type = 'sine';
-                osc.frequency.value = freq;
-                const startTime = now + i * 0.09;
-                gain.gain.setValueAtTime(0, startTime);
-                gain.gain.linearRampToValueAtTime(0.15, startTime + 0.02);
-                gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.18);
-                osc.connect(gain);
+                gain.gain.value = 0.7;
+                source.connect(gain);
                 gain.connect(ctx.destination);
-                osc.start(startTime);
-                osc.stop(startTime + 0.2);
+                source.start(0);
+            }).catch(() => {
+                // טעינת/פענוח הצליל נכשלו - פשוט בלי צליל, לא קריטי
             });
         } catch (e) {
-            // דפדפן שלא תומך ב-Web Audio - פשוט בלי צליל
+            // דפדפן שלא תומך ב-Web Audio - פשוט בלי צליל, לא קריטי
         }
-    }
-
-    function playErrorSound() {
-        if (!soundEnabled) return;
-        try {
-            const ctx = getAudioContext();
-            const now = ctx.currentTime;
-            const osc = ctx.createOscillator();
-            const gain = ctx.createGain();
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(220, now);
-            osc.frequency.linearRampToValueAtTime(180, now + 0.15);
-            gain.gain.setValueAtTime(0.08, now);
-            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
-            osc.connect(gain);
-            gain.connect(ctx.destination);
-            osc.start(now);
-            osc.stop(now + 0.22);
-        } catch (e) {}
     }
 
     function toggleSound() {
@@ -1034,248 +745,251 @@
         document.getElementById('sound-toggle').innerText = soundEnabled ? '🔊' : '🔇';
     }
 
-    // ===== אפקט פלאש עדין =====
+    // אפקט פלאש עדין: הבזק רך ופסטלי על כל תשובה נכונה
     function triggerFlash() {
         const flash = document.getElementById('flash-overlay');
         flash.classList.remove('flash-active');
-        void flash.offsetWidth;
+        void flash.offsetWidth; // מאלץ רה-פלואו כדי שהאנימציה תופעל מחדש בכל פעם
         flash.classList.add('flash-active');
     }
 
-    // ===== הודעת טוסט קטנה (במקום alert חוסם) =====
-    let toastTimer = null;
-    function showToast(msg) {
-        const toast = document.getElementById('toast');
-        toast.innerText = msg;
-        toast.classList.add('show');
-        if (toastTimer) clearTimeout(toastTimer);
-        toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
+    // מערכת שלבים: כל שלב הוא לוח כפל שלם אחד (X × 1 עד X × 10). עם השלמת השלב עוברים ללוח הבא.
+    const STAGE_BASES = [2, 3, 4, 5, 6, 7, 8, 9, 10];
+    let currentStageIndex = 0;
+    const FACTS_PER_STAGE = 10;
+
+    // מצב תרגול חופשי: אם לא null, המשתמשת מתרגלת שלב שכבר הושלם, בלי לשנות את currentStageIndex האמיתי
+    let practiceStageIndex = null;
+    let savedCorrectlyAnsweredOnce = null;
+
+    // מחזירה את אינדקס השלב שמוצג כרגע במשחק - שלב בתרגול חופשי אם קיים, אחרת השלב האמיתי
+    function getActiveStageIndex() {
+        return practiceStageIndex !== null ? practiceStageIndex : currentStageIndex;
     }
 
-    // ===== מערכת שלבים: כל שלב הוא לוח כפל שלם אחד =====
-    const STAGE_BASES = [2, 3, 4, 5, 6, 7, 8, 9, 10];
-    const FACTS_PER_STAGE = 10;
+    function getCurrentStageBase() {
+        return STAGE_BASES[getActiveStageIndex()];
+    }
 
     function getStageFactKeys(base) {
         let keys = [];
         for (let n = 1; n <= 10; n++) {
-            keys.push(base + 'x' + n);
+            keys.push(`${base}x${n}`);
         }
         return keys;
     }
 
-    // ===== מצב המשחק - עם שמירה ב-localStorage =====
-    const SAVE_KEY = 'photoFunMathSave_v1';
-
-    let currentStageIndex = 0;
-    let practiceMode = false;        // מצב חזרה חופשית על לוח שכבר נפתח
-    let practiceBase = null;
+    // מעקב אחרי אילו תרגילים בשלב הנוכחי כבר נענו נכון פעם אחת. מתאפס עם כל שלב חדש.
     let correctlyAnsweredOnce = new Set();
-    let userMasteryMatrix = {};
-    let sessionStats = { correct: 0, wrong: 0, wrongKeys: [] };
 
+    // מצב המשתמשת - נשמר ב-localStorage כדי שההתקדמות תישאר גם אחרי רענון/סגירת הדפדפן
     let userState = {
-        name: '',
-        streakDays: 1,
+        streakDays: 1,   // יום ראשון בברירת מחדל
         coins: 0,
-        lastPlayDate: null,   // YYYY-MM-DD של היום האחרון שבו ניתן בונוס יומי
-        ownedFrames: ['classic'],
-        selectedFrame: 'classic'
+        lastPlayedDate: null,  // התאריך (toDateString) של הביקור האחרון - לחישוב רצף ימים אמיתי
+        bonusGivenDate: null   // התאריך שבו כבר ניתן בונוס הצילומים היומי - כדי לא להעניק אותו כמה פעמים באותו יום
     };
 
-    function todayStr() {
-        const d = new Date();
-        return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
-    }
+    // מנוע ההתאמה האישית: שמירת מצב השליטה בכל תרגיל (נקודות תורפה מנוהלות כאן)
+    let userMasteryMatrix = {};
 
-    function daysBetween(a, b) {
-        return Math.round((new Date(b) - new Date(a)) / 86400000);
-    }
+    const SAVE_KEY = 'photoFunMathSave';
 
-    function saveGame() {
+    // שומרת את מצב המשחק ל-localStorage כדי שיישאר גם בביקור הבא
+    function saveState() {
         try {
+            const usernameInput = document.getElementById('username');
             const data = {
-                userState,
-                currentStageIndex,
-                userMasteryMatrix
+                username: usernameInput ? usernameInput.value.trim() : '',
+                streakDays: userState.streakDays,
+                coins: userState.coins,
+                lastPlayedDate: userState.lastPlayedDate,
+                bonusGivenDate: userState.bonusGivenDate,
+                currentStageIndex: currentStageIndex,
+                mastery: userMasteryMatrix,
+                correctOnce: Array.from(correctlyAnsweredOnce)
             };
             localStorage.setItem(SAVE_KEY, JSON.stringify(data));
         } catch (e) {
-            // אחסון חסום (מצב פרטי וכו') - המשחק ממשיך בזיכרון בלבד
+            // localStorage לא זמין (למשל גלישה פרטית) - פשוט לא שומרים, לא קריטי למשחק
         }
     }
 
-    function loadGame() {
+    // טוענת מצב שמור מ-localStorage, אם קיים. מחזירה true אם נמצא ונטען מצב קודם.
+    function loadState() {
         try {
             const raw = localStorage.getItem(SAVE_KEY);
             if (!raw) return false;
             const data = JSON.parse(raw);
-            if (data && typeof data === 'object') {
-                if (data.userState && typeof data.userState === 'object') {
-                    userState = Object.assign(userState, data.userState);
-                }
-                if (Number.isInteger(data.currentStageIndex) && data.currentStageIndex >= 0 && data.currentStageIndex < STAGE_BASES.length) {
-                    currentStageIndex = data.currentStageIndex;
-                }
-                if (data.userMasteryMatrix && typeof data.userMasteryMatrix === 'object') {
-                    userMasteryMatrix = data.userMasteryMatrix;
-                }
-                return true;
-            }
-        } catch (e) {}
-        return false;
-    }
 
-    function getCurrentStageBase() {
-        return practiceMode && practiceBase ? practiceBase : STAGE_BASES[currentStageIndex];
-    }
+            userState.coins = typeof data.coins === 'number' ? data.coins : 0;
+            userState.streakDays = typeof data.streakDays === 'number' ? data.streakDays : 1;
+            userState.lastPlayedDate = data.lastPlayedDate || null;
+            userState.bonusGivenDate = data.bonusGivenDate || null;
+            currentStageIndex = typeof data.currentStageIndex === 'number' ? data.currentStageIndex : 0;
+            userMasteryMatrix = data.mastery && typeof data.mastery === 'object' ? data.mastery : {};
+            correctlyAnsweredOnce = new Set(Array.isArray(data.correctOnce) ? data.correctOnce : []);
 
-    // ===== חנות מסגרות פולרויד =====
-    const SHOP_ITEMS = [
-        { id: 'classic', emoji: '🤍', name: 'קלאסית', price: 0 },
-        { id: 'frame-rainbow', emoji: '🌈', name: 'קשת', price: 60 },
-        { id: 'frame-gold', emoji: '🌟', name: 'זהב', price: 90 },
-        { id: 'frame-mint', emoji: '🍃', name: 'מנטה', price: 90 },
-        { id: 'stickers-cute', emoji: '🐰', name: 'סטיקרים חמודים', price: 50 },
-        { id: 'stickers-party', emoji: '🎉', name: 'סטיקרי מסיבה', price: 50 }
-    ];
-
-    const STICKER_SETS = {
-        classic: ['✨', '💕', '⭐', '🎀'],
-        'stickers-cute': ['🐰', '🧸', '🍓', '🌸'],
-        'stickers-party': ['🎉', '🎈', '🪩', '🍭']
-    };
-
-    function openShop() {
-        renderShop();
-        showScreen('screen-shop');
-    }
-
-    function renderShop() {
-        document.getElementById('coins-count-shop').innerText = userState.coins;
-        const grid = document.getElementById('shop-grid');
-        grid.innerHTML = '';
-
-        SHOP_ITEMS.forEach(item => {
-            const owned = userState.ownedFrames.includes(item.id);
-            const selected = userState.selectedFrame === item.id;
-            const btn = document.createElement('button');
-            btn.className = 'shop-item' + (owned ? ' owned' : '') + (selected ? ' selected' : '');
-            const label = document.createElement('span');
-            label.className = 'shop-emoji';
-            label.innerText = item.emoji;
-            const name = document.createElement('div');
-            name.style.fontSize = '12px';
-            name.innerText = item.name;
-            const price = document.createElement('div');
-            price.className = 'shop-price';
-            price.innerText = selected ? '✓ מופעל' : (owned ? 'הפעילי' : item.price + ' 📸');
-            btn.appendChild(label);
-            btn.appendChild(name);
-            btn.appendChild(price);
-
-            if (!owned && userState.coins < item.price) {
-                btn.disabled = true;
+            if (data.username) {
+                const usernameInput = document.getElementById('username');
+                if (usernameInput) usernameInput.value = data.username;
             }
 
-            btn.onclick = () => {
-                if (owned) {
-                    userState.selectedFrame = item.id;
-                    applyFrame();
-                    saveGame();
-                    renderShop();
-                } else if (userState.coins >= item.price) {
-                    userState.coins -= item.price;
-                    userState.ownedFrames.push(item.id);
-                    userState.selectedFrame = item.id;
-                    applyFrame();
-                    saveGame();
-                    renderShop();
-                    showToast('נקנה! המסגרת החדשה כבר על הפולרויד 🎀');
-                    if (typeof confetti === 'function') {
-                        confetti({ particleCount: 60, spread: 60, origin: { y: 0.6 }, colors: ['#ff2e9d', '#8b5cf6', '#ffcf3f'] });
-                    }
-                }
-            };
-            grid.appendChild(btn);
-        });
-    }
+            // אם יש התקדמות אמיתית שמורה - מסמנים זאת למשתמשת החוזרת במסך הפתיחה
+            const hasProgress = currentStageIndex > 0 || Object.keys(userMasteryMatrix).length > 0 || userState.coins > 0;
+            if (hasProgress) {
+                const stampTag = document.querySelector('#screen-onboarding .stamp-tag');
+                if (stampTag) stampTag.innerText = 'כיף שחזרת! ✨';
+                const startBtn = document.querySelector('#screen-onboarding .btn');
+                if (startBtn) startBtn.innerText = 'להמשיך לצלם 📸';
+            }
 
-    function applyFrame() {
-        const box = document.getElementById('visual-box');
-        box.classList.remove('frame-rainbow', 'frame-gold', 'frame-mint');
-        if (userState.selectedFrame.startsWith('frame-')) {
-            box.classList.add(userState.selectedFrame);
+            return true;
+        } catch (e) {
+            return false;
         }
-        const stickers = STICKER_SETS[userState.selectedFrame] || STICKER_SETS.classic;
-        document.getElementById('sticker-tl').innerText = stickers[0];
-        document.getElementById('sticker-tr').innerText = stickers[1];
-        document.getElementById('sticker-bl').innerText = stickers[2];
-        document.getElementById('sticker-br').innerText = stickers[3];
     }
 
-    // ===== ניווט בין מסכים =====
-    function showScreen(screenId) {
+    let screenHistory = [];
+
+    function showScreen(screenId, opts) {
+        opts = opts || {};
+        const recordHistory = opts.recordHistory !== false;
+        const currentActive = document.querySelector('.screen.active');
+        if (recordHistory && currentActive && currentActive.id !== screenId) {
+            screenHistory.push(currentActive.id);
+        }
+        // יציאה ממסך המשחק (למשל דרך חזרה/יציאה) בזמן חדר חידות/תרגול חופשי - מבטלת את המצב כדי שהמשחק הרגיל יחזור לתקין
+        if (screenId !== 'screen-game') {
+            resetGameModes();
+        }
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
         document.getElementById(screenId).classList.add('active');
+        updateBackButtonVisibility();
+    }
+
+    // חוזרת למסך הקודם שבו ביקרה המשתמשת (לפי מחסנית ההיסטוריה)
+    function goBack() {
+        if (screenHistory.length === 0) return;
+        const prevId = screenHistory.pop();
+        showScreen(prevId, { recordHistory: false });
+    }
+
+    function updateBackButtonVisibility() {
+        const backBtn = document.getElementById('global-back-btn');
+        const exitBtn = document.getElementById('global-exit-btn');
+        const notOnOnboarding = screenHistory.length > 0;
+        if (backBtn) backBtn.classList.toggle('hidden', !notOnOnboarding);
+        if (exitBtn) exitBtn.classList.toggle('hidden', !notOnOnboarding);
+    }
+
+    // פותחת את חלונית האישור לפני יציאה מלאה מהמשחק
+    function showExitConfirm() {
+        document.getElementById('exit-confirm-overlay').classList.add('show');
+    }
+
+    function hideExitConfirm() {
+        document.getElementById('exit-confirm-overlay').classList.remove('show');
+    }
+
+    // יציאה מלאה: חוזרת למסך הפתיחה ומאפסת את היסטוריית הניווט
+    function confirmExit() {
+        hideExitConfirm();
+        screenHistory = [];
+        if (document.fullscreenElement) {
+            document.exitFullscreen().catch(() => {});
+        }
+        showScreen('screen-onboarding', { recordHistory: false });
+        updateBackButtonVisibility();
+    }
+
+    let pendingSkipIndex = null;
+
+    // פותחת חלונית אישור לפני דילוג קדימה לעמוד אלבום שעדיין נעול
+    function requestSkipToStage(i) {
+        pendingSkipIndex = i;
+        const base = STAGE_BASES[i];
+        document.getElementById('skip-confirm-text').innerText =
+            `לדלג קדימה ולפתוח את לוח הכפל של ${base}? השלבים שביניכם יסומנו כהושלמו.`;
+        document.getElementById('skip-confirm-overlay').classList.add('show');
+    }
+
+    function hideSkipConfirm() {
+        document.getElementById('skip-confirm-overlay').classList.remove('show');
+        pendingSkipIndex = null;
+    }
+
+    // מבצעת את הדילוג בפועל: עוברת לשלב שנבחר ומאפסת את מעקב ההתקדמות של השלב הזה
+    function confirmSkipToStage() {
+        if (pendingSkipIndex === null) return;
+        currentStageIndex = pendingSkipIndex;
+        correctlyAnsweredOnce = new Set();
+        hideSkipConfirm();
+        syncMapHeader();
+        saveState();
+    }
+
+    // מבקשת ממסך הטלפון לעבור למסך מלא (מסתיר את שורת הכתובת והניווט באנדרואיד)
+    function requestFullscreenIfPossible() {
+        const el = document.documentElement;
+        const fn = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen;
+        if (fn) {
+            fn.call(el)
+                .then(() => {
+                    // כרום/אנדרואיד מציגים הודעת מערכת זמנית בתחתית המסך שמסבירה איך לצאת ממסך מלא.
+                    // מוסיפים מרווח תחתון זמני כדי שהיא לא תכסה כפתורים, ומסירים אותו אחרי שההודעה נעלמת.
+                    const container = document.querySelector('.app-container');
+                    if (container) {
+                        container.classList.add('fs-toast-guard');
+                        setTimeout(() => container.classList.remove('fs-toast-guard'), 10000);
+                    }
+                })
+                .catch(() => {});
+        }
     }
 
     function startJourney() {
-        const nameInput = document.getElementById('username').value.trim().slice(0, 20);
-        if (nameInput) {
-            userState.name = nameInput;
-            // innerText בלבד - מניעת הזרקת HTML
+        requestFullscreenIfPossible();
+        const nameInput = document.getElementById('username').value.trim();
+        if(nameInput) {
             document.getElementById('display-name').innerText = "האלבום של " + nameInput;
         }
-        saveGame();
         renderDailyScreen();
         showScreen('screen-daily');
     }
 
-    function continueJourney() {
-        if (userState.name) {
-            document.getElementById('display-name').innerText = "האלבום של " + userState.name;
-        }
-        applyFrame();
-        renderDailyScreen();
-        showScreen('screen-daily');
-    }
-
-    // ===== מסך יומי: רצף אמיתי לפי תאריך =====
+    // בונה דינמית את תגיות הימים ואת מונה הרצף, לפי userState בפועל
     function renderDailyScreen() {
-        const today = todayStr();
-        let bonusGranted = false;
+        const todayStr = new Date().toDateString();
 
-        if (userState.lastPlayDate !== today) {
-            if (userState.lastPlayDate && daysBetween(userState.lastPlayDate, today) === 1) {
-                userState.streakDays++;   // יום רציף
-            } else if (userState.lastPlayDate) {
-                userState.streakDays = 1; // דילוג - הרצף מתאפס
+        // יום חדש (לפי תאריך אמיתי, לא רק רענון של הדף) - מקדמים את הרצף
+        if (userState.lastPlayedDate !== todayStr) {
+            if (userState.lastPlayedDate) {
+                userState.streakDays++;
             }
-            userState.lastPlayDate = today;
-            userState.coins += 30;       // בונוס פתיחה יומי, פעם אחת ביום בלבד
-            bonusGranted = true;
-            saveGame();
+            userState.lastPlayedDate = todayStr;
         }
 
         document.getElementById('streak-count').innerText = userState.streakDays + " ימים";
-        document.getElementById('coins-count').innerText = userState.coins;
 
         const tracker = document.getElementById('day-tracker');
         tracker.innerHTML = '';
 
-        for (let day = userState.streakDays; day >= 1; day--) {
+        for (let day = 1; day <= userState.streakDays; day++) {
             const pill = document.createElement('div');
             const isToday = day === userState.streakDays;
             pill.className = 'day-pill ' + (isToday ? 'today' : 'done');
-            pill.style.animationDelay = (Math.min(day - 1, 10) * 0.05) + 's';
-            pill.innerText = isToday ? 'יום ' + day + ' ✨' : 'יום ' + day + ' ✓';
+            pill.innerText = isToday ? `יום ${day} ✨` : `יום ${day} ✓`;
             tracker.appendChild(pill);
         }
 
-        if (bonusGranted) {
-            showToast('התווספו 30 צילומים יומיים! 📸');
+        // הענקת צילומי הפתיחה היומית - פעם אחת בלבד ליום אמיתי (לא בכל טעינה/רענון)
+        if (userState.bonusGivenDate !== todayStr) {
+            userState.coins += 30;
+            userState.bonusGivenDate = todayStr;
         }
+        document.getElementById('coins-count').innerText = userState.coins;
+        saveState();
     }
 
     function goToMap() {
@@ -1286,187 +1000,330 @@
     const STAGE_ICONS = ['📸', '💕', '⭐', '🎀', '🌈', '✨', '🦋', '🍑', '💫'];
     const CITY_NAMES = ['מילאנו', 'פריז', 'ניו יורק', 'לונדון', 'קאן', 'טוקיו', 'רומא', 'לוס אנג\'לס', 'דובאי'];
 
-    // בונה את עמודי האלבום: נתפס (אפשר חזרה!) / פעיל / נעול
+    // איורים מקוריים ומינימליסטיים (לא תצלומים) המייצגים כל עיר - בפלטת הצבעים הפסטלית של האפליקציה
+    const CITY_ILLUSTRATIONS = {
+        'מילאנו': `<svg viewBox="0 0 60 70" xmlns="http://www.w3.org/2000/svg">
+            <rect x="14" y="34" width="32" height="32" fill="#fff6ea" stroke="#5c3d6e" stroke-width="1.5"/>
+            <polygon points="30,10 38,34 22,34" fill="#f7d9c4" stroke="#5c3d6e" stroke-width="1.5" stroke-linejoin="round"/>
+            <polygon points="17,22 22,34 12,34" fill="#f7d9c4" stroke="#5c3d6e" stroke-width="1.2" stroke-linejoin="round"/>
+            <polygon points="43,22 48,34 38,34" fill="#f7d9c4" stroke="#5c3d6e" stroke-width="1.2" stroke-linejoin="round"/>
+            <circle cx="30" cy="10" r="2" fill="#ffe066" stroke="#5c3d6e" stroke-width="1"/>
+        </svg>`,
+        'פריז': `<svg viewBox="0 0 60 70" xmlns="http://www.w3.org/2000/svg">
+            <path d="M30 4 L35 28 L43 28 L36 36 L44 56 L34 47 L34 66 L26 66 L26 47 L16 56 L24 36 L17 28 L25 28 Z"
+                fill="#e6c2f7" stroke="#5c3d6e" stroke-width="1.5" stroke-linejoin="round"/>
+        </svg>`,
+        'ניו יורק': `<svg viewBox="0 0 60 70" xmlns="http://www.w3.org/2000/svg">
+            <rect x="24" y="40" width="12" height="26" fill="#8af0d1" stroke="#5c3d6e" stroke-width="1.5"/>
+            <circle cx="30" cy="26" r="9" fill="#c7f7e3" stroke="#5c3d6e" stroke-width="1.5"/>
+            <polygon points="30,8 33,17 27,17" fill="#ffe066" stroke="#5c3d6e" stroke-width="1" stroke-linejoin="round"/>
+            <line x1="38" y1="30" x2="44" y2="14" stroke="#5c3d6e" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="44" cy="12" r="3.5" fill="#ffe066" stroke="#5c3d6e" stroke-width="1.5"/>
+        </svg>`,
+        'לונדון': `<svg viewBox="0 0 60 70" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="20" width="20" height="46" rx="2" fill="#8ac9f0" stroke="#5c3d6e" stroke-width="1.5"/>
+            <polygon points="30,4 42,20 18,20" fill="#5c7fa3" stroke="#5c3d6e" stroke-width="1.5" stroke-linejoin="round"/>
+            <circle cx="30" cy="31" r="7" fill="#fff" stroke="#5c3d6e" stroke-width="1.5"/>
+            <line x1="30" y1="31" x2="30" y2="26" stroke="#5c3d6e" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="30" y1="31" x2="34" y2="31" stroke="#5c3d6e" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>`,
+        'קאן': `<svg viewBox="0 0 60 70" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="44" cy="16" r="8" fill="#ffe066" stroke="#5c3d6e" stroke-width="1.5"/>
+            <path d="M29 66 L31 30" stroke="#a9723f" stroke-width="3.5" stroke-linecap="round"/>
+            <path d="M31 30 C 18 26, 13 15, 9 17 C 15 26, 22 30, 31 30" fill="#8af0b9" stroke="#5c3d6e" stroke-width="1.2" stroke-linejoin="round"/>
+            <path d="M31 30 C 44 26, 49 15, 53 17 C 47 26, 40 30, 31 30" fill="#8af0b9" stroke="#5c3d6e" stroke-width="1.2" stroke-linejoin="round"/>
+            <path d="M31 30 C 22 21, 20 10, 25 5 C 29 14, 31 23, 31 30" fill="#a3f7c4" stroke="#5c3d6e" stroke-width="1.2" stroke-linejoin="round"/>
+            <path d="M31 30 C 40 21, 42 10, 37 5 C 33 14, 31 23, 31 30" fill="#a3f7c4" stroke="#5c3d6e" stroke-width="1.2" stroke-linejoin="round"/>
+        </svg>`,
+        'טוקיו': `<svg viewBox="0 0 60 70" xmlns="http://www.w3.org/2000/svg">
+            <path d="M30 4 L36 40 L44 66 L34 58 L30 66 L26 58 L16 66 L24 40 Z"
+                fill="#ff9fb3" stroke="#5c3d6e" stroke-width="1.5" stroke-linejoin="round"/>
+            <line x1="30" y1="4" x2="30" y2="0" stroke="#5c3d6e" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>`,
+        'רומא': `<svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 40 C6 22 16 14 30 14 C44 14 54 22 54 40 Z" fill="#ffd9a0" stroke="#5c3d6e" stroke-width="1.5"/>
+            <rect x="10" y="34" width="4" height="10" fill="#fff6ea" stroke="#5c3d6e" stroke-width="1"/>
+            <rect x="18" y="30" width="4" height="14" fill="#fff6ea" stroke="#5c3d6e" stroke-width="1"/>
+            <rect x="26" y="27" width="4" height="17" fill="#fff6ea" stroke="#5c3d6e" stroke-width="1"/>
+            <rect x="34" y="27" width="4" height="17" fill="#fff6ea" stroke="#5c3d6e" stroke-width="1"/>
+            <rect x="42" y="30" width="4" height="14" fill="#fff6ea" stroke="#5c3d6e" stroke-width="1"/>
+            <rect x="6" y="44" width="48" height="5" fill="#f2b96b" stroke="#5c3d6e" stroke-width="1.2"/>
+        </svg>`,
+        'לוס אנג\'לס': `<svg viewBox="0 0 60 55" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 50 Q15 28 30 50 Q45 28 60 50 Z" fill="#c9b8f7" stroke="#5c3d6e" stroke-width="1.5" stroke-linejoin="round"/>
+            <polygon points="30,6 33,15 42,15 35,20 37,29 30,24 23,29 25,20 18,15 27,15"
+                fill="#ffe066" stroke="#5c3d6e" stroke-width="1.2" stroke-linejoin="round"/>
+        </svg>`,
+        'דובאי': `<svg viewBox="0 0 60 70" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="30,4 36,66 24,66" fill="#dbe6ff" stroke="#5c3d6e" stroke-width="1.5" stroke-linejoin="round"/>
+            <polygon points="30,4 33,40 27,40" fill="#b9c9f7" stroke="#5c3d6e" stroke-width="1" stroke-linejoin="round"/>
+            <line x1="30" y1="4" x2="30" y2="-1" stroke="#5c3d6e" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>`
+    };
+
+    function getCityIllustration(city) {
+        return CITY_ILLUSTRATIONS[city] || '';
+    }
+
+    // בונה את כל 9 עמודי האלבום במפה, לפי המצב האמיתי: נתפס / פעיל / נעול
     function renderMapPath() {
         const container = document.getElementById('map-path');
-        container.innerHTML = '';
+        let html = '';
 
         STAGE_BASES.forEach((base, i) => {
             const icon = STAGE_ICONS[i % STAGE_ICONS.length];
             const city = CITY_NAMES[i % CITY_NAMES.length];
-            const node = document.createElement('div');
-
+            const cityIcon = `<span class="city-icon-small">${getCityIllustration(city)}</span>`;
             if (i < currentStageIndex) {
-                // שלב שהושלם - אפשר ללחוץ כדי לתרגל שוב במצב חזרה חופשית
-                node.className = 'node reviewable';
-                node.style.background = '#fdf0fa';
-                node.style.borderColor = '#f2c6e3';
-                const left = document.createElement('span');
-                left.innerText = icon + ' ' + city;
-                const rightWrap = document.createElement('span');
-                rightWrap.style.textAlign = 'left';
-                const status = document.createElement('div');
-                status.innerText = '✅ נתפס';
-                const hint = document.createElement('div');
-                hint.className = 'node-hint';
-                hint.innerText = 'לחצי לחזרה על לוח ' + base;
-                rightWrap.appendChild(status);
-                rightWrap.appendChild(hint);
-                node.appendChild(left);
-                node.appendChild(rightWrap);
-                node.onclick = () => startBattle(true, base);
+                html += `<div class="node" style="background: #fdf0fa; border-color: #f2c6e3; cursor: pointer;" onclick="startPractice(${i})">
+                    <span style="display:flex; align-items:center;">${cityIcon}${icon} ${city}</span>
+                    <span>✅ לתרגול חוזר</span>
+                </div>`;
             } else if (i === currentStageIndex) {
-                node.className = 'node active-node';
-                const left = document.createElement('span');
-                left.innerText = icon + ' ' + city;
-                const right = document.createElement('span');
-                right.innerText = '✨ לצלם!';
-                node.appendChild(left);
-                node.appendChild(right);
-                node.onclick = () => startBattle(false);
+                html += `<div class="node active-node" onclick="startBattle()">
+                    <span style="display:flex; align-items:center;">${cityIcon}${icon} ${city}</span>
+                    <span>✨ לצלם!</span>
+                </div>`;
             } else {
-                node.className = 'node locked';
-                const left = document.createElement('span');
-                left.innerText = icon + ' ' + city;
-                const right = document.createElement('span');
-                right.innerText = '🔒';
-                node.appendChild(left);
-                node.appendChild(right);
+                html += `<div class="node locked" style="cursor: pointer;" onclick="requestSkipToStage(${i})">
+                    <span style="display:flex; align-items:center;">${cityIcon}${icon} ${city}</span>
+                    <span>🔒 לפתוח?</span>
+                </div>`;
             }
-
-            container.appendChild(node);
         });
+
+        container.innerHTML = html;
     }
 
+    // מעדכן את איור העיר ואת הכיתוב במסך המשחק, לפי השלב הפעיל (תרגול חופשי אם קיים, אחרת השלב האמיתי)
+    function syncGameCity() {
+        const city = CITY_NAMES[getActiveStageIndex() % CITY_NAMES.length];
+        document.getElementById('city-caption').innerText = `📍 ${city}`;
+        document.getElementById('city-illustration').innerHTML = getCityIllustration(city);
+        document.getElementById('city-illustration').style.display = '';
+    }
+
+
+    // מסנכרן את התגים במסך המפה (רצף + צילומים + כל עמודי האלבום) עם המצב העדכני
     function syncMapHeader() {
         document.getElementById('streak-count-map').innerText = userState.streakDays;
         document.getElementById('coins-count-map').innerText = userState.coins;
         renderMapPath();
     }
 
-    // ===== מצב מהירות (טיימר לכל שאלה) =====
-    let speedMode = false;
-    const SPEED_SECONDS = 10;
-    let speedTimer = null;
-    let speedTimerStart = 0;
-
-    function toggleSpeedMode() {
-        speedMode = !speedMode;
-        const btn = document.getElementById('speed-toggle');
-        btn.classList.toggle('on', speedMode);
-        btn.setAttribute('aria-pressed', speedMode ? 'true' : 'false');
-        document.getElementById('speed-bar-wrap').classList.toggle('active', speedMode);
-        if (speedMode) {
-            startSpeedTimer();
-            showToast('מצב מהירות: ' + SPEED_SECONDS + ' שניות לכל שאלה ⏱️');
-        } else {
-            stopSpeedTimer();
-        }
-    }
-
-    function startSpeedTimer() {
-        stopSpeedTimer();
-        if (!speedMode) return;
-        speedTimerStart = Date.now();
-        const bar = document.getElementById('speed-bar');
-        bar.style.width = '100%';
-        speedTimer = setInterval(() => {
-            const elapsed = (Date.now() - speedTimerStart) / 1000;
-            const remaining = Math.max(0, SPEED_SECONDS - elapsed);
-            bar.style.width = (remaining / SPEED_SECONDS * 100) + '%';
-            if (remaining <= 0) {
-                stopSpeedTimer();
-                handleTimeout();
-            }
-        }, 100);
-    }
-
-    function stopSpeedTimer() {
-        if (speedTimer) {
-            clearInterval(speedTimer);
-            speedTimer = null;
-        }
-    }
-
-    function handleTimeout() {
-        registerWrongAnswer(null, 'הזמן נגמר! ⏰ ' + currentKey.replace('x', ' × ') + ' = ' + currentCorrectAnswer);
-    }
-
-    // ===== זרימת משחק =====
-    function startBattle(isPractice, base) {
-        practiceMode = !!isPractice;
-        practiceBase = base || null;
-        correctlyAnsweredOnce = new Set();
-        sessionStats = { correct: 0, wrong: 0, wrongKeys: [] };
-        frameCount = 0;
+    function startBattle() {
+        resetGameModes();
+        syncGameCity();
         generateAdaptiveQuestion();
         showScreen('screen-game');
     }
 
-    function renderProgress() {
-        const base = getCurrentStageBase();
-        const label = practiceMode ? ' · חזרה על לוח ' + base : ' · לוח ' + base;
-        document.getElementById('progress-indicator').innerText = correctlyAnsweredOnce.size + '/' + FACTS_PER_STAGE + ' נתפס' + label;
+    // פותחת תרגול חופשי על שלב שכבר הושלם: לא משנה את currentStageIndex ולא פוגעת בהתקדמות האמיתית.
+    // מעקב ההתקדמות הנוכחי (correctlyAnsweredOnce) נשמר בצד ומוחלף בזמני, ומוחזר ביציאה מהתרגול.
+    function startPractice(i) {
+        resetGameModes();
+        practiceStageIndex = i;
+        savedCorrectlyAnsweredOnce = correctlyAnsweredOnce;
+        correctlyAnsweredOnce = new Set();
+        syncGameCity();
+        generateAdaptiveQuestion();
+        showScreen('screen-game');
     }
 
+    // יוצאת ממצב תרגול חופשי: משחזרת את מעקב ההתקדמות האמיתי וחוזרת לאלבום
+    function exitPractice() {
+        resetGameModes();
+        resetApp();
+    }
+
+    // פותחת את חדר החידות: תרגילי "נעלם" על בסיס כל הלוחות שכבר נפתחו (עד השלב הנוכחי, כולל)
+    function startPuzzleRoom() {
+        resetGameModes();
+        puzzleMode = true;
+        puzzleCount = 0;
+        puzzleSolvedCount = 0;
+        document.getElementById('city-caption').innerText = '🧩 אולפן החידות';
+        document.getElementById('city-illustration').style.display = 'none';
+        generatePuzzleQuestion();
+        showScreen('screen-game');
+    }
+
+    // מחזירה את מסך המשחק למצב רגיל: מבטלת תרגול חופשי ו/או חדר חידות אם היו פעילים,
+    // בלי לשנות מסך. לשימוש כשעוזבים דרך back/exit ולא דרך מסך ניצחון/סיום ייעודי.
+    function resetGameModes() {
+        if (practiceStageIndex !== null) {
+            practiceStageIndex = null;
+            correctlyAnsweredOnce = savedCorrectlyAnsweredOnce || new Set();
+            savedCorrectlyAnsweredOnce = null;
+        }
+        if (puzzleMode) {
+            puzzleMode = false;
+        }
+    }
+
+    // משחזרת את מבנה שורת המשוואה למצב הרגיל (num1 × num2 = [גררי לכאן]), למקרה שחדר החידות שינה אותה
+    function resetEquationRow() {
+        document.getElementById('equation-row').innerHTML = `
+            <span style="font-size: 32px; color: #5c3d6e; letter-spacing: 2px; font-weight: 800;" id="question-expr">? × ?</span>
+            <span style="font-size: 28px; color: #5c3d6e; font-weight: 800;">=</span>
+            <span class="answer-slot" id="answer-slot">?</span>
+        `;
+    }
+
+    // בונה את שורת המשוואה עבור חדר החידות: הגורם החסר (?) הוא אזור הגרירה, במקום שהוא באמת נמצא במשוואה
+    function renderPuzzleEquationRow(hideFirst, base, n, product) {
+        const row = document.getElementById('equation-row');
+        const blank = `<span class="answer-slot" id="answer-slot">?</span>`;
+        const style = 'font-size: 32px; color: #5c3d6e; letter-spacing: 2px; font-weight: 800;';
+        if (hideFirst) {
+            row.innerHTML = `${blank}
+                <span style="${style}">× ${n}</span>
+                <span style="font-size: 28px; color: #5c3d6e; font-weight: 800;">=</span>
+                <span style="${style}">${product}</span>`;
+        } else {
+            row.innerHTML = `<span style="${style}">${base} ×</span>
+                ${blank}
+                <span style="font-size: 28px; color: #5c3d6e; font-weight: 800;">=</span>
+                <span style="${style}">${product}</span>`;
+        }
+    }
+
+    // בוחרת תרגיל כפל אקראי מתוך הלוחות שכבר נפתחו, ומסתירה בו באקראי את אחד הגורמים (לא את התוצאה)
+    function generatePuzzleQuestion() {
+        const unlockedBases = STAGE_BASES.slice(0, currentStageIndex + 1);
+        const base = unlockedBases[Math.floor(Math.random() * unlockedBases.length)];
+        const n = Math.floor(Math.random() * 10) + 1;
+        const product = base * n;
+        const hideFirst = Math.random() < 0.5;
+
+        currentPuzzleAnswer = hideFirst ? base : n;
+
+        puzzleCount++;
+        document.getElementById('frame-counter').innerText = 'חידה מס\' ' + puzzleCount + ' 🧩';
+        document.getElementById('mode-indicator').innerText = '🧩 חדר החידות - נעלם בלוח הכפל';
+        document.getElementById('progress-indicator').innerText = `🧩 ${puzzleSolvedCount} נעלמים פוענחו`;
+        document.getElementById('visual-hint').innerText = hideFirst
+            ? `רמז: איזה מספר כפול ${n} נותן ${product}?`
+            : `רמז: ${base} כפול איזה מספר נותן ${product}?`;
+
+        renderPuzzleEquationRow(hideFirst, base, n, product);
+
+        let wrongOptions = [];
+        while (wrongOptions.length < 3) {
+            let candidate = Math.floor(Math.random() * 10) + 1;
+            if (candidate !== currentPuzzleAnswer && !wrongOptions.includes(candidate)) {
+                wrongOptions.push(candidate);
+            }
+        }
+
+        let allOptions = [...wrongOptions, currentPuzzleAnswer];
+        allOptions.sort(() => Math.random() - 0.5);
+
+        const optionsContainer = document.getElementById('options-container');
+        optionsContainer.innerHTML = '';
+        allOptions.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.innerText = opt;
+            makeDraggable(btn, opt);
+            optionsContainer.appendChild(btn);
+        });
+    }
+
+    // בודקת תשובה במצב חדר החידות: לא נוגעת ב-userMasteryMatrix/correctlyAnsweredOnce של הלוחות הרגילים,
+    // ואין מסך "סיום שלב" - החדר פשוט ממשיך לחידה הבאה
+    function checkPuzzleAnswer(selectedVal) {
+        if (selectedVal === currentPuzzleAnswer) {
+            puzzleSolvedCount++;
+            userState.coins += 15;
+            document.getElementById('progress-indicator').innerText = `🧩 ${puzzleSolvedCount} נעלמים פוענחו`;
+            saveState();
+            playSuccessSound();
+            triggerFlash();
+
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 },
+                shapes: ['star'],
+                colors: ['#9b7bf0', '#ffb84d', '#ec6bb0', '#8ac9f0']
+            });
+
+            setTimeout(() => {
+                generatePuzzleQuestion();
+            }, 700);
+        } else {
+            showOopsToast('אופס! עוד לא בדיוק... ננסי שוב 🧩');
+        }
+    }
+
+    // מעדכן את מד ההתקדמות (כמה תרגילים מתוך לוח הכפל הנוכחי כבר נענו נכון פעם אחת)
+    function renderProgress() {
+        const base = getCurrentStageBase();
+        document.getElementById('progress-indicator').innerText = `${correctlyAnsweredOnce.size}/${FACTS_PER_STAGE} נתפס · לוח ${base}`;
+    }
+
+    // מנוע בחירה חכם שמתאים את התרגיל לפי נקודות התורפה של המשתמשת, בתוך לוח הכפל של השלב הנוכחי
     function generateAdaptiveQuestion() {
+        let num1, num2;
         const base = getCurrentStageBase();
         const stageFacts = getStageFactKeys(base);
 
+        resetEquationRow();
         renderProgress();
 
         frameCount++;
         document.getElementById('frame-counter').innerText = 'זיכרון #' + frameCount + ' 📸';
-        document.getElementById('wrong-feedback').classList.remove('show');
 
+        // בדיקה אם יש תרגילים בשלב הנוכחי שדורשים חיזוק (נקודות תורפה)
         let weakSpots = stageFacts.filter(k => userMasteryMatrix[k] !== undefined && userMasteryMatrix[k] < 2);
+        // תרגילים בשלב הנוכחי שעדיין לא נענו נכון אף פעם - עדיפות ראשונה כדי להתקדם להשלמת הלוח
         let remainingFacts = stageFacts.filter(k => !correctlyAnsweredOnce.has(k));
 
         let selectedKey;
         if (weakSpots.length > 0 && Math.random() < 0.6) {
+            // 60% סיכוי להציג תרגיל מתוך נקודות התורפה כדי לחזק אותן
             selectedKey = weakSpots[Math.floor(Math.random() * weakSpots.length)];
-            document.getElementById('mode-indicator').innerText = "💡 שוט חוזר - חיזוק נקודת תורפה";
+            document.getElementById('mode-indicator').innerText = practiceStageIndex !== null ? "🔁 תרגול חופשי - חיזוק נקודת תורפה" : "💡 שוט חוזר - חיזוק נקודת תורפה";
         } else if (remainingFacts.length > 0) {
+            // תרגיל בלוח הנוכחי שעדיין לא נלמד
             selectedKey = remainingFacts[Math.floor(Math.random() * remainingFacts.length)];
-            document.getElementById('mode-indicator').innerText = practiceMode ? "🔁 חזרה על לוח " + base : '✨ לוח הכפל של ' + base;
+            document.getElementById('mode-indicator').innerText = practiceStageIndex !== null ? `🔁 תרגול חופשי · לוח ${base}` : `✨ לוח הכפל של ${base}`;
         } else {
+            // כל תרגילי הלוח כבר נענו נכון פעם אחת - סבב חזרה על הלוח כולו
             selectedKey = stageFacts[Math.floor(Math.random() * stageFacts.length)];
-            document.getElementById('mode-indicator').innerText = "🔁 סבב חזרה";
+            document.getElementById('mode-indicator').innerText = practiceStageIndex !== null ? "🔁 תרגול חופשי" : "🔁 סבב חזרה";
         }
 
-        const parts = selectedKey.split('x');
-        const num1 = parseInt(parts[0], 10);
-        const num2 = parseInt(parts[1], 10);
+        let parts = selectedKey.split('x');
+        num1 = parseInt(parts[0]);
+        num2 = parseInt(parts[1]);
 
-        currentKey = num1 + 'x' + num2;
+        currentKey = `${num1}x${num2}`;
         currentCorrectAnswer = num1 * num2;
 
-        const showHint = !(userMasteryMatrix[currentKey] >= 1);
+        // שלב הרמז: רמז מוצג רק בפעם הראשונה שהתרגיל מופיע.
+        // ברגע שהמשתמשת ענתה עליו נכון לפחות פעם אחת - הרמז נעלם, וצריך לזכור בעל פה.
+        let showHint = !(userMasteryMatrix[currentKey] >= 1);
 
-        document.getElementById('question-text').innerText = num1 + ' × ' + num2 + ' = ?';
+        document.getElementById('question-expr').innerText = `${num1} × ${num2}`;
 
         if (showHint) {
-            document.getElementById('visual-hint').innerText = 'רמז: ' + num1 + ' קבוצות של ' + num2 + ' פריטים בפריים';
+            document.getElementById('visual-hint').innerText = `רמז: ${num1} קבוצות של ${num2} פריטים בפריים`;
         } else {
-            document.getElementById('visual-hint').innerText = '✨ עכשיו בלי רמז - תתפסי מהזיכרון!';
+            document.getElementById('visual-hint').innerText = `✨ עכשיו בלי רמז - תתפסי מהזיכרון!`;
         }
 
-        // אנימציית החלפה רכה בין שאלות
-        const box = document.getElementById('visual-box');
-        box.classList.remove('question-swap');
-        void box.offsetWidth;
-        box.classList.add('question-swap');
-
-        const wrongAnswers = [];
-        while (wrongAnswers.length < 3) {
-            const offset = (Math.floor(Math.random() * 5) + 1) * (Math.random() < 0.5 ? 1 : -1);
-            const fakeAns = currentCorrectAnswer + offset;
-            if (fakeAns > 0 && fakeAns !== currentCorrectAnswer && !wrongAnswers.includes(fakeAns)) {
+        let wrongAnswers = [];
+        while(wrongAnswers.length < 3) {
+            let offset = (Math.floor(Math.random() * 5) + 1) * (Math.random() < 0.5 ? 1 : -1);
+            let fakeAns = currentCorrectAnswer + offset;
+            if(fakeAns > 0 && fakeAns !== currentCorrectAnswer && !wrongAnswers.includes(fakeAns)) {
                 wrongAnswers.push(fakeAns);
             }
         }
 
-        const allOptions = [...wrongAnswers, currentCorrectAnswer];
+        let allOptions = [...wrongAnswers, currentCorrectAnswer];
         allOptions.sort(() => Math.random() - 0.5);
 
         const optionsContainer = document.getElementById('options-container');
@@ -1475,107 +1332,145 @@
         allOptions.forEach(opt => {
             const btn = document.createElement('button');
             btn.className = 'option-btn';
-            btn.innerText = (opt === currentCorrectAnswer && showHint) ? (opt + ' 💕') : String(opt);
-            btn.onclick = () => checkAnswer(opt, btn);
+
+            // הצמדת סימון הלב לתשובה הנכונה - רק בשלב שבו עדיין מוצג רמז
+            if (opt === currentCorrectAnswer && showHint) {
+                btn.innerHTML = `${opt} 💕`;
+            } else {
+                btn.innerText = opt;
+            }
+
+            makeDraggable(btn, opt);
             optionsContainer.appendChild(btn);
         });
-
-        startSpeedTimer();
     }
 
-    function setOptionsEnabled(enabled) {
-        document.querySelectorAll('#options-container .option-btn').forEach(b => {
-            b.disabled = !enabled;
+    // הופך כפתור תשובה לניתן-לגרירה: גרירה ושחרור מעל תמונת הפולארויד = בחירת התשובה
+    function makeDraggable(btn, opt) {
+        let startX = 0, startY = 0;
+        let dragging = false;
+
+        function isOverlappingDropZone() {
+            const dropZone = document.getElementById('answer-slot');
+            const dropRect = dropZone.getBoundingClientRect();
+            const btnRect = btn.getBoundingClientRect();
+            return !(btnRect.right < dropRect.left || btnRect.left > dropRect.right ||
+                     btnRect.bottom < dropRect.top || btnRect.top > dropRect.bottom);
+        }
+
+        btn.addEventListener('pointerdown', (e) => {
+            dragging = true;
+            startX = e.clientX;
+            startY = e.clientY;
+            btn.classList.add('dragging');
+            btn.setPointerCapture(e.pointerId);
         });
+
+        btn.addEventListener('pointermove', (e) => {
+            if (!dragging) return;
+            const dx = e.clientX - startX;
+            const dy = e.clientY - startY;
+            btn.style.transform = `translate(${dx}px, ${dy}px)`;
+            document.getElementById('answer-slot').classList.toggle('drop-target-active', isOverlappingDropZone());
+        });
+
+        function endDrag() {
+            if (!dragging) return;
+            dragging = false;
+            btn.classList.remove('dragging');
+
+            const dropped = isOverlappingDropZone();
+            document.getElementById('answer-slot').classList.remove('drop-target-active');
+
+            if (dropped) {
+                checkAnswer(opt);
+            } else {
+                // לא שוחרר מעל התמונה - הבועה חוזרת בעדינות למקומה
+                btn.style.transform = 'translate(0px, 0px)';
+            }
+        }
+
+        btn.addEventListener('pointerup', endDrag);
+        btn.addEventListener('pointercancel', endDrag);
+    }
+
+    let oopsToastTimer = null;
+
+    // מציגה הודעת "אופס" מעוצבת בסגנון האפליקציה במקום alert() הרגיל של הדפדפן
+    function showOopsToast(message) {
+        const toast = document.getElementById('oops-toast');
+        document.getElementById('oops-toast-text').innerText = message;
+        toast.classList.add('show');
+
+        if (oopsToastTimer) clearTimeout(oopsToastTimer);
+        oopsToastTimer = setTimeout(() => {
+            toast.classList.remove('show');
+            oopsToastTimer = null;
+        }, 2200);
     }
 
     let stageAdvanceTimer = null;
 
+    // מציג את מסך הניצחון בסיום שלב (או סיום סבב תרגול), ומכין את הכפתור למעבר המתאים
     function showStageComplete() {
-        const base = getCurrentStageBase();
-        const isLastStage = !practiceMode && currentStageIndex >= STAGE_BASES.length - 1;
+        const isPractice = practiceStageIndex !== null;
+        const activeIndex = getActiveStageIndex();
+        const base = STAGE_BASES[activeIndex];
+        const isLastStage = !isPractice && activeIndex >= STAGE_BASES.length - 1;
         const victoryBtn = document.getElementById('victory-btn');
-        stopSpeedTimer();
 
+        // מבטל טיימר קודם אם קיים, למקרה שהפונקציה נקראה יותר מפעם אחת
         if (stageAdvanceTimer) {
             clearTimeout(stageAdvanceTimer);
             stageAdvanceTimer = null;
         }
 
-        // סיכום שלב: כמה נכון, כמה טעויות, אילו תרגילים לחזור עליהם
-        const summaryEl = document.getElementById('stage-summary');
-        const weakList = [...new Set(sessionStats.wrongKeys)]
-            .map(k => k.replace('x', '×') + ' = ' + k.split('x').reduce((a, b) => a * b))
-            .join(' · ');
-        let summaryText = '◈ ' + sessionStats.correct + ' תשובות נכונות' + (sessionStats.wrong > 0 ? ' · ⟡ ' + sessionStats.wrong + ' טעויות שחוזקו' : ' · בלי אף טעות, אלופה!');
-        if (weakList) {
-            summaryText += '\nשווה לחזור על: ' + weakList;
-        }
-        summaryEl.innerText = summaryText;
-
-        if (practiceMode) {
-            document.getElementById('mastery-status').innerText = '⟡ סבב חזרה על לוח ' + base + ' הושלם!';
+        if (isPractice) {
+            document.getElementById('mastery-status').innerText = `💪 סבב תרגול על לוח ${base} - מעולה!`;
             victoryBtn.innerText = "חזרה לאלבום 📸";
-            victoryBtn.onclick = resetApp;
+            victoryBtn.onclick = exitPractice;
         } else if (isLastStage) {
-            document.getElementById('mastery-status').innerText = '❖ האלבום שלך שלם! סיימת עד לוח ' + base + '!';
+            document.getElementById('mastery-status').innerText = `🌈 האלבום שלך שלם! סיימת עד לוח ${base}!`;
             victoryBtn.innerText = "חזרה לאלבום 📸";
             victoryBtn.onclick = resetApp;
         } else {
-            // ההתקדמות נשמרת כבר כאן - גם אם סוגרים את הדף על מסך הניצחון, השלב נשמר
             const nextBase = STAGE_BASES[currentStageIndex + 1];
-            document.getElementById('mastery-status').innerText = '✦ תפסת את כל לוח הכפל של ' + base + '!';
-            victoryBtn.innerText = 'לצילום הבא: לוח ' + nextBase + ' ✨';
+            document.getElementById('mastery-status').innerText = `💕 תפסת את כל לוח הכפל של ${base}!`;
+            victoryBtn.innerText = `לצילום הבא: לוח ${nextBase} ✨`;
+            // לחיצה ידנית מבטלת את הטיימר האוטומטי כדי שלא יקרה מעבר כפול
             victoryBtn.onclick = () => {
                 if (stageAdvanceTimer) { clearTimeout(stageAdvanceTimer); stageAdvanceTimer = null; }
-                resetApp();
+                advanceStage();
             };
-            currentStageIndex++;
-            correctlyAnsweredOnce = new Set();
-            saveGame();
         }
 
         setTimeout(() => {
             showScreen('screen-victory');
-            if (!isLastStage && !practiceMode) {
+            if (!isPractice && !isLastStage) {
+                // רשת ביטחון: אם הלחיצה על הכפתור לא נקלטת מסיבה כלשהי, המעבר יקרה בכל זאת
                 stageAdvanceTimer = setTimeout(() => {
                     stageAdvanceTimer = null;
-                    resetApp();
-                }, 6000);
+                    advanceStage();
+                }, 4000);
             }
         }, 800);
     }
 
-    function registerWrongAnswer(btn, message) {
-        // טעות מחזירה את התרגיל לרשימת החובה - אי אפשר לסיים שלב בלי שליטה אמיתית
-        userMasteryMatrix[currentKey] = 0;
-        correctlyAnsweredOnce.delete(currentKey);
-        sessionStats.wrong++;
-        sessionStats.wrongKeys.push(currentKey);
-        renderProgress();
-        saveGame();
-        playErrorSound();
-
-        if (btn) {
-            btn.classList.add('wrong-pick');
-            btn.disabled = true;
-            setTimeout(() => btn.classList.remove('wrong-pick'), 450);
-        }
-
-        const feedback = document.getElementById('wrong-feedback');
-        feedback.innerText = message;
-        feedback.classList.remove('show');
-        void feedback.offsetWidth;
-        feedback.classList.add('show');
+    // מעבר ללוח הכפל הבא: מתקדם שלב, מאפס את מעקב ההתקדמות, וחוזר לאלבום
+    function advanceStage() {
+        currentStageIndex++;
+        correctlyAnsweredOnce = new Set();
+        saveState();
+        resetApp();
     }
 
-    function checkAnswer(selectedVal, btn) {
-        if (selectedVal === currentCorrectAnswer) {
-            stopSpeedTimer();
-            // מניעת לחיצות כפולות עד לשאלה הבאה
-            setOptionsEnabled(false);
-            btn.classList.add('correct-pick');
-
+    function checkAnswer(selectedVal) {
+        if (puzzleMode) {
+            checkPuzzleAnswer(selectedVal);
+            return;
+        }
+        if(selectedVal === currentCorrectAnswer) {
+            // עדכון מנוע ההתאמה האישית: התשובה נכונה, נחזק את הציון של התרגיל
             if (!userMasteryMatrix[currentKey]) {
                 userMasteryMatrix[currentKey] = 1;
             } else {
@@ -1584,65 +1479,50 @@
 
             correctlyAnsweredOnce.add(currentKey);
             userState.coins += 10;
-            sessionStats.correct++;
             renderProgress();
-            saveGame();
+            saveState();
             playSuccessSound();
             triggerFlash();
 
-            if (typeof confetti === 'function') {
-                confetti({
-                    particleCount: 100,
-                    spread: 70,
-                    origin: { y: 0.6 },
-                    shapes: ['star'],
-                    colors: ['#ff2e9d', '#8b5cf6', '#38bdf8', '#2dd4a7', '#ffcf3f']
-                });
-            }
+            // הפעלת קונפטי בצורת כוכבים בפלטת פסטל
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 },
+                shapes: ['star'],
+                colors: ['#ec6bb0', '#b98af0', '#8ac9f0', '#8af0b9', '#ffe066']
+            });
 
             if (correctlyAnsweredOnce.size >= FACTS_PER_STAGE) {
+                // כל תרגילי הלוח הנוכחי נענו נכון פעם אחת - השלב הושלם!
                 showStageComplete();
             } else {
+                // תרגול רציף - ממשיכים ישר לתרגיל הבא בלי לעבור מסך
                 setTimeout(() => {
                     generateAdaptiveQuestion();
                 }, 700);
             }
         } else {
-            registerWrongAnswer(btn, 'אוי, כמעט! ננסה שוב לתפוס את הרגע המושלם 💕');
+            // המנוע מזהה טעות ושומר את התרגיל כנקודת תורפה להמשך
+            userMasteryMatrix[currentKey] = 0;
+            saveState();
+            showOopsToast('אוי, כמעט! ננסה שוב לתפוס את הרגע המושלם 💕');
         }
     }
 
+    // מדמה מעבר ל"יום" הבא בתוך אותה הפעלה (לצורכי בדיקה בלבד - לא מחובר לכפתור UI)
+    function advanceDay() {
+        userState.streakDays++;
+        renderDailyScreen();
+    }
+
     function resetApp() {
-        stopSpeedTimer();
-        practiceMode = false;
-        practiceBase = null;
         syncMapHeader();
         showScreen('screen-map');
     }
 
-    // ===== ניווט מקלדת: מקשים 1-4 לבחירת תשובה =====
-    document.addEventListener('keydown', (e) => {
-        if (!document.getElementById('screen-game').classList.contains('active')) return;
-        const idx = ['1', '2', '3', '4'].indexOf(e.key);
-        if (idx === -1) return;
-        const buttons = document.querySelectorAll('#options-container .option-btn');
-        if (buttons[idx] && !buttons[idx].disabled) {
-            buttons[idx].click();
-        }
-    });
-
-    // ===== אתחול: טעינת שמירה קיימת =====
-    (function init() {
-        const hasSave = loadGame();
-        if (hasSave) {
-            const continueBtn = document.getElementById('continue-btn');
-            continueBtn.style.display = 'block';
-            if (userState.name) {
-                continueBtn.innerText = 'המשך כ' + userState.name + ' 💾';
-            }
-        }
-        applyFrame();
-    })();
+    // טעינת התקדמות שמורה (אם קיימת) לפני שהמשחק מתחיל
+    loadState();
 </script>
 
 </body>

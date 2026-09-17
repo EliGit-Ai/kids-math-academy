@@ -41,6 +41,172 @@
             position: relative;
             overflow: hidden;
             border: 1px solid rgba(16, 185, 129, 0.35);
+            transition: padding-bottom 0.3s ease;
+        }
+
+        /* מרווח זמני בתחתית כדי שהודעת המערכת של כניסה למסך מלא לא תכסה כפתורים */
+        .app-container.fs-toast-guard {
+            padding-bottom: 110px;
+        }
+
+        /* אפקט פלאש עדין בכל תשובה נכונה */
+        .flash-overlay {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(16,185,129,0.35) 100%);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 999;
+            border-radius: 40px;
+        }
+
+        .flash-overlay.flash-active {
+            animation: flashPulse 0.4s ease-out;
+        }
+
+        @keyframes flashPulse {
+            0% { opacity: 0; }
+            25% { opacity: 0.55; }
+            100% { opacity: 0; }
+        }
+
+        /* סרגל ניווט גלובלי: חזרה ויציאה */
+        .top-nav-bar {
+            padding: 14px 25px 0;
+            flex-shrink: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-btn {
+            background: #fff;
+            border: 2px solid #a5f3d0;
+            color: #059669;
+            width: 34px;
+            height: 34px;
+            min-width: 34px;
+            border-radius: 50%;
+            font-size: 16px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(6, 182, 212, 0.15);
+        }
+
+        .back-btn.hidden {
+            visibility: hidden;
+        }
+
+        /* חלונית אישור משותפת: יציאה מהמשחק / דילוג לשלב נעול */
+        .confirm-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(20, 40, 30, 0.45);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+            border-radius: 40px;
+        }
+
+        .confirm-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .confirm-card {
+            background: #fff;
+            border-radius: 26px;
+            padding: 26px 22px;
+            width: calc(100% - 60px);
+            max-width: 320px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(6, 182, 212, 0.3);
+            border: 2px solid #a5f3d0;
+            transform: scale(0.92);
+            transition: transform 0.25s ease;
+        }
+
+        .confirm-overlay.show .confirm-card {
+            transform: scale(1);
+        }
+
+        .confirm-card p {
+            font-size: 15px;
+            font-weight: 700;
+            color: #14532d;
+            margin: 6px 0 18px;
+            line-height: 1.5;
+        }
+
+        .confirm-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .confirm-actions button {
+            flex: 1;
+            border: none;
+            border-radius: 18px;
+            padding: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .confirm-stay {
+            background: #ecfeff;
+            color: #0e7490;
+        }
+
+        .confirm-leave {
+            background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+            color: #fff;
+        }
+
+        /* הודעת "החמצה" מעוצבת, במקום alert() של הדפדפן */
+        .oops-toast {
+            position: absolute;
+            top: 16px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-20px);
+            width: calc(100% - 40px);
+            max-width: 360px;
+            background: linear-gradient(135deg, #fff 0%, #fff7ed 100%);
+            border: 2px solid #f97316;
+            border-radius: 22px;
+            padding: 14px 18px;
+            box-shadow: 0 14px 30px rgba(249, 115, 22, 0.25);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 998;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .oops-toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .oops-toast-icon {
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .oops-toast-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: #7c2d12;
+            line-height: 1.4;
         }
 
         .header {
@@ -76,6 +242,8 @@
             justify-content: space-between;
             animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .screen.active {
@@ -188,7 +356,7 @@
             gap: 12px;
             margin: 15px 0;
             overflow-y: auto;
-            max-height: 400px;
+            max-height: 260px;
             padding: 5px;
         }
 
@@ -217,12 +385,10 @@
         }
 
         .node.locked {
-            opacity: 0.45;
+            opacity: 0.6;
             background: rgba(240, 240, 240, 0.5);
             border-color: #b0b0b0;
             color: #8a8a8a;
-            cursor: not-allowed;
-            box-shadow: none;
         }
 
         .visual-box {
@@ -232,6 +398,37 @@
             margin: 10px 0;
             border: 1.5px dashed #06b6d4;
             box-shadow: 0 10px 30px rgba(6, 182, 212, 0.12);
+        }
+
+        /* תא הנחיתה של התשובה הנגררת */
+        .answer-slot {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 48px;
+            height: 48px;
+            padding: 0 6px;
+            border: 2.5px dashed #10b981;
+            border-radius: 14px;
+            background: #ecfeff;
+            color: #059669;
+            font-weight: 800;
+            font-size: 28px;
+            transition: box-shadow 0.2s, border-color 0.2s, background 0.2s;
+            animation: slotPulse 1.8s ease-in-out infinite;
+        }
+
+        .answer-slot.drop-target-active {
+            border-style: solid;
+            border-color: #10b981;
+            background: #d1fae5;
+            box-shadow: 0 0 0 6px rgba(16, 185, 129, 0.25);
+            animation: none;
+        }
+
+        @keyframes slotPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.35); }
+            50% { box-shadow: 0 0 0 7px rgba(16, 185, 129, 0); }
         }
 
         .options-grid {
@@ -249,15 +446,24 @@
             font-size: 20px;
             font-weight: 700;
             border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.2s;
+            cursor: grab;
+            transition: transform 0.25s ease, background 0.2s, border-color 0.2s, box-shadow 0.2s;
+            position: relative;
+            touch-action: none;
+            user-select: none;
             box-shadow: 0 6px 20px rgba(6, 182, 212, 0.08);
+        }
+
+        .option-btn.dragging {
+            transition: none;
+            cursor: grabbing;
+            z-index: 50;
+            box-shadow: 0 14px 30px rgba(6, 182, 212, 0.35);
         }
 
         .option-btn:hover {
             background: #fff;
             border-color: #06b6d4;
-            transform: translateY(-2px);
             box-shadow: 0 8px 22px rgba(6, 182, 212, 0.22);
         }
 
@@ -603,7 +809,42 @@
 </head>
 <body>
 
-<div class="app-container">
+<div class="app-container" id="app-container">
+    <div class="flash-overlay" id="flash-overlay"></div>
+
+    <div class="oops-toast" id="oops-toast">
+        <span class="oops-toast-icon">🧤</span>
+        <span class="oops-toast-text" id="oops-toast-text"></span>
+    </div>
+
+    <div class="top-nav-bar">
+        <button class="back-btn hidden" id="global-back-btn" onclick="goBack()" aria-label="חזרה למסך הקודם">→</button>
+        <button class="back-btn hidden" id="global-exit-btn" onclick="showExitConfirm()" aria-label="יציאה מהמשחק">✕</button>
+    </div>
+
+    <!-- חלונית אישור יציאה מהמשחק -->
+    <div class="confirm-overlay" id="exit-confirm-overlay">
+        <div class="confirm-card">
+            <span style="font-size: 34px;">⚽</span>
+            <p>לצאת מהמשחק ולחזור למסך הפתיחה?</p>
+            <div class="confirm-actions">
+                <button class="confirm-stay" onclick="hideExitConfirm()">להישאר</button>
+                <button class="confirm-leave" onclick="confirmExit()">כן, לצאת</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- חלונית אישור דילוג לשלב נעול -->
+    <div class="confirm-overlay" id="skip-confirm-overlay">
+        <div class="confirm-card">
+            <span style="font-size: 34px;">🔓</span>
+            <p id="skip-confirm-text"></p>
+            <div class="confirm-actions">
+                <button class="confirm-stay" onclick="hideSkipConfirm()">ביטול</button>
+                <button class="confirm-leave" onclick="confirmSkipToStage()">כן, לפתוח</button>
+            </div>
+        </div>
+    </div>
 
     <!-- מסך 1: כניסה ראשונה -->
     <div id="screen-onboarding" class="screen active">
@@ -613,6 +854,17 @@
             <h1 class="brand-title">גולים בלוח הכפל</h1>
             <p class="intro-sub">האימונים שהופכים אותך לאלוף המגרש</p>
             <div class="intro-quote">"המערכת עוקבת בדיוק על אילו בעיטות אתה חזק, ובונה לך אימון אישי בדרך לגביע האליפות."</div>
+        </div>
+
+        <div class="lifestyle-card" style="padding: 20px; text-align: center;">
+            <p style="color: #14532d; font-size: 17px; font-weight: 700; line-height: 1.5;">🎓 מיזם פדגוגי אינטראקטיבי לשינון לוח הכפל בכיף</p>
+            <p style="color: #059669; font-size: 17px; font-weight: 800; margin-top: 8px;">💚 תמכו בפרויקט</p>
+            <div style="display: flex; gap: 8px; justify-content: center; margin-top: 12px; flex-wrap: wrap;">
+                <a href="https://kids-math-academy.com/support.html?amount=7" target="_blank" rel="noopener" style="background: #ecfeff; border: 1.5px solid #a5f3d0; color: #059669; font-weight: 700; font-size: 14px; padding: 8px 14px; border-radius: 14px; text-decoration: none;">7 ₪</a>
+                <a href="https://kids-math-academy.com/support.html?amount=14" target="_blank" rel="noopener" style="background: #ecfeff; border: 1.5px solid #a5f3d0; color: #059669; font-weight: 700; font-size: 14px; padding: 8px 14px; border-radius: 14px; text-decoration: none;">14 ₪</a>
+                <a href="https://kids-math-academy.com/support.html?amount=21" target="_blank" rel="noopener" style="background: #ecfeff; border: 1.5px solid #a5f3d0; color: #059669; font-weight: 700; font-size: 14px; padding: 8px 14px; border-radius: 14px; text-decoration: none;">21 ₪</a>
+                <a href="https://kids-math-academy.com/support.html" target="_blank" rel="noopener" style="background: #ecfeff; border: 1.5px solid #a5f3d0; color: #059669; font-weight: 700; font-size: 14px; padding: 8px 14px; border-radius: 14px; text-decoration: none;">אחר</a>
+            </div>
         </div>
 
         <div>
@@ -633,11 +885,11 @@
             <h2>האימון היומי מוכן!</h2>
             <p class="hero-sub">היכנס למגרש ותצבור נקודות לקראת האליפות</p>
 
-            <div id="day-tracker" style="display: flex; justify-content: center; gap: 8px; margin-bottom: 15px; position: relative; z-index: 1;">
+            <div id="day-tracker" style="display: flex; justify-content: center; gap: 8px; margin-bottom: 15px; position: relative; z-index: 1; flex-wrap: wrap;">
                 <!-- תגיות הימים נטענות דינמית -->
             </div>
 
-            <div class="reward-chip" style="position: relative; z-index: 1;">
+            <div class="reward-chip" style="position: relative; z-index: 1;" id="daily-reward-chip">
                 🎁 קיבלת <b>30 נקודות</b> ומשחק מותאם אישית להיום!
             </div>
         </div>
@@ -669,6 +921,7 @@
         </div>
 
         <button class="btn" style="width: 100%; padding: 14px; font-size: 16px;" onclick="startBattle()">כניסה למשחק ⚡</button>
+        <button class="btn" style="width: 100%; padding: 14px; font-size: 16px; margin-top: 10px; background: linear-gradient(135deg, #8b5cf6 0%, #f59e0b 100%); box-shadow: 0 10px 25px rgba(139, 92, 246, 0.3);" onclick="startPuzzleRoom()">🧩 חדר האימונים הסודי</button>
     </div>
 
     <!-- מסך 4: אימון ומשחק -->
@@ -683,8 +936,13 @@
             <div style="font-size: 40px; margin: 5px 0;">🥅</div>
             <div class="visual-box">
                 <p style="font-size: 13px; color: #4f6b58; margin-bottom: 8px; font-weight: 500;" id="visual-hint">רמז: פתור את הבעיטה הבאה</p>
-                <h2 style="font-size: 32px; color: #14532d; letter-spacing: 2px; font-weight: 800;" id="question-text">? × ?</h2>
+                <div id="equation-row" style="display: flex; align-items: center; justify-content: center; gap: 10px; margin: 4px 0;">
+                    <span style="font-size: 32px; color: #14532d; letter-spacing: 2px; font-weight: 800;" id="question-expr">? × ?</span>
+                    <span style="font-size: 28px; color: #14532d; font-weight: 800;">=</span>
+                    <span class="answer-slot" id="answer-slot">?</span>
+                </div>
             </div>
+            <p style="font-size: 12px; color: #4f6b58; margin: 4px 0 2px;">גרור את התשובה לתוך השער, או פשוט הקש עליה 👆⚽</p>
         </div>
 
         <div class="options-grid" id="options-container">
@@ -755,6 +1013,29 @@
         document.getElementById('sound-toggle').innerText = soundEnabled ? '🔊' : '🔇';
     }
 
+    // אפקט פלאש עדין: הבזק רך על כל תשובה נכונה
+    function triggerFlash() {
+        const flash = document.getElementById('flash-overlay');
+        flash.classList.remove('flash-active');
+        void flash.offsetWidth; // מאלץ רה-פלואו כדי שהאנימציה תופעל מחדש בכל פעם
+        flash.classList.add('flash-active');
+    }
+
+    let oopsToastTimer = null;
+
+    // מציגה הודעת "החמצה" מעוצבת בסגנון האפליקציה, במקום alert() הרגיל של הדפדפן
+    function showOopsToast(message) {
+        const toast = document.getElementById('oops-toast');
+        document.getElementById('oops-toast-text').innerText = message;
+        toast.classList.add('show');
+
+        if (oopsToastTimer) clearTimeout(oopsToastTimer);
+        oopsToastTimer = setTimeout(() => {
+            toast.classList.remove('show');
+            oopsToastTimer = null;
+        }, 2200);
+    }
+
     // מערכת שלבים: כל שלב הוא לוח כפל שלם אחד (X × 1 עד X × 10). עם השלמת השלב עוברים ללוח הבא.
     // רמת הקושי קובעת אילו לוחות כפל נכללים בליגה: קל (2-5), בינוני (2-10), קשה (6-10).
     const DIFFICULTY_LEVELS = {
@@ -767,9 +1048,24 @@
     let currentStageIndex = 0;
     const FACTS_PER_STAGE = 10;
 
+    // מצב תרגול חופשי: אם לא null, השחקן מתרגל שלב שכבר הושלם, בלי לשנות את currentStageIndex האמיתי
+    let practiceStageIndex = null;
+    let savedCorrectlyAnsweredOnce = null;
+
+    // מצב חדר האימונים הסודי: תרגילי "נעלם" (למשל ? × 5 = 20) על בסיס הלוחות שכבר נפתחו
+    let puzzleMode = false;
+    let puzzleSolvedCount = 0;
+    let currentPuzzleAnswer = 0;
+
+    // מחזירה את אינדקס השלב שמוצג כרגע במשחק - שלב בתרגול חופשי אם קיים, אחרת השלב האמיתי
+    function getActiveStageIndex() {
+        return practiceStageIndex !== null ? practiceStageIndex : currentStageIndex;
+    }
+
     // החלפת רמת קושי: מעדכנת את רשימת לוחות הכפל, מאפסת התקדמות בשלב ומציירת מחדש את המפה
     function setDifficulty(diff) {
         if (!DIFFICULTY_LEVELS[diff]) return;
+        resetGameModes();
         currentDifficulty = diff;
         STAGE_BASES = DIFFICULTY_LEVELS[diff].bases;
         currentStageIndex = 0;
@@ -780,10 +1076,11 @@
         });
 
         renderMapPath();
+        saveState();
     }
 
     function getCurrentStageBase() {
-        return STAGE_BASES[currentStageIndex];
+        return STAGE_BASES[getActiveStageIndex()];
     }
 
     function getStageFactKeys(base) {
@@ -797,21 +1094,184 @@
     // מעקב אחרי אילו תרגילים בשלב הנוכחי כבר נענו נכון פעם אחת. מתאפס עם כל שלב חדש.
     let correctlyAnsweredOnce = new Set();
 
-    // מצב השחקן - הכל בזיכרון בלבד, בלי אחסון חיצוני. מתאפס בכל רענון.
+    // מצב השחקן - נשמר ב-localStorage כדי שההתקדמות תישאר גם אחרי רענון/סגירת הדפדפן
     let userState = {
         streakDays: 1,   // יום ראשון בברירת מחדל
-        coins: 0
+        coins: 0,
+        lastPlayedDate: null,  // התאריך (toDateString) של הביקור האחרון - לחישוב רצף ימים אמיתי
+        bonusGivenDate: null   // התאריך שבו כבר ניתן בונוס האימון היומי - כדי לא להעניק אותו כמה פעמים באותו יום
     };
 
     // מנוע ההתאמה האישית: שמירת מצב השליטה בכל תרגיל (נקודות תורפה מנוהלות כאן)
     let userMasteryMatrix = {};
 
-    function showScreen(screenId) {
+    const SAVE_KEY = 'footballMathSave';
+
+    // שומרת את מצב המשחק ל-localStorage כדי שיישאר גם בביקור הבא
+    function saveState() {
+        try {
+            const usernameInput = document.getElementById('username');
+            const data = {
+                username: usernameInput ? usernameInput.value.trim() : '',
+                streakDays: userState.streakDays,
+                coins: userState.coins,
+                lastPlayedDate: userState.lastPlayedDate,
+                bonusGivenDate: userState.bonusGivenDate,
+                currentDifficulty: currentDifficulty,
+                currentStageIndex: currentStageIndex,
+                mastery: userMasteryMatrix,
+                correctOnce: Array.from(correctlyAnsweredOnce)
+            };
+            localStorage.setItem(SAVE_KEY, JSON.stringify(data));
+        } catch (e) {
+            // localStorage לא זמין (למשל גלישה פרטית) - פשוט לא שומרים, לא קריטי למשחק
+        }
+    }
+
+    // טוענת מצב שמור מ-localStorage, אם קיים. מחזירה true אם נמצא ונטען מצב קודם.
+    function loadState() {
+        try {
+            const raw = localStorage.getItem(SAVE_KEY);
+            if (!raw) return false;
+            const data = JSON.parse(raw);
+
+            userState.coins = typeof data.coins === 'number' ? data.coins : 0;
+            userState.streakDays = typeof data.streakDays === 'number' ? data.streakDays : 1;
+            userState.lastPlayedDate = data.lastPlayedDate || null;
+            userState.bonusGivenDate = data.bonusGivenDate || null;
+
+            if (data.currentDifficulty && DIFFICULTY_LEVELS[data.currentDifficulty]) {
+                currentDifficulty = data.currentDifficulty;
+                STAGE_BASES = DIFFICULTY_LEVELS[currentDifficulty].bases;
+                document.querySelectorAll('.diff-btn').forEach(btn => {
+                    btn.classList.toggle('selected', btn.dataset.diff === currentDifficulty);
+                });
+            }
+
+            currentStageIndex = typeof data.currentStageIndex === 'number' ? data.currentStageIndex : 0;
+            userMasteryMatrix = data.mastery && typeof data.mastery === 'object' ? data.mastery : {};
+            correctlyAnsweredOnce = new Set(Array.isArray(data.correctOnce) ? data.correctOnce : []);
+
+            if (data.username) {
+                const usernameInput = document.getElementById('username');
+                if (usernameInput) usernameInput.value = data.username;
+            }
+
+            // אם יש התקדמות אמיתית שמורה - מסמנים זאת לשחקן החוזר במסך הפתיחה
+            const hasProgress = currentStageIndex > 0 || Object.keys(userMasteryMatrix).length > 0 || userState.coins > 0;
+            if (hasProgress) {
+                const stampTag = document.querySelector('#screen-onboarding .stamp-tag');
+                if (stampTag) stampTag.innerText = 'כיף שחזרת! ⚽';
+                const startBtn = document.querySelector('#screen-onboarding .btn');
+                if (startBtn) startBtn.innerText = 'להמשיך למגרש ⚽';
+            }
+
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
+
+    let screenHistory = [];
+
+    function showScreen(screenId, opts) {
+        opts = opts || {};
+        const recordHistory = opts.recordHistory !== false;
+        const currentActive = document.querySelector('.screen.active');
+        if (recordHistory && currentActive && currentActive.id !== screenId) {
+            screenHistory.push(currentActive.id);
+        }
+        // יציאה ממסך המשחק (למשל דרך חזרה/יציאה) בזמן חדר אימונים/תרגול חופשי - מבטלת את המצב כדי שהמשחק הרגיל יחזור לתקין
+        if (screenId !== 'screen-game') {
+            resetGameModes();
+        }
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
         document.getElementById(screenId).classList.add('active');
+        updateBackButtonVisibility();
+    }
+
+    // חוזרת למסך הקודם שבו ביקר השחקן (לפי מחסנית ההיסטוריה)
+    function goBack() {
+        if (screenHistory.length === 0) return;
+        const prevId = screenHistory.pop();
+        showScreen(prevId, { recordHistory: false });
+    }
+
+    function updateBackButtonVisibility() {
+        const backBtn = document.getElementById('global-back-btn');
+        const exitBtn = document.getElementById('global-exit-btn');
+        const notOnOnboarding = screenHistory.length > 0;
+        if (backBtn) backBtn.classList.toggle('hidden', !notOnOnboarding);
+        if (exitBtn) exitBtn.classList.toggle('hidden', !notOnOnboarding);
+    }
+
+    // פותחת את חלונית האישור לפני יציאה מלאה מהמשחק
+    function showExitConfirm() {
+        document.getElementById('exit-confirm-overlay').classList.add('show');
+    }
+
+    function hideExitConfirm() {
+        document.getElementById('exit-confirm-overlay').classList.remove('show');
+    }
+
+    // יציאה מלאה: חוזרת למסך הפתיחה ומאפסת את היסטוריית הניווט
+    function confirmExit() {
+        hideExitConfirm();
+        screenHistory = [];
+        if (document.fullscreenElement) {
+            document.exitFullscreen().catch(() => {});
+        }
+        showScreen('screen-onboarding', { recordHistory: false });
+        updateBackButtonVisibility();
+    }
+
+    let pendingSkipIndex = null;
+
+    // פותחת חלונית אישור לפני דילוג קדימה לשלב שעדיין נעול
+    function requestSkipToStage(i) {
+        pendingSkipIndex = i;
+        const base = STAGE_BASES[i];
+        document.getElementById('skip-confirm-text').innerText =
+            `לדלג קדימה ולפתוח את לוח הכפל של ${base}? השלבים שביניכם יסומנו כהושלמו.`;
+        document.getElementById('skip-confirm-overlay').classList.add('show');
+    }
+
+    function hideSkipConfirm() {
+        document.getElementById('skip-confirm-overlay').classList.remove('show');
+        pendingSkipIndex = null;
+    }
+
+    // מבצעת את הדילוג בפועל: עוברת לשלב שנבחר ומאפסת את מעקב ההתקדמות של השלב הזה
+    function confirmSkipToStage() {
+        if (pendingSkipIndex === null) return;
+        currentStageIndex = pendingSkipIndex;
+        correctlyAnsweredOnce = new Set();
+        hideSkipConfirm();
+        syncMapHeader();
+        saveState();
+    }
+
+    // מבקשת ממסך הטלפון לעבור למסך מלא (מסתיר את שורת הכתובת והניווט באנדרואיד)
+    function requestFullscreenIfPossible() {
+        const el = document.documentElement;
+        const fn = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen;
+        if (fn) {
+            fn.call(el)
+                .then(() => {
+                    // כרום/אנדרואיד מציגים הודעת מערכת זמנית בתחתית המסך שמסבירה איך לצאת ממסך מלא.
+                    // מוסיפים מרווח תחתון זמני כדי שהיא לא תכסה כפתורים, ומסירים אותו אחרי שההודעה נעלמת.
+                    const container = document.getElementById('app-container');
+                    if (container) {
+                        container.classList.add('fs-toast-guard');
+                        setTimeout(() => container.classList.remove('fs-toast-guard'), 10000);
+                    }
+                })
+                .catch(() => {});
+        }
     }
 
     function startJourney() {
+        requestFullscreenIfPossible();
         const nameInput = document.getElementById('username').value.trim();
         if(nameInput) {
             document.getElementById('display-name').innerText = "הקבוצה של " + nameInput;
@@ -820,10 +1280,19 @@
         showScreen('screen-daily');
     }
 
-    // בונה דינמית את תגיות הימים ואת מונה הרצף, לפי userState בפועל
+    // בונה דינמית את תגיות הימים ואת מונה הרצף, לפי userState בפועל ולפי תאריך אמיתי
     function renderDailyScreen() {
+        const todayStr = new Date().toDateString();
+
+        // יום חדש (לפי תאריך אמיתי, לא רק רענון של הדף) - מקדמים את הרצף
+        if (userState.lastPlayedDate !== todayStr) {
+            if (userState.lastPlayedDate) {
+                userState.streakDays++;
+            }
+            userState.lastPlayedDate = todayStr;
+        }
+
         document.getElementById('streak-count').innerText = userState.streakDays + " ימים";
-        document.getElementById('coins-count').innerText = userState.coins;
 
         const tracker = document.getElementById('day-tracker');
         tracker.innerHTML = '';
@@ -836,9 +1305,17 @@
             tracker.appendChild(pill);
         }
 
-        // הענקת נקודות הפתיחה היומית (פעם אחת בכל "יום")
-        userState.coins += 30;
+        // הענקת נקודות הפתיחה היומית - פעם אחת בלבד ליום אמיתי (לא בכל טעינה/רענון)
+        const chip = document.getElementById('daily-reward-chip');
+        if (userState.bonusGivenDate !== todayStr) {
+            userState.coins += 30;
+            userState.bonusGivenDate = todayStr;
+            if (chip) chip.innerHTML = '🎁 קיבלת <b>30 נקודות</b> ומשחק מותאם אישית להיום!';
+        } else if (chip) {
+            chip.innerHTML = '⚽ כבר אספת את בונוס היום - קדימה למגרש!';
+        }
         document.getElementById('coins-count').innerText = userState.coins;
+        saveState();
     }
 
     function goToMap() {
@@ -848,7 +1325,7 @@
 
     const STAGE_ICONS = ['⚽', '🥅', '🏆', '🥇', '🎽', '👟', '🏟️', '🔥', '⭐'];
 
-    // בונה את כל 9 שלבי הליגה במפה, לפי המצב האמיתי: נוצח / פעיל / נעול
+    // בונה את כל שלבי הליגה במפה, לפי המצב האמיתי: נוצח (ניתן לתרגול) / פעיל / נעול (ניתן לדילוג עם אישור)
     function renderMapPath() {
         const container = document.getElementById('map-path');
         let html = '';
@@ -856,9 +1333,9 @@
         STAGE_BASES.forEach((base, i) => {
             const icon = STAGE_ICONS[i % STAGE_ICONS.length];
             if (i < currentStageIndex) {
-                html += `<div class="node" style="background: #e6f4ea; border-color: #2e8b57; cursor: default;">
+                html += `<div class="node" style="background: #e6f4ea; border-color: #2e8b57;" onclick="startPractice(${i})">
                     <span>${icon} לוח הכפל של ${base}</span>
-                    <span>✅ ניצחון</span>
+                    <span>✅ לתרגול חוזר</span>
                 </div>`;
             } else if (i === currentStageIndex) {
                 html += `<div class="node active-node" onclick="startBattle()">
@@ -866,9 +1343,9 @@
                     <span>⚽ למשחק!</span>
                 </div>`;
             } else {
-                html += `<div class="node locked">
+                html += `<div class="node locked" onclick="requestSkipToStage(${i})">
                     <span>${icon} לוח הכפל של ${base}</span>
-                    <span>🔒</span>
+                    <span>🔒 לפתוח?</span>
                 </div>`;
             }
         });
@@ -884,8 +1361,142 @@
     }
 
     function startBattle() {
+        resetGameModes();
         generateAdaptiveQuestion();
         showScreen('screen-game');
+    }
+
+    // פותחת תרגול חופשי על שלב שכבר הושלם: לא משנה את currentStageIndex ולא פוגעת בהתקדמות האמיתית.
+    // מעקב ההתקדמות הנוכחי (correctlyAnsweredOnce) נשמר בצד ומוחלף בזמני, ומוחזר ביציאה מהתרגול.
+    function startPractice(i) {
+        resetGameModes();
+        practiceStageIndex = i;
+        savedCorrectlyAnsweredOnce = correctlyAnsweredOnce;
+        correctlyAnsweredOnce = new Set();
+        generateAdaptiveQuestion();
+        showScreen('screen-game');
+    }
+
+    // יוצאת ממצב תרגול חופשי: משחזרת את מעקב ההתקדמות האמיתי וחוזרת למגרש
+    function exitPractice() {
+        resetGameModes();
+        resetApp();
+    }
+
+    // פותחת את חדר האימונים הסודי: תרגילי "נעלם" על בסיס כל הלוחות שכבר נפתחו (עד השלב הנוכחי, כולל)
+    function startPuzzleRoom() {
+        resetGameModes();
+        puzzleMode = true;
+        puzzleSolvedCount = 0;
+        generatePuzzleQuestion();
+        showScreen('screen-game');
+    }
+
+    // מחזירה את מסך המשחק למצב רגיל: מבטלת תרגול חופשי ו/או חדר אימונים אם היו פעילים,
+    // בלי לשנות מסך. לשימוש כשעוזבים דרך back/exit ולא דרך מסך ניצחון/סיום ייעודי.
+    function resetGameModes() {
+        if (practiceStageIndex !== null) {
+            practiceStageIndex = null;
+            correctlyAnsweredOnce = savedCorrectlyAnsweredOnce || new Set();
+            savedCorrectlyAnsweredOnce = null;
+        }
+        if (puzzleMode) {
+            puzzleMode = false;
+        }
+    }
+
+    // משחזרת את שורת המשוואה למצב הרגיל (num1 × num2 = [גררי לכאן]), למקרה שחדר האימונים שינה אותה
+    function resetEquationRow() {
+        document.getElementById('equation-row').innerHTML = `
+            <span style="font-size: 32px; color: #14532d; letter-spacing: 2px; font-weight: 800;" id="question-expr">? × ?</span>
+            <span style="font-size: 28px; color: #14532d; font-weight: 800;">=</span>
+            <span class="answer-slot" id="answer-slot">?</span>
+        `;
+    }
+
+    // בונה את שורת המשוואה עבור חדר האימונים: הגורם החסר (?) הוא אזור הגרירה, במקום שהוא באמת נמצא במשוואה
+    function renderPuzzleEquationRow(hideFirst, base, n, product) {
+        const row = document.getElementById('equation-row');
+        const blank = `<span class="answer-slot" id="answer-slot">?</span>`;
+        const style = 'font-size: 32px; color: #14532d; letter-spacing: 2px; font-weight: 800;';
+        if (hideFirst) {
+            row.innerHTML = `${blank}
+                <span style="${style}">× ${n}</span>
+                <span style="font-size: 28px; color: #14532d; font-weight: 800;">=</span>
+                <span style="${style}">${product}</span>`;
+        } else {
+            row.innerHTML = `<span style="${style}">${base} ×</span>
+                ${blank}
+                <span style="font-size: 28px; color: #14532d; font-weight: 800;">=</span>
+                <span style="${style}">${product}</span>`;
+        }
+    }
+
+    // בוחרת תרגיל כפל אקראי מתוך הלוחות שכבר נפתחו, ומסתירה בו באקראי את אחד הגורמים (לא את התוצאה)
+    function generatePuzzleQuestion() {
+        const unlockedBases = STAGE_BASES.slice(0, currentStageIndex + 1);
+        const base = unlockedBases[Math.floor(Math.random() * unlockedBases.length)];
+        const n = Math.floor(Math.random() * 10) + 1;
+        const product = base * n;
+        const hideFirst = Math.random() < 0.5;
+
+        currentPuzzleAnswer = hideFirst ? base : n;
+
+        document.getElementById('mode-indicator').innerText = '🧩 חדר האימונים הסודי - נעלם בלוח הכפל';
+        document.getElementById('progress-indicator').innerText = `🧩 ${puzzleSolvedCount} נעלמים פוענחו`;
+        document.getElementById('visual-hint').innerText = hideFirst
+            ? `רמז: איזה מספר כפול ${n} נותן ${product}?`
+            : `רמז: ${base} כפול איזה מספר נותן ${product}?`;
+
+        renderPuzzleEquationRow(hideFirst, base, n, product);
+
+        let wrongOptions = [];
+        while (wrongOptions.length < 3) {
+            let candidate = Math.floor(Math.random() * 10) + 1;
+            if (candidate !== currentPuzzleAnswer && !wrongOptions.includes(candidate)) {
+                wrongOptions.push(candidate);
+            }
+        }
+
+        let allOptions = [...wrongOptions, currentPuzzleAnswer];
+        allOptions.sort(() => Math.random() - 0.5);
+
+        const optionsContainer = document.getElementById('options-container');
+        optionsContainer.innerHTML = '';
+        allOptions.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.innerText = opt;
+            makeDraggable(btn, opt);
+            optionsContainer.appendChild(btn);
+        });
+    }
+
+    // בודקת תשובה במצב חדר האימונים: לא נוגעת ב-userMasteryMatrix/correctlyAnsweredOnce של הלוחות הרגילים,
+    // ואין מסך "סיום שלב" - החדר פשוט ממשיך לחידה הבאה
+    function checkPuzzleAnswer(selectedVal) {
+        if (selectedVal === currentPuzzleAnswer) {
+            puzzleSolvedCount++;
+            userState.coins += 15;
+            document.getElementById('progress-indicator').innerText = `🧩 ${puzzleSolvedCount} נעלמים פוענחו`;
+            saveState();
+            playSuccessSound();
+            triggerFlash();
+
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 },
+                shapes: ['star'],
+                colors: ['#8b5cf6', '#f59e0b', '#10b981', '#06b6d4']
+            });
+
+            setTimeout(() => {
+                generatePuzzleQuestion();
+            }, 700);
+        } else {
+            showOopsToast('אופס! עוד לא בדיוק... נסה שוב 🧩');
+        }
     }
 
     // מעדכן את מד ההתקדמות (כמה תרגילים מתוך לוח הכפל הנוכחי כבר נענו נכון פעם אחת)
@@ -900,6 +1511,7 @@
         const base = getCurrentStageBase();
         const stageFacts = getStageFactKeys(base);
 
+        resetEquationRow();
         renderProgress();
 
         // בדיקה אם יש תרגילים בשלב הנוכחי שדורשים חיזוק (נקודות תורפה)
@@ -911,15 +1523,15 @@
         if (weakSpots.length > 0 && Math.random() < 0.6) {
             // 60% סיכוי להציג תרגיל מתוך נקודות התורפה כדי לחזק אותן
             selectedKey = weakSpots[Math.floor(Math.random() * weakSpots.length)];
-            document.getElementById('mode-indicator').innerText = "💡 בעיטה חוזרת - חיזוק נקודת תורפה";
+            document.getElementById('mode-indicator').innerText = practiceStageIndex !== null ? "🔁 תרגול חופשי - חיזוק נקודת תורפה" : "💡 בעיטה חוזרת - חיזוק נקודת תורפה";
         } else if (remainingFacts.length > 0) {
             // תרגיל בלוח הנוכחי שעדיין לא נלמד
             selectedKey = remainingFacts[Math.floor(Math.random() * remainingFacts.length)];
-            document.getElementById('mode-indicator').innerText = `⚽ לוח הכפל של ${base}`;
+            document.getElementById('mode-indicator').innerText = practiceStageIndex !== null ? `🔁 תרגול חופשי · לוח ${base}` : `⚽ לוח הכפל של ${base}`;
         } else {
             // כל תרגילי הלוח כבר נענו נכון פעם אחת - סבב חזרה על הלוח כולו
             selectedKey = stageFacts[Math.floor(Math.random() * stageFacts.length)];
-            document.getElementById('mode-indicator').innerText = "🔁 סבב חזרה";
+            document.getElementById('mode-indicator').innerText = practiceStageIndex !== null ? "🔁 תרגול חופשי" : "🔁 סבב חזרה";
         }
 
         let parts = selectedKey.split('x');
@@ -933,7 +1545,7 @@
         // ברגע שהשחקן ענה עליו נכון לפחות פעם אחת - הרמז נעלם, וצריך לזכור בעל פה.
         let showHint = !(userMasteryMatrix[currentKey] >= 1);
 
-        document.getElementById('question-text').innerText = `${num1} × ${num2} = ?`;
+        document.getElementById('question-expr').innerText = `${num1} × ${num2}`;
 
         if (showHint) {
             document.getElementById('visual-hint').innerText = `רמז: ${num1} קבוצות של ${num2} שחקנים על המגרש`;
@@ -967,17 +1579,81 @@
                 btn.innerText = opt;
             }
 
-            btn.onclick = () => checkAnswer(opt);
+            makeDraggable(btn, opt);
             optionsContainer.appendChild(btn);
         });
     }
 
+    // הופכת כפתור תשובה לניתן-לגרירה לתוך השער, אבל גם ניתן ללחיצה רגילה (הקשה קלה = בחירה ישירה)
+    function makeDraggable(btn, opt) {
+        let startX = 0, startY = 0;
+        let dragging = false;
+
+        function isOverlappingDropZone() {
+            const dropZone = document.getElementById('answer-slot');
+            const dropRect = dropZone.getBoundingClientRect();
+            const btnRect = btn.getBoundingClientRect();
+            return !(btnRect.right < dropRect.left || btnRect.left > dropRect.right ||
+                     btnRect.bottom < dropRect.top || btnRect.top > dropRect.bottom);
+        }
+
+        btn.addEventListener('pointerdown', (e) => {
+            dragging = true;
+            startX = e.clientX;
+            startY = e.clientY;
+            btn.classList.add('dragging');
+            btn.setPointerCapture(e.pointerId);
+        });
+
+        btn.addEventListener('pointermove', (e) => {
+            if (!dragging) return;
+            const dx = e.clientX - startX;
+            const dy = e.clientY - startY;
+            btn.style.transform = `translate(${dx}px, ${dy}px)`;
+            const moved = Math.abs(dx) > 8 || Math.abs(dy) > 8;
+            if (moved) {
+                document.getElementById('answer-slot').classList.toggle('drop-target-active', isOverlappingDropZone());
+            }
+        });
+
+        function endDrag(e) {
+            if (!dragging) return;
+            dragging = false;
+            btn.classList.remove('dragging');
+            document.getElementById('answer-slot').classList.remove('drop-target-active');
+
+            const dx = Math.abs((e.clientX || startX) - startX);
+            const dy = Math.abs((e.clientY || startY) - startY);
+            const moved = dx > 8 || dy > 8;
+
+            if (!moved) {
+                // הקשה רגילה בלי גרירה - נחשבת כבחירת תשובה ישירה
+                btn.style.transform = 'translate(0px, 0px)';
+                checkAnswer(opt);
+                return;
+            }
+
+            const dropped = isOverlappingDropZone();
+            if (dropped) {
+                checkAnswer(opt);
+            } else {
+                // לא שוחרר מעל השער - הבועה חוזרת בעדינות למקומה
+                btn.style.transform = 'translate(0px, 0px)';
+            }
+        }
+
+        btn.addEventListener('pointerup', endDrag);
+        btn.addEventListener('pointercancel', endDrag);
+    }
+
     let stageAdvanceTimer = null;
 
-    // מציג את מסך הניצחון בסיום שלב, ומכין את הכפתור למעבר ללוח הבא (אם יש)
+    // מציג את מסך הניצחון בסיום שלב (או סבב תרגול), ומכין את הכפתור למעבר המתאים
     function showStageComplete() {
-        const base = getCurrentStageBase();
-        const isLastStage = currentStageIndex >= STAGE_BASES.length - 1;
+        const isPractice = practiceStageIndex !== null;
+        const activeIndex = getActiveStageIndex();
+        const base = STAGE_BASES[activeIndex];
+        const isLastStage = !isPractice && activeIndex >= STAGE_BASES.length - 1;
         const victoryBtn = document.getElementById('victory-btn');
 
         // מבטל טיימר קודם אם קיים, למקרה שהפונקציה נקראה יותר מפעם אחת
@@ -986,7 +1662,11 @@
             stageAdvanceTimer = null;
         }
 
-        if (isLastStage) {
+        if (isPractice) {
+            document.getElementById('mastery-status').innerText = `💪 סבב תרגול על לוח ${base} - מעולה!`;
+            victoryBtn.innerText = "חזרה למגרש 🏆";
+            victoryBtn.onclick = exitPractice;
+        } else if (isLastStage) {
             document.getElementById('mastery-status').innerText = `🏆 אתה אלוף הכפל! סיימת את כל הליגה עד לוח ${base}!`;
             victoryBtn.innerText = "חזרה למגרש 🏆";
             victoryBtn.onclick = resetApp;
@@ -1003,7 +1683,7 @@
 
         setTimeout(() => {
             showScreen('screen-victory');
-            if (!isLastStage) {
+            if (!isPractice && !isLastStage) {
                 // רשת ביטחון: אם הלחיצה על הכפתור לא נקלטת מסיבה כלשהי, המעבר יקרה בכל זאת
                 stageAdvanceTimer = setTimeout(() => {
                     stageAdvanceTimer = null;
@@ -1017,10 +1697,15 @@
     function advanceStage() {
         currentStageIndex++;
         correctlyAnsweredOnce = new Set();
+        saveState();
         resetApp();
     }
 
     function checkAnswer(selectedVal) {
+        if (puzzleMode) {
+            checkPuzzleAnswer(selectedVal);
+            return;
+        }
         if(selectedVal === currentCorrectAnswer) {
             // עדכון מנוע ההתאמה האישית: התשובה נכונה, נחזק את הציון של התרגיל
             if (!userMasteryMatrix[currentKey]) {
@@ -1032,7 +1717,9 @@
             correctlyAnsweredOnce.add(currentKey);
             userState.coins += 10;
             renderProgress();
+            saveState();
             playSuccessSound();
+            triggerFlash();
 
             // הפעלת קונפטי בצבעי הקבוצה
             confetti({
@@ -1054,20 +1741,18 @@
         } else {
             // המנוע מזהה טעות ושומר את התרגיל כנקודת תורפה להמשך
             userMasteryMatrix[currentKey] = 0;
-            alert('החמצה! השוער עצר את הבעיטה. נסה שוב ותכניס גול.');
+            saveState();
+            showOopsToast('החמצה! השוער עצר את הבעיטה. נסה שוב ותכניס גול ⚽');
         }
-    }
-
-    // מדמה מעבר ל"יום" הבא בתוך אותה הפעלה (ללא אחסון חיצוני, מתאפס ברענון)
-    function advanceDay() {
-        userState.streakDays++;
-        renderDailyScreen();
     }
 
     function resetApp() {
         syncMapHeader();
         showScreen('screen-map');
     }
+
+    // טעינת התקדמות שמורה (אם קיימת) לפני שהמשחק מתחיל
+    loadState();
 </script>
 
 </body>

@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GLAM MATH - לק, איפור ולוח הכפל</title>
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#c2185b">
+    <title>גלוס וחשבון - לק, איפור ולוח הכפל</title>
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
@@ -37,6 +40,12 @@
             position: relative;
             overflow: hidden;
             border: 2px solid #fff;
+            transition: padding-bottom 0.3s ease;
+        }
+
+        /* מרווח זמני בתחתית כדי שהודעת המערכת של כניסה למסך מלא לא תכסה כפתורים */
+        .app-container.fs-toast-guard {
+            padding-bottom: 110px;
         }
 
         .flash-overlay {
@@ -81,6 +90,142 @@
             border: 2px solid #f6d9e6;
             color: #c2185b;
             box-shadow: 0 4px 12px rgba(194, 24, 91, 0.1);
+        }
+
+        .top-nav-bar {
+            padding: 14px 25px 0;
+            flex-shrink: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-btn {
+            background: #fff;
+            border: 2px solid #f6d9e6;
+            color: #c2185b;
+            width: 34px;
+            height: 34px;
+            min-width: 34px;
+            border-radius: 50%;
+            font-size: 16px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(194, 24, 91, 0.15);
+        }
+
+        .back-btn.hidden {
+            visibility: hidden;
+        }
+
+        .oops-toast {
+            position: absolute;
+            top: 16px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-20px);
+            width: calc(100% - 40px);
+            max-width: 360px;
+            background: linear-gradient(135deg, #fff 0%, #fff3e0 100%);
+            border: 2px solid #d4af37;
+            border-radius: 22px;
+            padding: 14px 18px;
+            box-shadow: 0 14px 30px rgba(194, 24, 91, 0.25);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 998;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .oops-toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .oops-toast-icon {
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .oops-toast-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: #6e2f47;
+            line-height: 1.4;
+        }
+
+        .exit-confirm-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(92, 42, 61, 0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+            border-radius: 40px;
+        }
+
+        .exit-confirm-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .exit-confirm-card {
+            background: #fff;
+            border-radius: 26px;
+            padding: 26px 22px;
+            width: calc(100% - 60px);
+            max-width: 320px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(194, 24, 91, 0.3);
+            border: 2px solid #f6d9e6;
+            transform: scale(0.92);
+            transition: transform 0.25s ease;
+        }
+
+        .exit-confirm-overlay.show .exit-confirm-card {
+            transform: scale(1);
+        }
+
+        .exit-confirm-card p {
+            font-size: 15px;
+            font-weight: 700;
+            color: #5c2a3d;
+            margin: 6px 0 18px;
+            line-height: 1.5;
+        }
+
+        .exit-confirm-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .exit-confirm-actions button {
+            flex: 1;
+            border: none;
+            border-radius: 18px;
+            padding: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .exit-confirm-stay {
+            background: #fff3e0;
+            color: #a3728a;
+        }
+
+        .exit-confirm-leave {
+            background: linear-gradient(135deg, #c2185b 0%, #e0578a 100%);
+            color: #fff;
         }
 
         .screen {
@@ -375,13 +520,43 @@
 
 <div class="app-container">
     <div class="flash-overlay" id="flash-overlay"></div>
+    <div class="oops-toast" id="oops-toast">
+        <span class="oops-toast-icon">💅</span>
+        <span class="oops-toast-text" id="oops-toast-text"></span>
+    </div>
+    <div class="top-nav-bar">
+        <button class="back-btn hidden" id="global-back-btn" onclick="goBack()" aria-label="חזרה למסך הקודם">→</button>
+        <button class="back-btn hidden" id="global-exit-btn" onclick="showExitConfirm()" aria-label="יציאה מהמשחק">✕</button>
+    </div>
+
+    <div class="exit-confirm-overlay" id="exit-confirm-overlay">
+        <div class="exit-confirm-card">
+            <span style="font-size: 34px;">💅</span>
+            <p>לצאת מהמשחק ולחזור למסך הפתיחה?</p>
+            <div class="exit-confirm-actions">
+                <button class="exit-confirm-stay" onclick="hideExitConfirm()">להישאר</button>
+                <button class="exit-confirm-leave" onclick="confirmExit()">כן, לצאת</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="exit-confirm-overlay" id="skip-confirm-overlay">
+        <div class="exit-confirm-card">
+            <span style="font-size: 34px;">✨</span>
+            <p id="skip-confirm-text"></p>
+            <div class="exit-confirm-actions">
+                <button class="exit-confirm-stay" onclick="hideSkipConfirm()">ביטול</button>
+                <button class="exit-confirm-leave" onclick="confirmSkipToStage()">כן, לפתוח</button>
+            </div>
+        </div>
+    </div>
 
     <!-- מסך 1: כניסה ראשונה -->
     <div id="screen-onboarding" class="screen active">
         <div>
-            <div class="stamp-tag">NEW COLLECTION ✨</div>
+            <div class="stamp-tag">קולקציה חדשה ✨</div>
             <div style="height: 15px;"></div>
-            <h1 class="brand-title">GLAM MATH</h1>
+            <h1 class="brand-title">גלוס וחשבון</h1>
             <p style="color: #a3728a; font-size: 14px; margin-top: 6px; font-weight: 400;">לק חדש, איפור מושלם, ולוח כפל שלא שוכחים</p>
 
             <div class="lifestyle-card" style="margin-top: 20px;">
@@ -396,10 +571,10 @@
             <p style="color: #5c2a3d; font-size: 17px; font-weight: 700; line-height: 1.5;">🎓 מיזם פדגוגי אינטראקטיבי לשינון לוח הכפל בכיף</p>
             <p style="color: #c2185b; font-size: 17px; font-weight: 800; margin-top: 8px;">💛 תמכו בפרויקט</p>
             <div style="display: flex; gap: 8px; justify-content: center; margin-top: 12px; flex-wrap: wrap;">
-                <a href="https://first-klick.com?amount=7" target="_blank" rel="noopener" style="background: #fff8fc; border: 2px solid #f6d9e6; color: #c2185b; font-weight: 700; font-size: 14px; padding: 8px 14px; border-radius: 14px; text-decoration: none;">7 ₪</a>
-                <a href="https://first-klick.com?amount=14" target="_blank" rel="noopener" style="background: #fff8fc; border: 2px solid #f6d9e6; color: #c2185b; font-weight: 700; font-size: 14px; padding: 8px 14px; border-radius: 14px; text-decoration: none;">14 ₪</a>
-                <a href="https://first-klick.com?amount=21" target="_blank" rel="noopener" style="background: #fff8fc; border: 2px solid #f6d9e6; color: #c2185b; font-weight: 700; font-size: 14px; padding: 8px 14px; border-radius: 14px; text-decoration: none;">21 ₪</a>
-                <a href="https://first-klick.com" target="_blank" rel="noopener" style="background: #fff8fc; border: 2px solid #f6d9e6; color: #c2185b; font-weight: 700; font-size: 14px; padding: 8px 14px; border-radius: 14px; text-decoration: none;">אחר</a>
+                <a href="https://kids-math-academy.com/support.html" target="_blank" rel="noopener" style="background: #fff8fc; border: 2px solid #f6d9e6; color: #c2185b; font-weight: 700; font-size: 14px; padding: 8px 14px; border-radius: 14px; text-decoration: none;">7 ₪</a>
+                <a href="https://kids-math-academy.com/support.html" target="_blank" rel="noopener" style="background: #fff8fc; border: 2px solid #f6d9e6; color: #c2185b; font-weight: 700; font-size: 14px; padding: 8px 14px; border-radius: 14px; text-decoration: none;">14 ₪</a>
+                <a href="https://kids-math-academy.com/support.html" target="_blank" rel="noopener" style="background: #fff8fc; border: 2px solid #f6d9e6; color: #c2185b; font-weight: 700; font-size: 14px; padding: 8px 14px; border-radius: 14px; text-decoration: none;">21 ₪</a>
+                <a href="https://kids-math-academy.com/support.html" target="_blank" rel="noopener" style="background: #fff8fc; border: 2px solid #f6d9e6; color: #c2185b; font-weight: 700; font-size: 14px; padding: 8px 14px; border-radius: 14px; text-decoration: none;">אחר</a>
             </div>
         </div>
 
@@ -477,7 +652,7 @@
                     <span style="font-size: 28px; color: #5c2a3d; font-weight: 800;">=</span>
                     <span class="answer-slot" id="answer-slot">?</span>
                 </div>
-                <span class="memory-caption" id="frame-counter">Look #1 💅</span>
+                <span class="memory-caption" id="frame-counter">לוק מס' 1 💅</span>
             </div>
         </div>
 
@@ -617,12 +792,102 @@
     // מנוע ההתאמה האישית: שמירת מצב השליטה בכל תרגיל (נקודות תורפה מנוהלות כאן)
     let userMasteryMatrix = {};
 
-    function showScreen(screenId) {
+    let screenHistory = [];
+
+    function showScreen(screenId, opts) {
+        opts = opts || {};
+        const recordHistory = opts.recordHistory !== false;
+        const currentActive = document.querySelector('.screen.active');
+        if (recordHistory && currentActive && currentActive.id !== screenId) {
+            screenHistory.push(currentActive.id);
+        }
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
         document.getElementById(screenId).classList.add('active');
+        updateBackButtonVisibility();
+    }
+
+    // חוזרת למסך הקודם שבו ביקרה המשתמשת (לפי מחסנית ההיסטוריה)
+    function goBack() {
+        if (screenHistory.length === 0) return;
+        const prevId = screenHistory.pop();
+        showScreen(prevId, { recordHistory: false });
+    }
+
+    let pendingSkipIndex = null;
+
+    // פותחת חלונית אישור לפני דילוג קדימה לשלב שעדיין נעול (אפשר לדלג יותר משלב אחד קדימה)
+    function requestSkipToStage(i) {
+        pendingSkipIndex = i;
+        const base = STAGE_BASES[i];
+        const shade = SHADE_NAMES[i % SHADE_NAMES.length];
+        document.getElementById('skip-confirm-text').innerText =
+            `לדלג קדימה ולפתוח את גוון ${shade} (לוח הכפל של ${base})? השלבים שביניכם יסומנו כהושלמו.`;
+        document.getElementById('skip-confirm-overlay').classList.add('show');
+    }
+
+    function hideSkipConfirm() {
+        document.getElementById('skip-confirm-overlay').classList.remove('show');
+        pendingSkipIndex = null;
+    }
+
+    // מבצעת את הדילוג בפועל: עוברת לשלב שנבחר ומאפסת את מעקב ההתקדמות של השלב הזה
+    function confirmSkipToStage() {
+        if (pendingSkipIndex === null) return;
+        currentStageIndex = pendingSkipIndex;
+        correctlyAnsweredOnce = new Set();
+        hideSkipConfirm();
+        syncMapHeader();
+    }
+
+    function updateBackButtonVisibility() {
+        const backBtn = document.getElementById('global-back-btn');
+        const exitBtn = document.getElementById('global-exit-btn');
+        const notOnOnboarding = screenHistory.length > 0;
+        if (backBtn) backBtn.classList.toggle('hidden', !notOnOnboarding);
+        if (exitBtn) exitBtn.classList.toggle('hidden', !notOnOnboarding);
+    }
+
+    // פותחת את חלונית האישור לפני יציאה מלאה מהמשחק
+    function showExitConfirm() {
+        document.getElementById('exit-confirm-overlay').classList.add('show');
+    }
+
+    function hideExitConfirm() {
+        document.getElementById('exit-confirm-overlay').classList.remove('show');
+    }
+
+    // יציאה מלאה: חוזרת למסך הפתיחה, מאפסת את היסטוריית הניווט, ויוצאת ממסך מלא אם פעיל
+    function confirmExit() {
+        hideExitConfirm();
+        screenHistory = [];
+        if (document.fullscreenElement) {
+            document.exitFullscreen().catch(() => {});
+        }
+        showScreen('screen-onboarding', { recordHistory: false });
+        updateBackButtonVisibility();
+    }
+
+    // מבקשת ממסך הטלפון לעבור למסך מלא (מסתיר את שורת הכתובת והניווט באנדרואיד)
+    function requestFullscreenIfPossible() {
+        const el = document.documentElement;
+        const fn = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen;
+        if (fn) {
+            fn.call(el)
+                .then(() => {
+                    // כרום/אנדרואיד מציגים הודעת מערכת זמנית בתחתית המסך שמסבירה איך לצאת ממסך מלא.
+                    // מוסיפים מרווח תחתון זמני כדי שהיא לא תכסה כפתורים, ומסירים אותו אחרי שההודעה נעלמת.
+                    const container = document.querySelector('.app-container');
+                    if (container) {
+                        container.classList.add('fs-toast-guard');
+                        setTimeout(() => container.classList.remove('fs-toast-guard'), 10000);
+                    }
+                })
+                .catch(() => {});
+        }
     }
 
     function startJourney() {
+        requestFullscreenIfPossible();
         const nameInput = document.getElementById('username').value.trim();
         if(nameInput) {
             document.getElementById('display-name').innerText = "הקולקציה של " + nameInput;
@@ -682,9 +947,9 @@
                     <span>💅 לעצב!</span>
                 </div>`;
             } else {
-                html += `<div class="node locked">
+                html += `<div class="node locked" style="cursor: pointer;" onclick="requestSkipToStage(${i})">
                     <span>${icon} ${shade}</span>
-                    <span>🔒</span>
+                    <span>🔒 לפתוח?</span>
                 </div>`;
             }
         });
@@ -733,7 +998,7 @@
         renderProgress();
 
         frameCount++;
-        document.getElementById('frame-counter').innerText = 'Look #' + frameCount + ' 💅';
+        document.getElementById('frame-counter').innerText = 'לוק מס\' ' + frameCount + ' 💅';
 
         // בדיקה אם יש תרגילים בשלב הנוכחי שדורשים חיזוק (נקודות תורפה)
         let weakSpots = stageFacts.filter(k => userMasteryMatrix[k] !== undefined && userMasteryMatrix[k] < 2);
@@ -856,6 +1121,21 @@
         btn.addEventListener('pointercancel', endDrag);
     }
 
+    let oopsToastTimer = null;
+
+    // מציגה הודעת "אופס" מעוצבת בסגנון האפליקציה במקום alert() הרגיל של הדפדפן
+    function showOopsToast(message) {
+        const toast = document.getElementById('oops-toast');
+        document.getElementById('oops-toast-text').innerText = message;
+        toast.classList.add('show');
+
+        if (oopsToastTimer) clearTimeout(oopsToastTimer);
+        oopsToastTimer = setTimeout(() => {
+            toast.classList.remove('show');
+            oopsToastTimer = null;
+        }, 2200);
+    }
+
     let stageAdvanceTimer = null;
 
     // מציג את מסך הניצחון בסיום שלב, ומכין את הכפתור למעבר לגוון הבא (אם יש)
@@ -951,7 +1231,7 @@
         } else {
             // המנוע מזהה טעות ושומר את התרגיל כנקודת תורפה להמשך
             userMasteryMatrix[currentKey] = 0;
-            alert('אופס! הגוון הזה עוד לא בדיוק... ננסה שוב 💅');
+            showOopsToast('אופס! הגוון הזה עוד לא בדיוק... ננסה שוב 💅');
         }
     }
 
