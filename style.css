@@ -1579,3 +1579,30 @@ a { color: inherit; text-decoration: none; }
     transform-origin: top;
   }
 }
+
+
+/* Desktop direction fix: animate the beam itself downward instead of scaling upward */
+@media (min-width: 641px) {
+  .hero-scroll-hint::before {
+    transform-origin: center;
+    animation: heroHandoffDownDesktop 2.4s ease-in-out 3.5s infinite;
+  }
+}
+@keyframes heroHandoffDownDesktop {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-1.4rem) scaleY(.45);
+  }
+  42% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(.45rem) scaleY(1);
+  }
+  72% {
+    opacity: .82;
+    transform: translateX(-50%) translateY(.9rem) scaleY(.78);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(1.35rem) scaleY(.35);
+  }
+}
