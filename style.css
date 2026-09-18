@@ -1478,3 +1478,14 @@ a { color: inherit; text-decoration: none; }
       0 0 54px rgba(34,211,238,.08);
   }
 }
+
+
+/* Mobile v3: extend transition light to twice the viewport width */
+@media (max-width: 640px) {
+  #about::before {
+    width: 200vw;
+    max-width: none;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
