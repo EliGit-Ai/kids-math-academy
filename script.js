@@ -68,18 +68,12 @@
     requestAnimationFrame(tick);
   })();
 
-  /* ---------------- שאיפה/נשיפה מעל הכותרת ---------------- */
-  (function breathWord() {
+  /* ---------------- שורת פתיחה קבועה מעל הכותרת ---------------- */
+  (function staticHeroKicker() {
     var inhaleEl = document.getElementById("kicker-inhale");
     var exhaleEl = document.getElementById("kicker-exhale");
-    if (!inhaleEl || !exhaleEl || reducedMotion) return;
-    function tick(now) {
-      var inhale = isInhaling(now);
-      inhaleEl.style.opacity = inhale ? "1" : "0";
-      exhaleEl.style.opacity = inhale ? "0" : "1";
-      requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
+    if (inhaleEl) inhaleEl.style.opacity = "1";
+    if (exhaleEl) exhaleEl.style.opacity = "0";
   })();
 
   /* ---------------- מפת הביטחון במספרים ---------------- */
