@@ -1507,3 +1507,12 @@ a { color: inherit; text-decoration: none; }
     box-shadow: 0 0 10px rgba(34,211,238,.42), 0 0 24px rgba(34,211,238,.20);
   }
 }
+
+
+/* Mobile: separate the vertical handoff beam from the CTA above */
+@media (max-width: 640px) {
+  .hero-scroll-hint::before {
+    bottom: calc(100% - 1.15rem);
+    height: 4.6rem;
+  }
+}
