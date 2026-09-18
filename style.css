@@ -1340,7 +1340,10 @@ a { color: inherit; text-decoration: none; }
 }
 .hero-title--sequence .hero-word--1 { animation-delay: .92s; }
 .hero-title--sequence .hero-word--2 { animation-delay: 1.48s; }
-.hero-title--sequence .hero-word--3 { animation-delay: 2.18s; }
+.hero-title--sequence .hero-word--3 {
+  animation-delay: 2.42s;
+  animation-duration: .78s;
+}
 
 @keyframes heroWordReveal {
   to { opacity: 1; transform: translateY(0); }
