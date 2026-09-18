@@ -1433,3 +1433,39 @@ a { color: inherit; text-decoration: none; }
   }
   .hero-actions--editorial .btn { flex: 1 1 12rem; }
 }
+
+
+/* Hero v2 — stronger stacked editorial rhythm */
+.hero-content--editorial {
+  max-width: 78rem;
+}
+.hero-title--editorial {
+  width: 100%;
+  font-size: clamp(5.2rem, 12vw, 11rem);
+  line-height: .82;
+}
+.hero-title--editorial .hero-line {
+  margin-bottom: .08em;
+}
+.hero-title--editorial .hero-line:nth-child(2) {
+  margin-inline-start: clamp(1.5rem, 7vw, 7rem);
+}
+.hero-title--editorial .hero-line:nth-child(3) {
+  margin-inline-start: clamp(3rem, 14vw, 14rem);
+}
+.hero-lede--editorial {
+  max-width: 34rem;
+  font-size: clamp(1rem, 1.35vw, 1.2rem);
+}
+@media (max-width: 640px) {
+  .hero-title--editorial {
+    font-size: clamp(4rem, 20vw, 6.2rem);
+    line-height: .9;
+  }
+  .hero-title--editorial .hero-line:nth-child(2) {
+    margin-inline-start: 1rem;
+  }
+  .hero-title--editorial .hero-line:nth-child(3) {
+    margin-inline-start: 2rem;
+  }
+}
