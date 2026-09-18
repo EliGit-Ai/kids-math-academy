@@ -1478,3 +1478,27 @@ a { color: inherit; text-decoration: none; }
       0 0 54px rgba(34,211,238,.08);
   }
 }
+
+
+/* Mobile: visually extend the section light without horizontal overflow */
+@media (max-width: 640px) {
+  #about::before {
+    width: 100%;
+    max-width: 100%;
+    left: 0;
+    transform: none;
+    height: 4px;
+    background: linear-gradient(
+      to right,
+      rgba(34,211,238,.12) 0%,
+      rgba(34,211,238,.48) 22%,
+      rgba(103,232,249,.82) 50%,
+      rgba(34,211,238,.48) 78%,
+      rgba(34,211,238,.12) 100%
+    );
+    box-shadow:
+      0 0 14px rgba(34,211,238,.42),
+      0 0 32px rgba(34,211,238,.24),
+      0 0 64px rgba(34,211,238,.12);
+  }
+}
