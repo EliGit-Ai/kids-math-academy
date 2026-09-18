@@ -1395,3 +1395,43 @@ a { color: inherit; text-decoration: none; }
   35%  { color: #67e8f9; text-shadow: 0 0 12px rgba(34,211,238,.8), 0 0 34px rgba(34,211,238,.5); transform: translateY(-2px) scale(1.06); }
   100% { color: var(--dawn); text-shadow: none; transform: translateY(0) scale(1); }
 }
+
+
+/* hero-v2: cinematic handoff into the first content section */
+.hero-scroll-hint {
+  opacity: .72;
+  transition: opacity .35s ease, transform .35s ease;
+}
+.hero-scroll-hint::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + .45rem);
+  width: 1px;
+  height: 2.2rem;
+  transform: translateX(-50%) scaleY(.25);
+  transform-origin: bottom;
+  background: linear-gradient(to top, rgba(34,211,238,.65), rgba(34,211,238,0));
+  animation: heroHandoffLine 2.4s ease-in-out 3.5s infinite;
+}
+@keyframes heroHandoffLine {
+  0%,100% { opacity: .18; transform: translateX(-50%) scaleY(.25); }
+  48% { opacity: .8; transform: translateX(-50%) scaleY(1); }
+}
+#about {
+  position: relative;
+}
+#about::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: min(70vw, 48rem);
+  height: 1px;
+  transform: translateX(-50%);
+  background: linear-gradient(to right, transparent, rgba(34,211,238,.22), transparent);
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-scroll-hint::before { animation: none; opacity: .35; transform: translateX(-50%) scaleY(.7); }
+}
