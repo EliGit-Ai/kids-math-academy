@@ -1329,3 +1329,27 @@ a { color: inherit; text-decoration: none; }
   }
   .reveal { opacity: 1; transform: none; }
 }
+
+
+/* hero-v2: title-only sequence; preserve existing layout and dimensions */
+.hero-title--sequence .hero-word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(.16em);
+  animation: heroWordReveal .48s cubic-bezier(.2,.75,.25,1) forwards;
+}
+.hero-title--sequence .hero-word--1 { animation-delay: 1.00s; }
+.hero-title--sequence .hero-word--2 { animation-delay: 1.28s; }
+.hero-title--sequence .hero-word--3 { animation-delay: 1.56s; }
+
+@keyframes heroWordReveal {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-title--sequence .hero-word {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+}
