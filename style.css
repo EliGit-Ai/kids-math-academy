@@ -1511,3 +1511,11 @@ a { color: inherit; text-decoration: none; }
     height: 2.2rem;
   }
 }
+
+
+/* Desktop: lower the vertical handoff beam to clear the route CTA */
+@media (min-width: 641px) {
+  .hero-scroll-hint::before {
+    bottom: calc(100% - 1rem);
+  }
+}
