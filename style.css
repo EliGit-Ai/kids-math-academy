@@ -1372,6 +1372,6 @@ a { color: inherit; text-decoration: none; }
 
 @keyframes heroFinalGlow {
   0% { text-shadow: 0 0 0 rgba(34,211,238,0); }
-  35% { text-shadow: 0 0 18px rgba(34,211,238,.28), 0 0 36px rgba(34,211,238,.12); }
+  38% { text-shadow: 0 0 22px rgba(34,211,238,.52), 0 0 46px rgba(34,211,238,.24); transform: translateY(0) scale(1.025); }
   100% { text-shadow: 0 0 0 rgba(34,211,238,0); }
 }
